@@ -1,0 +1,212 @@
+// app/recipe/[slug]/page.tsx
+
+import prisma from "../../lib/prisma";
+import { notFound } from "next/navigation";
+import CommentForm from "../../components/CommentForm";
+import { cookies } from 'next/headers';
+import * as jose from 'jose';
+import Link from 'next/link';
+import StarDisplay from "../../components/StarDisplay";
+
+
+export default async function RecipePage({ params }: { params: { slug: string } }) {
+  let userId: any;
+  const cookie = (await cookies()).get('Authorization');
+    if (cookie) {
+  
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const jwt = cookie.value;
+    
+  
+    try {
+      const { payload } = await jose.jwtVerify(jwt, secret);
+      const sub = payload.sub;
+  
+      if (typeof sub === 'string' && !isNaN(parseInt(sub))) {
+        userId = parseInt(sub);
+      } else if (typeof sub === 'number') {
+        userId = sub;
+      } 
+    } catch (error) {
+    }
+  }
+
+
+
+  const { slug } = await params;  // очікуємо на параметри
+
+  const recipe = await prisma.recipe.findUnique({
+    where: { slug: slug },
+    include: {
+      user: true,
+      ingredients: {
+        include: {
+          ingredient: true,
+          unit: true,
+        },
+        orderBy: {
+          order: 'asc',
+        },
+      },
+      instructions: {
+        orderBy: {
+          stepNumber: 'asc',
+        },
+      },
+      dishType: true,
+    },
+  });
+
+  if (!recipe || recipe.privaterecipe || !recipe.moderated) {
+    notFound();
+  }
+
+  const comments = await prisma.comment.findMany({
+    where: {
+      recipeId: recipe.id,
+      moderated: true,
+      parentId: null,
+    },
+    include: {
+      replies: {
+        where: { moderated: true },
+        include: {
+          user: true,
+        },
+        orderBy: { createdAt: 'asc' },
+      },
+      user: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+
+  const createdDate = new Date(recipe.createdAt);
+  const formattedDate = `${createdDate.getDate().toString().padStart(2, "0")}.${(createdDate.getMonth()+1).toString().padStart(2, "0")}.${createdDate.getFullYear()}`;
+
+
+  return (
+    <main className="py-16">
+      <div className="container">
+        <div className="flex flex-wrap">
+          <div className="w-full lg:w-2/3">
+            <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
+            <p className="text-sm text-gray-500 mb-4">
+              Автор: {recipe.user.name} • {formattedDate}
+            </p>
+
+            {recipe.imageUrl && (
+              <img
+                src={recipe.imageUrl}
+                alt={recipe.title}
+                className="rounded-xl w-full h-auto mb-6"
+              />
+            )}
+
+            <h2 className="text-xl font-semibold mt-4 mb-2">Інгредієнти</h2>
+            <ul className="mb-4">
+              {recipe.ingredients.map((item) => (
+                <li key={item.id}>
+                  {item.ingredient.name}{' '}
+                  {item.toTaste ? 'за смаком' : `${item.amount ?? ''} ${item.unit?.name ?? ''}`}
+                </li>
+              ))}
+            </ul>
+
+            <h2 className="text-xl font-semibold mt-4 mb-2">Приготування</h2>
+            <ol className="list-decimal list-inside space-y-2">
+              {recipe.instructions.map((step) => (
+                <li key={step.id}>{step.step}</li>
+              ))}
+            </ol>
+
+            {recipe.videoUrl && (
+              <div className="mt-6">
+                <h2 className="text-xl font-semibold mb-2">Відео приготупання</h2>
+                <div className="aspect-video w-full my-4">
+                  <iframe
+                    className="w-full h-full rounded-lg"
+                    src={recipe.videoUrl}
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            )}
+
+            {recipe.tiktokUrl && (
+              <div className="mt-6">
+                <h2 className="text-xl font-semibold mb-2">Відео приготупання</h2>
+                <iframe
+                  src={recipe.tiktokUrl}
+                  width="325"
+                  height="575"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                  className="border rounded-xl mt-2"
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="w-full lg:w-1/3" />
+        </div>
+
+        <div className="flex">
+          <div className="w-full">
+            <div className="mt-10">
+              <h2 className="text-xl font-semibold mb-4">Коментарі</h2>
+              {comments.length === 0 ? (
+                <p>Поки що немає коментарів.</p>
+              ) : (
+                <ul className="space-y-4">
+                {comments.map((comment) => (
+                    <li key={comment.id} className="border p-4 rounded-lg">
+                      <div className="font-semibold">{comment.user.name}</div>
+                      {typeof comment.rating === 'number' && (
+                        <StarDisplay rating={comment.rating} />
+                      )}
+
+                      <p>{comment.text}</p>
+                      {comment.replies.length > 0 && (
+                        <ul className="pl-4 mt-2 space-y-2 border-l border-gray-200">
+                          {comment.replies.map((reply) => (
+                            <li key={reply.id} className="pl-2">
+                              <div className="text-sm font-semibold">{reply.user.name}</div>
+                              {/* Відповіді без зірок */}
+                              <p className="text-sm">{reply.text}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {typeof userId === 'number' && userId > 0 ? (
+                        <div className="py-3">
+                            <h2 className="mt-6">Залишити відповідь</h2>
+                            <CommentForm recipeId={recipe.id} parentId={comment.id} />
+                        </div>
+                      ) : (
+                        <div className="py-3">
+                          <p>Вам потрібно <Link className="underline" href="/login">увійти</Link>, щоб залишити відповідь. </p>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+
+              )}
+            </div>
+            {typeof userId === 'number' && userId > 0 ? (
+              <div className="py-16">
+                  <h2 className="mb-6">Залишити коменртар</h2>
+                  <CommentForm recipeId={recipe.id} />
+              </div>
+            ) : (
+              <div className="py-16">
+                <p>Вам потрібно <Link className="underline" href="/login">увійти</Link>, щоб залишити коментар. </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}

@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DishType {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  recipes Recipe[]
+}
+
+model Unit {
+  id        Int                @id @default(autoincrement())
+  name      String             @unique @db.VarChar(255)
+  moderated Boolean            @default(false)
+  recipes   RecipeIngredient[]
+}
+
+model Ingredient {
+  id        Int                @id @default(autoincrement())
+  name      String             @unique @db.VarChar(255)
+  moderated Boolean            @default(false)
+  recipes   RecipeIngredient[]
+}
+
+model Instruction {
+  id         Int    @id @default(autoincrement())
+  step       String
+  recipeId   Int
+  stepNumber Int
+  recipe     Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
+
+model Recipe {
+  id            Int                @id @default(autoincrement())
+  title         String
+  userId        Int
+  tiktokUrl     String?
+  videoUrl      String?
+  dishTypeId    Int
+  slug          String             @unique
+  createdAt     DateTime           @default(now())
+  moderated     Boolean            @default(false)
+  updatedAt     DateTime           @updatedAt
+  imageUrl      String?
+  privaterecipe Boolean            @default(false)
+  instructions  Instruction[]      
+  dishType      DishType           @relation(fields: [dishTypeId], references: [id])
+  user          User               @relation(fields: [userId], references: [id])
+  ingredients   RecipeIngredient[]
+  averageRating Float?     @default(0)
+  comments      Comment[]
+}
+
+model RecipeIngredient {
+  id           Int        @id @default(autoincrement())
+  amount       Float?
+  recipeId     Int
+  ingredientId Int
+  toTaste      Boolean    @default(false)
+  unitId       Int?
+  order        Int        @default(1)
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  unit         Unit?      @relation(fields: [unitId], references: [id])
+}
+
+model User {
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  email               String               @unique
+  password            String
+  role                Role                 @default(user)
+  balance             Float
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  avatar              Avatar?
+  passwordResetTokens PasswordResetToken[] @relation("UserTokens")
+  recipes             Recipe[]
+  comments            Comment[]
+}
+
+model Avatar {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  avatarUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    Int
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation("UserTokens", fields: [userId], references: [id])
+}
+
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  rating    Int?
+  recipeId  Int
+  recipe    Recipe   @relation(fields: [recipeId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  parentId  Int?     
+  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentReplies")
+  moderated Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+
+enum Role {
+  user
+  admin
+}
