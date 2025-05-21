@@ -3,6 +3,8 @@
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+export const dynamic = 'force-dynamic'; // <-- Додано тут
+
 export default function ResetPasswordPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
