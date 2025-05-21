@@ -1,6 +1,7 @@
 // eslint.config.js
 import js from "@eslint/js";
-import tseslint from "typescript-eslint";
+import ts from "@typescript-eslint/eslint-plugin";
+import parser from "@typescript-eslint/parser";
 import next from "eslint-plugin-next";
 import globals from "globals";
 
@@ -9,21 +10,32 @@ export default [
     ignores: [
       "node_modules/**",
       ".next/**",
-      "out/**",
       "dist/**",
+      "out/**",
       "build/**",
       "app/generated/prisma/**",
     ],
   },
   js.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
   {
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
-      parser: tseslint.parser,
+      parser,
       parserOptions: {
-        project: true,
+        project: "./tsconfig.json",
+        sourceType: "module",
       },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      "@typescript-eslint": ts,
+    },
+    rules: {
+      ...ts.configs.recommended.rules,
+      ...ts.configs["recommended-type-checked"].rules,
     },
   },
   {
