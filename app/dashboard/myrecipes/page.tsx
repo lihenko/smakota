@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export default async function MyRecipesPage({
   searchParams,
 }: {
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const currentUser = await getUser();
 
@@ -21,13 +21,13 @@ export default async function MyRecipesPage({
 
   const searchParamsData = await searchParams;
 
-  const page = Number(searchParamsData?.page) || 1;
-  const dishTypeId = searchParamsData?.dishTypeId
+  const page = Number(searchParamsData.page) || 1;
+  const dishTypeId = searchParamsData.dishTypeId
     ? Number(searchParamsData.dishTypeId)
     : undefined;
 
   const ingredientIds =
-    typeof searchParamsData?.ingredientIds === 'string'
+    typeof searchParamsData.ingredientIds === 'string'
       ? searchParamsData.ingredientIds.split(',').map(Number)
       : [];
 
