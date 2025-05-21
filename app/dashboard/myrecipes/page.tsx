@@ -8,25 +8,23 @@ import { getUser } from '../pageSetting';
 
 export const dynamic = 'force-dynamic';
 
-export default async function MyRecipesPage({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>
-}) {
+export type SearchParamsPromise = Promise<Record<string, string | string[] | undefined>>;
+
+export default async function MyRecipesPage(props: { searchParams: SearchParamsPromise }) {
   const currentUser = await getUser();
 
   if (!currentUser) {
     return <p>Будь ласка, увійдіть у свій акаунт, щоб бачити ваші рецепти.</p>;
   }
 
-  const searchParamsData = await Promise.resolve(searchParams);
+  const searchParams = await props.searchParams;
 
-  const page = Number(searchParamsData.page) || 1
-  const dishTypeId = searchParamsData.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined
+  const page = Number(searchParams.page) || 1;
+  const dishTypeId = searchParams.dishTypeId ? Number(searchParams.dishTypeId) : undefined;
   const ingredientIds =
-    typeof searchParamsData.ingredientIds === 'string'
-      ? searchParamsData.ingredientIds.split(',').map(Number)
-      : []
+    typeof searchParams.ingredientIds === 'string'
+      ? searchParams.ingredientIds.split(',').map(Number)
+      : [];
 
   if (isNaN(page) || page < 1) {
     redirect('/dashboard/myrecipes');
@@ -63,18 +61,6 @@ export default async function MyRecipesPage({
   ]);
 
   const totalPages = Math.ceil(totalCount / pageSize);
-
-  const createPaginationUrl = (newPage: number) => {
-    const updatedParams = new URLSearchParams();
-
-    if (dishTypeId) updatedParams.set('dishTypeId', dishTypeId.toString());
-    if (ingredientIds.length > 0) {
-      updatedParams.set('ingredientIds', ingredientIds.join(','));
-    }
-    updatedParams.set('page', newPage.toString());
-
-    return `/dashboard/myrecipes?${updatedParams.toString()}`;
-  };
 
   return (
     <>
