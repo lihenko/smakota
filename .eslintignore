@@ -1,0 +1,24 @@
+# Ігнорувати згенеровані файли Prisma
+app/generated/prisma/
+
+# Ігнорувати node_modules (зазвичай вже ігнорується ESLint за замовчуванням)
+node_modules/
+
+# Ігнорувати build, dist, out та інші папки збірки
+.next/
+out/
+dist/
+build/
+
+# Ігнорувати файли середовища
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ігнорувати логи
+*.log
+
+# Ігнорувати папки з тимчасовими файлами
+.cache/
