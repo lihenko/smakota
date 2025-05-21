@@ -19,7 +19,7 @@ export default async function MyRecipesPage({
     return <p>Будь ласка, увійдіть у свій акаунт, щоб бачити ваші рецепти.</p>;
   }
 
-  const searchParamsData = await searchParams;
+  const searchParamsData = await Promise.resolve(searchParams);
 
   const page = Number(searchParamsData.page) || 1
   const dishTypeId = searchParamsData.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined
