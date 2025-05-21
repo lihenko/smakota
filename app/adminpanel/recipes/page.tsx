@@ -1,10 +1,10 @@
-// app/adminpanel/recipes/page.tsx
 import AdminMenu from '../AdminMenu';
 import { revalidatePath } from 'next/cache';
-import prisma from "../../lib/prisma";
+import prisma from '../../lib/prisma';
 import RecipeForm from './RecipeForm';
 import { unlink } from 'fs/promises';
 import path from 'path';
+import { RecipeIngredient, Instruction } from '../../generated/prisma/client';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,7 +38,6 @@ export default async function AdminRecipesPage() {
     const videoUrl = formData.get('videoUrl') as string;
     const tiktokUrl = formData.get('tiktokUrl') as string;
 
-    // Оновлення основної інформації про рецепт
     await prisma.recipe.update({
       where: { id: recipeId },
       data: {
@@ -51,8 +50,8 @@ export default async function AdminRecipesPage() {
       },
     });
 
-    // Обробка інгредієнтів
-    const ingredientUpdates: Promise<any>[] = [];
+    const ingredientUpdates: Promise<RecipeIngredient>[] = [];
+
     for (const [key, value] of formData.entries()) {
       const matchIngredient = key.match(/^ingredient-(\d+)$/);
       const matchAmount = key.match(/^amount-(\d+)$/);
@@ -61,14 +60,13 @@ export default async function AdminRecipesPage() {
       if (matchIngredient) {
         const recipeIngredientId = Number(matchIngredient[1]);
         const name = value.toString().trim();
-      
-        // Знайти або створити інгредієнт
+
         const existingIngredient = await prisma.ingredient.upsert({
           where: { name },
           update: {},
           create: { name },
         });
-      
+
         ingredientUpdates.push(
           prisma.recipeIngredient.update({
             where: { id: recipeIngredientId },
@@ -78,7 +76,6 @@ export default async function AdminRecipesPage() {
           })
         );
       }
-      
 
       if (matchAmount) {
         const id = Number(matchAmount[1]);
@@ -95,7 +92,6 @@ export default async function AdminRecipesPage() {
         const id = Number(matchUnit[1]);
         const unitName = value.toString();
 
-        // Пошук або створення одиниці виміру
         const unit = await prisma.unit.upsert({
           where: { name: unitName },
           update: {},
@@ -111,8 +107,8 @@ export default async function AdminRecipesPage() {
       }
     }
 
-    // Обробка інструкцій
-    const instructionUpdates: Promise<any>[] = [];
+    const instructionUpdates: Promise<Instruction>[] = [];
+
     for (const [key, value] of formData.entries()) {
       const matchInstruction = key.match(/^instruction-(\d+)$/);
       if (matchInstruction) {
@@ -127,46 +123,39 @@ export default async function AdminRecipesPage() {
       }
     }
 
-    // Паралельне оновлення інгредієнтів та інструкцій
     await Promise.all([...ingredientUpdates, ...instructionUpdates]);
 
     revalidatePath('/adminpanel/recipes');
   }
 
-
   async function handleDelete(id: number) {
-  'use server';
+    'use server';
 
-  // 1. Отримуємо рецепт, щоб дізнатись imageUrl
-  const recipe = await prisma.recipe.findUnique({
-    where: { id },
-    select: { imageUrl: true },
-  });
+    const recipe = await prisma.recipe.findUnique({
+      where: { id },
+      select: { imageUrl: true },
+    });
 
-  // 2. Видаляємо зображення, якщо воно є
-  if (recipe?.imageUrl) {
-    const filePath = path.join(process.cwd(), 'public', recipe.imageUrl);
-    try {
-      await unlink(filePath);
-    } catch (err) {
-      console.error('Помилка при видаленні зображення:', err);
-      // За бажанням: можеш кинути помилку або продовжити
+    if (recipe?.imageUrl) {
+      const filePath = path.join(process.cwd(), 'public', recipe.imageUrl);
+      try {
+        await unlink(filePath);
+      } catch (err) {
+        console.error('Помилка при видаленні зображення:', err);
+      }
     }
+
+    await prisma.recipe.delete({ where: { id } });
+
+    revalidatePath('/adminpanel/recipes');
   }
-
-  // 3. Видаляємо рецепт
-  await prisma.recipe.delete({ where: { id } });
-
-  // 4. Оновлюємо кеш
-  revalidatePath('/adminpanel/recipes');
-}
 
   return (
     <>
       <div className="text-center pt-16">
         <h1>Панель адміністратора</h1>
       </div>
-            <AdminMenu />
+      <AdminMenu />
       <div className="container py-16">
         {recipes.length === 0 ? (
           <p className="text-gray-500 text-center">Немає рецептів на модерацію.</p>
@@ -182,6 +171,5 @@ export default async function AdminRecipesPage() {
         )}
       </div>
     </>
-    
   );
 }

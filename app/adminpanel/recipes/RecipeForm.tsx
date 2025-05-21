@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface RecipeFormProps {
   recipe: {
@@ -76,7 +77,13 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ recipe, onSubmit, onDelete }) =
         </div>
         <div className="w-full">
           {recipe.imageUrl && (
-            <img src={recipe.imageUrl} alt="Зображення рецепта" className="max-w-xs mb-2 rounded shadow" />
+            <Image
+              src={recipe.imageUrl}
+              alt="Зображення рецепта"
+              width={600}            // вкажи реальні або приблизні ширину та висоту зображення
+              height={400}
+              className="max-w-xs mb-2 rounded shadow"
+            />
           )}
           <input
             type="text"
