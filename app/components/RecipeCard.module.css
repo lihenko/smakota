@@ -1,0 +1,12 @@
+.recipelabel{
+    position: absolute;
+    padding: 10px 65px;
+    background-color: #ccc;
+    text-align: center;
+    color: #000;
+    top:20px;
+    left: -35px;
+    transform: rotate(-30deg);
+    font-size: 12px;
+    line-height: 1;
+}

@@ -1,64 +1,110 @@
 import { redirect } from 'next/navigation';
 import prisma from '../lib/prisma';
-import Link from 'next/link';
 import RecipeCard from '../components/RecipeCard';
+import Filter from '../components/Filter';
+import Pagination from '../components/Pagination';
+import RecipeSearchForm from '../components/SearchForm';
+
+export const dynamic = 'force-dynamic';
 
 interface Props {
-  searchParams: { page?: string };
+  searchParams: {
+    page?: string;
+    dishTypeId?: string;
+    ingredientIds?: string;
+  };
 }
 
 export default async function RecipesPage({ searchParams }: Props) {
   const searchParamsData = await searchParams;
   const page = Number(searchParamsData.page) || 1;
-  const pageSize = 2;
-  const skip = (page - 1) * pageSize;
+  const dishTypeId = searchParamsData.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined;
+  const ingredientIds = searchParamsData.ingredientIds
+    ? searchParamsData.ingredientIds.split(',').map(Number)
+    : [];
 
-  if (isNaN(page) || page < 1 ) {
+  if (isNaN(page) || page < 1) {
     redirect('/recipe');
   }
 
-  const recipes = await prisma.recipe.findMany({
-    where: { privaterecipe: false, moderated: true },
-    orderBy: { createdAt: 'desc' },
-    skip,
-    take: pageSize,
-    include: { user: true },
-  });
+  const pageSize = 12;
+  const skip = (page - 1) * pageSize;
 
-  const totalCount = await prisma.recipe.count({
-    where: { privaterecipe: false, moderated: true },
-  });
+  const where = {
+    privaterecipe: false,
+    moderated: true,
+    ...(dishTypeId && { dishTypeId }),
+    ...(ingredientIds.length > 0 && {
+      AND: ingredientIds.map((id) => ({
+        ingredients: {
+          some: {
+            ingredientId: id,
+          },
+        },
+      })),
+    }),
+  };
+
+  // Паралельні запити
+  const [recipes, totalCount, dishTypes, ingredients] = await Promise.all([
+    prisma.recipe.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: pageSize,
+      include: { user: true },
+    }),
+    prisma.recipe.count({ where }),
+    prisma.dishType.findMany({ orderBy: { name: 'asc' } }),
+    prisma.ingredient.findMany({ orderBy: { name: 'asc' } }),
+  ]);
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
+  // Створюємо нові параметри для URL
+  const createPaginationUrl = (newPage: number) => {
+    const updatedParams = new URLSearchParams();
+
+    // Додаємо параметри до URLSearchParams
+    if (dishTypeId) updatedParams.set('dishTypeId', dishTypeId.toString());
+    if (ingredientIds.length > 0) updatedParams.set('ingredientIds', ingredientIds.join(','));
+    updatedParams.set('page', newPage.toString());
+
+    return `?${updatedParams.toString()}`;
+  };
+
   return (
     <main className="py-16">
-        <div className="container">
-            <h1 className="text-3xl font-bold mb-6">Рецепти</h1>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recipes.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} />
-            ))}
-            </div>
-
-            <div className="mt-8 flex justify-center items-center gap-4">
-            {page > 1 && (
-                <Link
-                    href={page - 1 === 1 ? `/recipe` : `?page=${page - 1}`}
-                    className="px-3 py-1 border rounded"
-                >
-                    Попередня
-                </Link>
-            )}
-            <span>Сторінка {page} з {totalPages}</span>
-            {page < totalPages && (
-                <Link href={`?page=${page + 1}`} className="px-3 py-1 border rounded">
-                Наступна
-                </Link>
-            )}
-            </div>
+      <div className="container">
+        <h1 className="text-3xl font-bold mb-6 text-center">Рецепти</h1>
+        <div className="mb-8">
+          <RecipeSearchForm />
         </div>
+        <Filter
+          dishTypes={dishTypes}
+          ingredients={ingredients}
+          currentDishTypeId={dishTypeId}
+          currentIngredientIds={ingredientIds}
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          {recipes.map((recipe) => (
+            <RecipeCard key={recipe.id} recipe={recipe} />
+          ))}
+        </div>
+
+        {totalCount === 0 ? (
+          <div className="mt-8 text-center text-gray-500 text-lg">
+            Рецепти не знайдено
+          </div>
+        ) : (
+          totalPages > 1 && (
+            <Pagination currentPage={page} totalPages={totalPages} />
+          )
+        )}
+
+
+      </div>
     </main>
   );
 }

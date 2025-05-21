@@ -1949,16 +1949,19 @@ export namespace Prisma {
   export type DishTypeMinAggregateOutputType = {
     id: number | null
     name: string | null
+    slug: string | null
   }
 
   export type DishTypeMaxAggregateOutputType = {
     id: number | null
     name: string | null
+    slug: string | null
   }
 
   export type DishTypeCountAggregateOutputType = {
     id: number
     name: number
+    slug: number
     _all: number
   }
 
@@ -1974,16 +1977,19 @@ export namespace Prisma {
   export type DishTypeMinAggregateInputType = {
     id?: true
     name?: true
+    slug?: true
   }
 
   export type DishTypeMaxAggregateInputType = {
     id?: true
     name?: true
+    slug?: true
   }
 
   export type DishTypeCountAggregateInputType = {
     id?: true
     name?: true
+    slug?: true
     _all?: true
   }
 
@@ -2076,6 +2082,7 @@ export namespace Prisma {
   export type DishTypeGroupByOutputType = {
     id: number
     name: string
+    slug: string
     _count: DishTypeCountAggregateOutputType | null
     _avg: DishTypeAvgAggregateOutputType | null
     _sum: DishTypeSumAggregateOutputType | null
@@ -2100,6 +2107,7 @@ export namespace Prisma {
   export type DishTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    slug?: boolean
     recipes?: boolean | DishType$recipesArgs<ExtArgs>
     _count?: boolean | DishTypeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dishType"]>
@@ -2107,19 +2115,22 @@ export namespace Prisma {
   export type DishTypeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    slug?: boolean
   }, ExtArgs["result"]["dishType"]>
 
   export type DishTypeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    slug?: boolean
   }, ExtArgs["result"]["dishType"]>
 
   export type DishTypeSelectScalar = {
     id?: boolean
     name?: boolean
+    slug?: boolean
   }
 
-  export type DishTypeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["dishType"]>
+  export type DishTypeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug", ExtArgs["result"]["dishType"]>
   export type DishTypeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     recipes?: boolean | DishType$recipesArgs<ExtArgs>
     _count?: boolean | DishTypeCountOutputTypeDefaultArgs<ExtArgs>
@@ -2135,6 +2146,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
+      slug: string
     }, ExtArgs["result"]["dishType"]>
     composites: {}
   }
@@ -2561,6 +2573,7 @@ export namespace Prisma {
   interface DishTypeFieldRefs {
     readonly id: FieldRef<"DishType", 'Int'>
     readonly name: FieldRef<"DishType", 'String'>
+    readonly slug: FieldRef<"DishType", 'String'>
   }
     
 
@@ -6251,6 +6264,7 @@ export namespace Prisma {
     userId: number | null
     dishTypeId: number | null
     averageRating: number | null
+    commentCount: number | null
   }
 
   export type RecipeSumAggregateOutputType = {
@@ -6258,6 +6272,7 @@ export namespace Prisma {
     userId: number | null
     dishTypeId: number | null
     averageRating: number | null
+    commentCount: number | null
   }
 
   export type RecipeMinAggregateOutputType = {
@@ -6274,6 +6289,7 @@ export namespace Prisma {
     imageUrl: string | null
     privaterecipe: boolean | null
     averageRating: number | null
+    commentCount: number | null
   }
 
   export type RecipeMaxAggregateOutputType = {
@@ -6290,6 +6306,7 @@ export namespace Prisma {
     imageUrl: string | null
     privaterecipe: boolean | null
     averageRating: number | null
+    commentCount: number | null
   }
 
   export type RecipeCountAggregateOutputType = {
@@ -6306,6 +6323,7 @@ export namespace Prisma {
     imageUrl: number
     privaterecipe: number
     averageRating: number
+    commentCount: number
     _all: number
   }
 
@@ -6315,6 +6333,7 @@ export namespace Prisma {
     userId?: true
     dishTypeId?: true
     averageRating?: true
+    commentCount?: true
   }
 
   export type RecipeSumAggregateInputType = {
@@ -6322,6 +6341,7 @@ export namespace Prisma {
     userId?: true
     dishTypeId?: true
     averageRating?: true
+    commentCount?: true
   }
 
   export type RecipeMinAggregateInputType = {
@@ -6338,6 +6358,7 @@ export namespace Prisma {
     imageUrl?: true
     privaterecipe?: true
     averageRating?: true
+    commentCount?: true
   }
 
   export type RecipeMaxAggregateInputType = {
@@ -6354,6 +6375,7 @@ export namespace Prisma {
     imageUrl?: true
     privaterecipe?: true
     averageRating?: true
+    commentCount?: true
   }
 
   export type RecipeCountAggregateInputType = {
@@ -6370,6 +6392,7 @@ export namespace Prisma {
     imageUrl?: true
     privaterecipe?: true
     averageRating?: true
+    commentCount?: true
     _all?: true
   }
 
@@ -6473,6 +6496,7 @@ export namespace Prisma {
     imageUrl: string | null
     privaterecipe: boolean
     averageRating: number | null
+    commentCount: number | null
     _count: RecipeCountAggregateOutputType | null
     _avg: RecipeAvgAggregateOutputType | null
     _sum: RecipeSumAggregateOutputType | null
@@ -6508,6 +6532,7 @@ export namespace Prisma {
     imageUrl?: boolean
     privaterecipe?: boolean
     averageRating?: boolean
+    commentCount?: boolean
     instructions?: boolean | Recipe$instructionsArgs<ExtArgs>
     dishType?: boolean | DishTypeDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -6530,6 +6555,7 @@ export namespace Prisma {
     imageUrl?: boolean
     privaterecipe?: boolean
     averageRating?: boolean
+    commentCount?: boolean
     dishType?: boolean | DishTypeDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["recipe"]>
@@ -6548,6 +6574,7 @@ export namespace Prisma {
     imageUrl?: boolean
     privaterecipe?: boolean
     averageRating?: boolean
+    commentCount?: boolean
     dishType?: boolean | DishTypeDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["recipe"]>
@@ -6566,9 +6593,10 @@ export namespace Prisma {
     imageUrl?: boolean
     privaterecipe?: boolean
     averageRating?: boolean
+    commentCount?: boolean
   }
 
-  export type RecipeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "userId" | "tiktokUrl" | "videoUrl" | "dishTypeId" | "slug" | "createdAt" | "moderated" | "updatedAt" | "imageUrl" | "privaterecipe" | "averageRating", ExtArgs["result"]["recipe"]>
+  export type RecipeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "userId" | "tiktokUrl" | "videoUrl" | "dishTypeId" | "slug" | "createdAt" | "moderated" | "updatedAt" | "imageUrl" | "privaterecipe" | "averageRating" | "commentCount", ExtArgs["result"]["recipe"]>
   export type RecipeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     instructions?: boolean | Recipe$instructionsArgs<ExtArgs>
     dishType?: boolean | DishTypeDefaultArgs<ExtArgs>
@@ -6609,6 +6637,7 @@ export namespace Prisma {
       imageUrl: string | null
       privaterecipe: boolean
       averageRating: number | null
+      commentCount: number | null
     }, ExtArgs["result"]["recipe"]>
     composites: {}
   }
@@ -7050,6 +7079,7 @@ export namespace Prisma {
     readonly imageUrl: FieldRef<"Recipe", 'String'>
     readonly privaterecipe: FieldRef<"Recipe", 'Boolean'>
     readonly averageRating: FieldRef<"Recipe", 'Float'>
+    readonly commentCount: FieldRef<"Recipe", 'Int'>
   }
     
 
@@ -13351,7 +13381,8 @@ export namespace Prisma {
 
   export const DishTypeScalarFieldEnum: {
     id: 'id',
-    name: 'name'
+    name: 'name',
+    slug: 'slug'
   };
 
   export type DishTypeScalarFieldEnum = (typeof DishTypeScalarFieldEnum)[keyof typeof DishTypeScalarFieldEnum]
@@ -13398,7 +13429,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     imageUrl: 'imageUrl',
     privaterecipe: 'privaterecipe',
-    averageRating: 'averageRating'
+    averageRating: 'averageRating',
+    commentCount: 'commentCount'
   };
 
   export type RecipeScalarFieldEnum = (typeof RecipeScalarFieldEnum)[keyof typeof RecipeScalarFieldEnum]
@@ -13582,27 +13614,31 @@ export namespace Prisma {
     NOT?: DishTypeWhereInput | DishTypeWhereInput[]
     id?: IntFilter<"DishType"> | number
     name?: StringFilter<"DishType"> | string
+    slug?: StringFilter<"DishType"> | string
     recipes?: RecipeListRelationFilter
   }
 
   export type DishTypeOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    slug?: SortOrder
     recipes?: RecipeOrderByRelationAggregateInput
   }
 
   export type DishTypeWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     name?: string
+    slug?: string
     AND?: DishTypeWhereInput | DishTypeWhereInput[]
     OR?: DishTypeWhereInput[]
     NOT?: DishTypeWhereInput | DishTypeWhereInput[]
     recipes?: RecipeListRelationFilter
-  }, "id" | "name">
+  }, "id" | "name" | "slug">
 
   export type DishTypeOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    slug?: SortOrder
     _count?: DishTypeCountOrderByAggregateInput
     _avg?: DishTypeAvgOrderByAggregateInput
     _max?: DishTypeMaxOrderByAggregateInput
@@ -13616,6 +13652,7 @@ export namespace Prisma {
     NOT?: DishTypeScalarWhereWithAggregatesInput | DishTypeScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"DishType"> | number
     name?: StringWithAggregatesFilter<"DishType"> | string
+    slug?: StringWithAggregatesFilter<"DishType"> | string
   }
 
   export type UnitWhereInput = {
@@ -13781,6 +13818,7 @@ export namespace Prisma {
     imageUrl?: StringNullableFilter<"Recipe"> | string | null
     privaterecipe?: BoolFilter<"Recipe"> | boolean
     averageRating?: FloatNullableFilter<"Recipe"> | number | null
+    commentCount?: IntNullableFilter<"Recipe"> | number | null
     instructions?: InstructionListRelationFilter
     dishType?: XOR<DishTypeScalarRelationFilter, DishTypeWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -13802,6 +13840,7 @@ export namespace Prisma {
     imageUrl?: SortOrderInput | SortOrder
     privaterecipe?: SortOrder
     averageRating?: SortOrderInput | SortOrder
+    commentCount?: SortOrderInput | SortOrder
     instructions?: InstructionOrderByRelationAggregateInput
     dishType?: DishTypeOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
@@ -13826,6 +13865,7 @@ export namespace Prisma {
     imageUrl?: StringNullableFilter<"Recipe"> | string | null
     privaterecipe?: BoolFilter<"Recipe"> | boolean
     averageRating?: FloatNullableFilter<"Recipe"> | number | null
+    commentCount?: IntNullableFilter<"Recipe"> | number | null
     instructions?: InstructionListRelationFilter
     dishType?: XOR<DishTypeScalarRelationFilter, DishTypeWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -13847,6 +13887,7 @@ export namespace Prisma {
     imageUrl?: SortOrderInput | SortOrder
     privaterecipe?: SortOrder
     averageRating?: SortOrderInput | SortOrder
+    commentCount?: SortOrderInput | SortOrder
     _count?: RecipeCountOrderByAggregateInput
     _avg?: RecipeAvgOrderByAggregateInput
     _max?: RecipeMaxOrderByAggregateInput
@@ -13871,6 +13912,7 @@ export namespace Prisma {
     imageUrl?: StringNullableWithAggregatesFilter<"Recipe"> | string | null
     privaterecipe?: BoolWithAggregatesFilter<"Recipe"> | boolean
     averageRating?: FloatNullableWithAggregatesFilter<"Recipe"> | number | null
+    commentCount?: IntNullableWithAggregatesFilter<"Recipe"> | number | null
   }
 
   export type RecipeIngredientWhereInput = {
@@ -14224,38 +14266,45 @@ export namespace Prisma {
 
   export type DishTypeCreateInput = {
     name: string
+    slug: string
     recipes?: RecipeCreateNestedManyWithoutDishTypeInput
   }
 
   export type DishTypeUncheckedCreateInput = {
     id?: number
     name: string
+    slug: string
     recipes?: RecipeUncheckedCreateNestedManyWithoutDishTypeInput
   }
 
   export type DishTypeUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
     recipes?: RecipeUpdateManyWithoutDishTypeNestedInput
   }
 
   export type DishTypeUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
     recipes?: RecipeUncheckedUpdateManyWithoutDishTypeNestedInput
   }
 
   export type DishTypeCreateManyInput = {
     id?: number
     name: string
+    slug: string
   }
 
   export type DishTypeUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type DishTypeUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type UnitCreateInput = {
@@ -14400,6 +14449,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionCreateNestedManyWithoutRecipeInput
     dishType: DishTypeCreateNestedOneWithoutRecipesInput
     user: UserCreateNestedOneWithoutRecipesInput
@@ -14421,6 +14471,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
@@ -14437,6 +14488,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUpdateManyWithoutRecipeNestedInput
     dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
@@ -14458,6 +14510,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
@@ -14477,6 +14530,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
   }
 
   export type RecipeUpdateManyMutationInput = {
@@ -14490,6 +14544,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type RecipeUncheckedUpdateManyInput = {
@@ -14506,6 +14561,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type RecipeIngredientCreateInput = {
@@ -14883,6 +14939,7 @@ export namespace Prisma {
   export type DishTypeCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    slug?: SortOrder
   }
 
   export type DishTypeAvgOrderByAggregateInput = {
@@ -14892,11 +14949,13 @@ export namespace Prisma {
   export type DishTypeMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    slug?: SortOrder
   }
 
   export type DishTypeMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    slug?: SortOrder
   }
 
   export type DishTypeSumOrderByAggregateInput = {
@@ -15087,6 +15146,17 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type InstructionListRelationFilter = {
     every?: InstructionWhereInput
     some?: InstructionWhereInput
@@ -15136,6 +15206,7 @@ export namespace Prisma {
     imageUrl?: SortOrder
     privaterecipe?: SortOrder
     averageRating?: SortOrder
+    commentCount?: SortOrder
   }
 
   export type RecipeAvgOrderByAggregateInput = {
@@ -15143,6 +15214,7 @@ export namespace Prisma {
     userId?: SortOrder
     dishTypeId?: SortOrder
     averageRating?: SortOrder
+    commentCount?: SortOrder
   }
 
   export type RecipeMaxOrderByAggregateInput = {
@@ -15159,6 +15231,7 @@ export namespace Prisma {
     imageUrl?: SortOrder
     privaterecipe?: SortOrder
     averageRating?: SortOrder
+    commentCount?: SortOrder
   }
 
   export type RecipeMinOrderByAggregateInput = {
@@ -15175,6 +15248,7 @@ export namespace Prisma {
     imageUrl?: SortOrder
     privaterecipe?: SortOrder
     averageRating?: SortOrder
+    commentCount?: SortOrder
   }
 
   export type RecipeSumOrderByAggregateInput = {
@@ -15182,6 +15256,7 @@ export namespace Prisma {
     userId?: SortOrder
     dishTypeId?: SortOrder
     averageRating?: SortOrder
+    commentCount?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -15232,7 +15307,7 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -15240,7 +15315,12 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type IngredientScalarRelationFilter = {
@@ -15299,22 +15379,6 @@ export namespace Prisma {
     ingredientId?: SortOrder
     unitId?: SortOrder
     order?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -15765,6 +15829,14 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type InstructionUpdateManyWithoutRecipeNestedInput = {
     create?: XOR<InstructionCreateWithoutRecipeInput, InstructionUncheckedCreateWithoutRecipeInput> | InstructionCreateWithoutRecipeInput[] | InstructionUncheckedCreateWithoutRecipeInput[]
     connectOrCreate?: InstructionCreateOrConnectWithoutRecipeInput | InstructionCreateOrConnectWithoutRecipeInput[]
@@ -15907,14 +15979,6 @@ export namespace Prisma {
     delete?: UnitWhereInput | boolean
     connect?: UnitWhereUniqueInput
     update?: XOR<XOR<UnitUpdateToOneWithWhereWithoutRecipesInput, UnitUpdateWithoutRecipesInput>, UnitUncheckedUpdateWithoutRecipesInput>
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type AvatarCreateNestedOneWithoutUserInput = {
@@ -16319,6 +16383,17 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -16334,17 +16409,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -16437,6 +16501,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionCreateNestedManyWithoutRecipeInput
     user: UserCreateNestedOneWithoutRecipesInput
     ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
@@ -16456,6 +16521,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
@@ -16504,6 +16570,7 @@ export namespace Prisma {
     imageUrl?: StringNullableFilter<"Recipe"> | string | null
     privaterecipe?: BoolFilter<"Recipe"> | boolean
     averageRating?: FloatNullableFilter<"Recipe"> | number | null
+    commentCount?: IntNullableFilter<"Recipe"> | number | null
   }
 
   export type RecipeIngredientCreateWithoutUnitInput = {
@@ -16616,6 +16683,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     dishType: DishTypeCreateNestedOneWithoutRecipesInput
     user: UserCreateNestedOneWithoutRecipesInput
     ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
@@ -16636,6 +16704,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
   }
@@ -16667,6 +16736,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
     ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
@@ -16687,6 +16757,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
   }
@@ -16714,11 +16785,13 @@ export namespace Prisma {
 
   export type DishTypeCreateWithoutRecipesInput = {
     name: string
+    slug: string
   }
 
   export type DishTypeUncheckedCreateWithoutRecipesInput = {
     id?: number
     name: string
+    slug: string
   }
 
   export type DishTypeCreateOrConnectWithoutRecipesInput = {
@@ -16855,11 +16928,13 @@ export namespace Prisma {
 
   export type DishTypeUpdateWithoutRecipesInput = {
     name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type DishTypeUncheckedUpdateWithoutRecipesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUpsertWithoutRecipesInput = {
@@ -16973,6 +17048,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionCreateNestedManyWithoutRecipeInput
     dishType: DishTypeCreateNestedOneWithoutRecipesInput
     user: UserCreateNestedOneWithoutRecipesInput
@@ -16993,6 +17069,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
   }
@@ -17062,6 +17139,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUpdateManyWithoutRecipeNestedInput
     dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
@@ -17082,6 +17160,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
   }
@@ -17161,6 +17240,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionCreateNestedManyWithoutRecipeInput
     dishType: DishTypeCreateNestedOneWithoutRecipesInput
     ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
@@ -17180,6 +17260,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
@@ -17460,6 +17541,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionCreateNestedManyWithoutRecipeInput
     dishType: DishTypeCreateNestedOneWithoutRecipesInput
     user: UserCreateNestedOneWithoutRecipesInput
@@ -17480,6 +17562,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
   }
@@ -17600,6 +17683,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUpdateManyWithoutRecipeNestedInput
     dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
@@ -17620,6 +17704,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
   }
@@ -17723,6 +17808,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
   }
 
   export type RecipeUpdateWithoutDishTypeInput = {
@@ -17736,6 +17822,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUpdateManyWithoutRecipeNestedInput
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
     ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
@@ -17755,6 +17842,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
@@ -17773,6 +17861,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type RecipeIngredientCreateManyUnitInput = {
@@ -17964,6 +18053,7 @@ export namespace Prisma {
     imageUrl?: string | null
     privaterecipe?: boolean
     averageRating?: number | null
+    commentCount?: number | null
   }
 
   export type CommentCreateManyUserInput = {
@@ -18008,6 +18098,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUpdateManyWithoutRecipeNestedInput
     dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
     ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
@@ -18027,6 +18118,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
@@ -18045,6 +18137,7 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     privaterecipe?: BoolFieldUpdateOperationsInput | boolean
     averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type CommentUpdateWithoutUserInput = {

@@ -122,7 +122,8 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.DishTypeScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  slug: 'slug'
 };
 
 exports.Prisma.UnitScalarFieldEnum = {
@@ -157,7 +158,8 @@ exports.Prisma.RecipeScalarFieldEnum = {
   updatedAt: 'updatedAt',
   imageUrl: 'imageUrl',
   privaterecipe: 'privaterecipe',
-  averageRating: 'averageRating'
+  averageRating: 'averageRating',
+  commentCount: 'commentCount'
 };
 
 exports.Prisma.RecipeIngredientScalarFieldEnum = {

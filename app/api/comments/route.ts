@@ -45,18 +45,5 @@ export async function POST(req: Request) {
     },
   });
 
-  // Оновлюємо середню оцінку лише для кореневих коментарів
-  if (!isReply) {
-    const { _avg } = await prisma.comment.aggregate({
-      where: { recipeId, parentId: null, moderated: true },
-      _avg: { rating: true },
-    });
-
-    await prisma.recipe.update({
-      where: { id: recipeId },
-      data: { averageRating: _avg.rating || 0 },
-    });
-  }
-
   return NextResponse.json(comment);
 }

@@ -1,9 +1,10 @@
 // app/adminpanel/recipes/page.tsx
 import AdminMenu from '../AdminMenu';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import prisma from "../../lib/prisma";
 import RecipeForm from './RecipeForm';
+import { unlink } from 'fs/promises';
+import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
@@ -134,11 +135,31 @@ export default async function AdminRecipesPage() {
 
 
   async function handleDelete(id: number) {
-    'use server';
+  'use server';
 
-    await prisma.recipe.delete({ where: { id } });
-    revalidatePath('/adminpanel/recipes');
+  // 1. Отримуємо рецепт, щоб дізнатись imageUrl
+  const recipe = await prisma.recipe.findUnique({
+    where: { id },
+    select: { imageUrl: true },
+  });
+
+  // 2. Видаляємо зображення, якщо воно є
+  if (recipe?.imageUrl) {
+    const filePath = path.join(process.cwd(), 'public', recipe.imageUrl);
+    try {
+      await unlink(filePath);
+    } catch (err) {
+      console.error('Помилка при видаленні зображення:', err);
+      // За бажанням: можеш кинути помилку або продовжити
+    }
   }
+
+  // 3. Видаляємо рецепт
+  await prisma.recipe.delete({ where: { id } });
+
+  // 4. Оновлюємо кеш
+  revalidatePath('/adminpanel/recipes');
+}
 
   return (
     <>

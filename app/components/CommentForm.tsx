@@ -15,11 +15,13 @@ export default function CommentForm({ recipeId, parentId }: CommentFormProps) {
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null); // Додаємо стейт для успіху
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccess(null); // Очищаємо повідомлення про успіх перед новим відправленням
 
     try {
       const res = await fetch('/api/comments', {
@@ -34,7 +36,8 @@ export default function CommentForm({ recipeId, parentId }: CommentFormProps) {
 
       setText('');
       setRating(5);
-      router.refresh();
+      setSuccess('Ваш коментар успішно надісланий на модерацію!'); // Встановлюємо повідомлення про успіх
+      router.refresh(); // Оновлюємо сторінку після відправлення
     } catch (err: any) {
       setError(err.message || 'Щось пішло не так');
     } finally {
@@ -53,6 +56,7 @@ export default function CommentForm({ recipeId, parentId }: CommentFormProps) {
       />
       {!parentId && <StarRating rating={rating} setRating={setRating} />}
       {error && <p className="text-red-500">{error}</p>}
+      {success && <p className="text-green-500">{success}</p>} {/* Виводимо повідомлення про успіх */}
       <button
         type="submit"
         disabled={loading}

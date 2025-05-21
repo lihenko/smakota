@@ -1,6 +1,6 @@
 import AdminMenu from '../AdminMenu';
 import prisma from "../../lib/prisma";
-import { revalidatePath } from 'next/cache'; // щоб оновлювалось після змін
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export default async function Page() {
@@ -13,9 +13,17 @@ export default async function Page() {
 
     const id = Number(formData.get('id'));
     const text = formData.get('text') as string;
-
     if (!id || !text) return;
 
+    // Знаходимо коментар, щоб дізнатись recipeId, parentId, rating
+    const comment = await prisma.comment.findUnique({
+      where: { id },
+      select: { recipeId: true, parentId: true, rating: true },
+    });
+
+    if (!comment) return;
+
+    // Затверджуємо коментар
     await prisma.comment.update({
       where: { id },
       data: {
@@ -24,8 +32,25 @@ export default async function Page() {
       },
     });
 
-    revalidatePath('/adminpanel/comments'); // або актуальний шлях
-    redirect('/adminpanel/comments'); // редірект для оновлення сторінки
+    // Оновлення рейтингу, якщо це кореневий коментар з оцінкою
+    if (comment.parentId === null && comment.rating !== null) {
+      const { _avg, _count } = await prisma.comment.aggregate({
+        where: { recipeId: comment.recipeId, parentId: null, moderated: true },
+        _avg: { rating: true },
+        _count: true,
+      });
+
+      await prisma.recipe.update({
+        where: { id: comment.recipeId },
+        data: {
+          averageRating: _avg.rating ?? 0,
+          commentCount: _count,
+        },
+      });
+    }
+
+    revalidatePath('/adminpanel/comments');
+    redirect('/adminpanel/comments');
   }
 
   return (
@@ -41,11 +66,7 @@ export default async function Page() {
             {unmoderatedComments.map((comment) => (
               <li key={comment.id} className="border p-4 rounded shadow">
                 <form action={approveComment} className="flex items-center gap-2">
-                  <input
-                    type="hidden"
-                    name="id"
-                    value={comment.id}
-                  />
+                  <input type="hidden" name="id" value={comment.id} />
                   <input
                     type="textarea"
                     name="text"

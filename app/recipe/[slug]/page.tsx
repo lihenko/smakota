@@ -7,6 +7,8 @@ import { cookies } from 'next/headers';
 import * as jose from 'jose';
 import Link from 'next/link';
 import StarDisplay from "../../components/StarDisplay";
+import ReplyFormToggle from "@/app/components/ReplyFormToggle";
+import styles from '../../components/RecipeCard.module.css'
 
 
 export default async function RecipePage({ params }: { params: { slug: string } }) {
@@ -57,9 +59,19 @@ export default async function RecipePage({ params }: { params: { slug: string } 
     },
   });
 
-  if (!recipe || recipe.privaterecipe || !recipe.moderated) {
+  if (!recipe) {
     notFound();
   }
+
+    // Перевірка, чи рецепт доступний для перегляду
+  const isOwner = userId === recipe.userId;
+
+  if (!isOwner && (recipe.privaterecipe || !recipe.moderated)) {
+    notFound();
+  }
+
+  const allowComments = recipe.moderated && !recipe.privaterecipe;
+
 
   const comments = await prisma.comment.findMany({
     where: {
@@ -95,13 +107,28 @@ export default async function RecipePage({ params }: { params: { slug: string } 
               Автор: {recipe.user.name} • {formattedDate}
             </p>
 
-            {recipe.imageUrl && (
+            <div className="relative rounded-xl overflow-hidden">
               <img
-                src={recipe.imageUrl}
+                src={recipe.imageUrl || "/recipes/placeholder.webp"}
                 alt={recipe.title}
-                className="rounded-xl w-full h-auto mb-6"
+                className="w-full h-auto mb-6"
               />
-            )}
+              {recipe.privaterecipe && (
+                <span className={styles.recipelabel}>
+                  Приватний
+                </span>
+              )}
+              {!recipe.moderated && !recipe.privaterecipe && (
+                <span className={styles.recipelabel}>
+                  На модерації
+                </span>
+              )}
+            </div>
+
+              
+
+
+            
 
             <h2 className="text-xl font-semibold mt-4 mb-2">Інгредієнти</h2>
             <ul className="mb-4">
@@ -155,57 +182,60 @@ export default async function RecipePage({ params }: { params: { slug: string } 
           <div className="w-full">
             <div className="mt-10">
               <h2 className="text-xl font-semibold mb-4">Коментарі</h2>
-              {comments.length === 0 ? (
+
+              {!allowComments ? (
+                <p>Коментарі тимчасово вимкнено.</p>
+              ) : comments.length === 0 ? (
                 <p>Поки що немає коментарів.</p>
               ) : (
                 <ul className="space-y-4">
-                {comments.map((comment) => (
+                  {comments.map((comment) => (
                     <li key={comment.id} className="border p-4 rounded-lg">
                       <div className="font-semibold">{comment.user.name}</div>
                       {typeof comment.rating === 'number' && (
                         <StarDisplay rating={comment.rating} />
                       )}
-
                       <p>{comment.text}</p>
+
                       {comment.replies.length > 0 && (
                         <ul className="pl-4 mt-2 space-y-2 border-l border-gray-200">
                           {comment.replies.map((reply) => (
                             <li key={reply.id} className="pl-2">
                               <div className="text-sm font-semibold">{reply.user.name}</div>
-                              {/* Відповіді без зірок */}
                               <p className="text-sm">{reply.text}</p>
                             </li>
                           ))}
                         </ul>
                       )}
+
                       {typeof userId === 'number' && userId > 0 ? (
-                        <div className="py-3">
-                            <h2 className="mt-6">Залишити відповідь</h2>
-                            <CommentForm recipeId={recipe.id} parentId={comment.id} />
-                        </div>
+                        <ReplyFormToggle recipeId={recipe.id} commentId={comment.id} />
                       ) : (
                         <div className="py-3">
-                          <p>Вам потрібно <Link className="underline" href="/login">увійти</Link>, щоб залишити відповідь. </p>
+                          <p>Вам потрібно <Link className="underline" href="/login">увійти</Link>, щоб залишити відповідь.</p>
                         </div>
                       )}
                     </li>
                   ))}
                 </ul>
-
               )}
             </div>
-            {typeof userId === 'number' && userId > 0 ? (
-              <div className="py-16">
-                  <h2 className="mb-6">Залишити коменртар</h2>
+
+            {allowComments && (
+              typeof userId === 'number' && userId > 0 ? (
+                <div className="py-16">
+                  <h2 className="mb-6">Залишити коментар</h2>
                   <CommentForm recipeId={recipe.id} />
-              </div>
-            ) : (
-              <div className="py-16">
-                <p>Вам потрібно <Link className="underline" href="/login">увійти</Link>, щоб залишити коментар. </p>
-              </div>
+                </div>
+              ) : (
+                <div className="py-16">
+                  <p>Вам потрібно <Link className="underline" href="/login">увійти</Link>, щоб залишити коментар. </p>
+                </div>
+              )
             )}
           </div>
         </div>
+
       </div>
     </main>
   );

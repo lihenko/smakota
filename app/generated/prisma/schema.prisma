@@ -11,6 +11,7 @@ datasource db {
 model DishType {
   id      Int      @id @default(autoincrement())
   name    String   @unique
+  slug    String   @unique
   recipes Recipe[]
 }
 
@@ -54,6 +55,7 @@ model Recipe {
   user          User               @relation(fields: [userId], references: [id])
   ingredients   RecipeIngredient[]
   averageRating Float?             @default(0)
+  commentCount  Int?               @default(0)
   comments      Comment[]
 }
 
