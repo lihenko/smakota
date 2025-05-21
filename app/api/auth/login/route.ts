@@ -1,9 +1,7 @@
-// /app/api/auth/login/route.ts
-
-import prisma from "../../../lib/prisma"; // Це залежить від вашої структури
+import prisma from "../../../lib/prisma";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
-import * as jose from 'jose'
+import * as jose from "jose";
 
 export async function POST(request: Request) {
   try {
@@ -28,16 +26,29 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Невірний email або пароль" }, { status: 400 });
     }
 
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET,);
-    const alg = 'HS256';
-      
-      const jwt = await new jose.SignJWT({ role: user.role })
-        .setProtectedHeader({ alg })
-        .setExpirationTime('72h')
-        .setSubject(user.id.toString())
-        .sign(secret);
-    return Response.json({token: jwt});
-    
+    // Генерація JWT
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const alg = "HS256";
+
+    const token = await new jose.SignJWT({ role: user.role })
+      .setProtectedHeader({ alg })
+      .setExpirationTime("72h")
+      .setSubject(user.id.toString())
+      .sign(secret);
+
+    // Створення відповіді та встановлення куки
+    const response = NextResponse.json({ success: true });
+
+    response.cookies.set("Authorization", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 3, // 3 дні
+    });
+
+    return response;
+
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json({ error: "Йой, щось пішло не так" }, { status: 500 });

@@ -9,27 +9,25 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Перевіряємо наявність токену в cookies
-    const token = document.cookie.split(';').find(cookie => cookie.trim().startsWith('Authorization='));
-
-    if (token) {
-      // Якщо токен є, перенаправляємо на головну сторінку або dashboard
-      router.push('/dashboard');
-    }
-  }, [router]);
+    // Краще просто спробувати GET-запит на щось захищене або залишити middleware для редіректу
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+    setLoading(true);
 
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
-      credentials: 'include',
+      credentials: 'include', // ВАЖЛИВО: щоби кука з сервера приймалась
     });
 
+    setLoading(false);
     const data = await res.json();
 
     if (!res.ok) {
@@ -37,21 +35,16 @@ export default function LoginPage() {
       return;
     }
 
-    // Якщо авторизація успішна, зберігаємо токен у cookie
-    const expires = new Date();
-    expires.setDate(expires.getDate() + 3);
-
-    document.cookie = `Authorization=${data.token}; path=/; secure; SameSite=Strict; expires=${expires.toUTCString()}`;
-
+    // Повідомити інші вкладки, якщо потрібно
     const channel = new BroadcastChannel('auth');
     channel.postMessage('auth-changed');
     channel.close();
 
-    router.push('/dashboard'); // Перенаправлення на головну сторінку після успішного входу
+    router.push('/dashboard');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-1/3 mx-auto mt-20">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md mx-auto mt-20">
       <h1 className="text-2xl font-bold text-center">Вхід</h1>
       <input
         type="email"
@@ -71,11 +64,14 @@ export default function LoginPage() {
         required
         className="border p-2"
       />
-      <button type="submit" className="btn btn-primary">Увійти</button>
+      <button type="submit" className="btn btn-primary" disabled={loading}>
+        {loading ? 'Зачекайте...' : 'Увійти'}
+      </button>
 
       {error && <p className="text-red-500">{error}</p>}
-      <div className='text-center'>
-          Забули пароль? <Link href="/forgot-password/">Відновити</Link>
+
+      <div className="text-center">
+        Забули пароль? <Link href="/forgot-password/">Відновити</Link>
       </div>
     </form>
   );
