@@ -3,23 +3,26 @@ import prisma from '../../../lib/prisma';
 import RecipeCard from '../../../components/RecipeCard';
 import Pagination from '../../../components/Pagination';
 
+export type ParamsPromise = Promise<Record<'slug', string>>;
+export type SearchParamsPromise = Promise<Record<'page', string | undefined> | undefined>;
+
 interface Props {
-  params: { slug: string };
-  searchParams?: { page?: string };
+  params: ParamsPromise;
+  searchParams?: SearchParamsPromise;
 }
 
 const pageSize = 12;
 
 export default async function DishTypeSlugPage({ params, searchParams }: Props) {
-  const paramData = await params;
-  const searchParamsData = await searchParams;
+  const paramData = await params; // { slug: string }
+  const searchParamsData = await searchParams; // { page?: string } | undefined
+
   const slug = paramData.slug;
   const page = Number(searchParamsData?.page) || 1;
 
   const dishType = await prisma.dishType.findUnique({
     where: { slug },
   });
-
 
   if (!dishType) return notFound();
 
