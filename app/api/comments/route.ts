@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     } else {
       return NextResponse.json({ error: 'Invalid sub in JWT' }, { status: 401 });
     }
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Invalid JWT token' }, { status: 401 });
   }
 
