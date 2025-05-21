@@ -5,26 +5,24 @@ import Filter from '../components/Filter';
 import Pagination from '../components/Pagination';
 import RecipeSearchForm from '../components/SearchForm';
 
+
 export const dynamic = 'force-dynamic';
 
-interface Props {
-  searchParams: {
-    page?: string;
-    dishTypeId?: string;
-    ingredientIds?: string;
-  };
-}
-
-export default async function RecipesPage({ searchParams }: Props) {
+export default async function RecipesPage({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>
+}) {
   const searchParamsData = await searchParams;
-  const page = Number(searchParamsData.page) || 1;
-  const dishTypeId = searchParamsData.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined;
-  const ingredientIds = searchParamsData.ingredientIds
-    ? searchParamsData.ingredientIds.split(',').map(Number)
-    : [];
+  const page = Number(searchParamsData.page) || 1
+  const dishTypeId = searchParamsData.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined
+  const ingredientIds =
+    typeof searchParamsData.ingredientIds === 'string'
+      ? searchParamsData.ingredientIds.split(',').map(Number)
+      : []
 
   if (isNaN(page) || page < 1) {
-    redirect('/recipe');
+    redirect('/recipe')
   }
 
   const pageSize = 12;
@@ -45,7 +43,6 @@ export default async function RecipesPage({ searchParams }: Props) {
     }),
   };
 
-  // Паралельні запити
   const [recipes, totalCount, dishTypes, ingredients] = await Promise.all([
     prisma.recipe.findMany({
       where,
@@ -61,11 +58,9 @@ export default async function RecipesPage({ searchParams }: Props) {
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  // Створюємо нові параметри для URL
   const createPaginationUrl = (newPage: number) => {
     const updatedParams = new URLSearchParams();
 
-    // Додаємо параметри до URLSearchParams
     if (dishTypeId) updatedParams.set('dishTypeId', dishTypeId.toString());
     if (ingredientIds.length > 0) updatedParams.set('ingredientIds', ingredientIds.join(','));
     updatedParams.set('page', newPage.toString());
@@ -94,16 +89,12 @@ export default async function RecipesPage({ searchParams }: Props) {
         </div>
 
         {totalCount === 0 ? (
-          <div className="mt-8 text-center text-gray-500 text-lg">
-            Рецепти не знайдено
-          </div>
+          <div className="mt-8 text-center text-gray-500 text-lg">Рецепти не знайдено</div>
         ) : (
           totalPages > 1 && (
             <Pagination currentPage={page} totalPages={totalPages} />
           )
         )}
-
-
       </div>
     </main>
   );

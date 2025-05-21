@@ -7,27 +7,26 @@ import RecipeSearchForm from '@/app/components/SearchForm'
 import UserMenu from '../UserMenu'
 import { getUser } from '../pageSetting'
 
-interface Props {
-  searchParams: {
+export const dynamic = 'force-dynamic'
+
+export default async function MyRecipesPage({
+  searchParams,
+}: {
+  searchParams?: {
     page?: string
     dishTypeId?: string
     ingredientIds?: string
   }
-}
-
-export const dynamic = 'force-dynamic'
-
-export default async function MyRecipesPage({ searchParams }: Props) {
+}) {
   const currentUser = await getUser()
-  const searchParamsData = await searchParams;
 
   if (!currentUser) {
     return <p>Будь ласка, увійдіть у свій акаунт, щоб бачити ваші рецепти.</p>
   }
-
-  const page = Number(searchParamsData.page) || 1
-  const dishTypeId = searchParamsData.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined
-  const ingredientIds = searchParamsData.ingredientIds
+  const searchParamsData = await searchParams;
+  const page = Number(searchParamsData?.page) || 1
+  const dishTypeId = searchParamsData?.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined
+  const ingredientIds = searchParamsData?.ingredientIds
     ? searchParamsData.ingredientIds.split(',').map(Number)
     : []
 
@@ -38,7 +37,6 @@ export default async function MyRecipesPage({ searchParams }: Props) {
   const pageSize = 12
   const skip = (page - 1) * pageSize
 
-  // Фільтр: тільки рецепти поточного користувача, з урахуванням фільтрів
   const where: any = {
     userId: currentUser.id,
     ...(dishTypeId && { dishTypeId }),
@@ -53,7 +51,6 @@ export default async function MyRecipesPage({ searchParams }: Props) {
     }),
   }
 
-  // Паралельно запитуємо дані
   const [recipes, totalCount, dishTypes, ingredients] = await Promise.all([
     prisma.recipe.findMany({
       where,
