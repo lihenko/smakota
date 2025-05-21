@@ -8,21 +8,23 @@ import RecipeSearchForm from '../components/SearchForm';
 
 export const dynamic = 'force-dynamic';
 
+export type SearchParamsPromise = Promise<Record<string, string | string[] | undefined>>;
+
 export default async function RecipesPage({
   searchParams,
 }: {
-  searchParams: Record<string, string | string[] | undefined>
+  searchParams: SearchParamsPromise
 }) {
   const searchParamsData = await searchParams;
-  const page = Number(searchParamsData.page) || 1
-  const dishTypeId = searchParamsData.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined
+  const page = Number(searchParamsData.page) || 1;
+  const dishTypeId = searchParamsData.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined;
   const ingredientIds =
     typeof searchParamsData.ingredientIds === 'string'
       ? searchParamsData.ingredientIds.split(',').map(Number)
-      : []
+      : [];
 
   if (isNaN(page) || page < 1) {
-    redirect('/recipe')
+    redirect('/recipe');
   }
 
   const pageSize = 12;
@@ -91,9 +93,7 @@ export default async function RecipesPage({
         {totalCount === 0 ? (
           <div className="mt-8 text-center text-gray-500 text-lg">Рецепти не знайдено</div>
         ) : (
-          totalPages > 1 && (
-            <Pagination currentPage={page} totalPages={totalPages} />
-          )
+          totalPages > 1 && <Pagination currentPage={page} totalPages={totalPages} />
         )}
       </div>
     </main>

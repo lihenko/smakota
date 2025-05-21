@@ -1,5 +1,3 @@
-// app/recipe/[slug]/page.tsx
-
 import prisma from "../../lib/prisma";
 import { notFound } from "next/navigation";
 import CommentForm from "../../components/CommentForm";
@@ -8,37 +6,34 @@ import * as jose from 'jose';
 import Link from 'next/link';
 import StarDisplay from "../../components/StarDisplay";
 import ReplyFormToggle from "@/app/components/ReplyFormToggle";
-import styles from '../../components/RecipeCard.module.css'
+import styles from '../../components/RecipeCard.module.css';
 
+export type ParamsPromise = Promise<Record<'slug', string>>;
 
-export default async function RecipePage({ params }: { params: { slug: string } }) {
-  let userId: any;
+export default async function RecipePage(props: { params: ParamsPromise }) {
+  const params = await props.params;
+  const slug = params.slug;
+
+  let userId: number | undefined;
   const cookie = (await cookies()).get('Authorization');
-    if (cookie) {
-  
+  if (cookie) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const jwt = cookie.value;
-    
-  
     try {
       const { payload } = await jose.jwtVerify(jwt, secret);
       const sub = payload.sub;
-  
       if (typeof sub === 'string' && !isNaN(parseInt(sub))) {
         userId = parseInt(sub);
       } else if (typeof sub === 'number') {
         userId = sub;
-      } 
+      }
     } catch (error) {
+      // помилка - userId залишиться undefined
     }
   }
 
-
-
-  const { slug } = await params;  // очікуємо на параметри
-
   const recipe = await prisma.recipe.findUnique({
-    where: { slug: slug },
+    where: { slug },
     include: {
       user: true,
       ingredients: {
@@ -63,7 +58,6 @@ export default async function RecipePage({ params }: { params: { slug: string } 
     notFound();
   }
 
-    // Перевірка, чи рецепт доступний для перегляду
   const isOwner = userId === recipe.userId;
 
   if (!isOwner && (recipe.privaterecipe || !recipe.moderated)) {
@@ -71,7 +65,6 @@ export default async function RecipePage({ params }: { params: { slug: string } 
   }
 
   const allowComments = recipe.moderated && !recipe.privaterecipe;
-
 
   const comments = await prisma.comment.findMany({
     where: {
@@ -92,10 +85,8 @@ export default async function RecipePage({ params }: { params: { slug: string } 
     orderBy: { createdAt: 'desc' },
   });
 
-
   const createdDate = new Date(recipe.createdAt);
   const formattedDate = `${createdDate.getDate().toString().padStart(2, "0")}.${(createdDate.getMonth()+1).toString().padStart(2, "0")}.${createdDate.getFullYear()}`;
-
 
   return (
     <main className="py-16">
@@ -125,11 +116,6 @@ export default async function RecipePage({ params }: { params: { slug: string } 
               )}
             </div>
 
-              
-
-
-            
-
             <h2 className="text-xl font-semibold mt-4 mb-2">Інгредієнти</h2>
             <ul className="mb-4">
               {recipe.ingredients.map((item) => (
@@ -149,7 +135,7 @@ export default async function RecipePage({ params }: { params: { slug: string } 
 
             {recipe.videoUrl && (
               <div className="mt-6">
-                <h2 className="text-xl font-semibold mb-2">Відео приготупання</h2>
+                <h2 className="text-xl font-semibold mb-2">Відео приготування</h2>
                 <div className="aspect-video w-full my-4">
                   <iframe
                     className="w-full h-full rounded-lg"
@@ -162,7 +148,7 @@ export default async function RecipePage({ params }: { params: { slug: string } 
 
             {recipe.tiktokUrl && (
               <div className="mt-6">
-                <h2 className="text-xl font-semibold mb-2">Відео приготупання</h2>
+                <h2 className="text-xl font-semibold mb-2">Відео приготування</h2>
                 <iframe
                   src={recipe.tiktokUrl}
                   width="325"
