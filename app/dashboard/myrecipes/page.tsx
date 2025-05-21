@@ -3,7 +3,6 @@ import { prisma } from '@/app/lib/prisma';
 import RecipeCard from '@/app/components/RecipeCard';
 import Filter from '@/app/components/FilterMyRecipes';
 import Pagination from '@/app/components/Pagination';
-import RecipeSearchForm from '@/app/components/SearchForm';
 import UserMenu from '../UserMenu';
 import { getUser } from '../pageSetting';
 
@@ -87,10 +86,6 @@ export default async function MyRecipesPage({
       <main className="py-16">
         <div className="container">
           <h1 className="text-3xl font-bold mb-6 text-center">Мої рецепти</h1>
-
-          <div className="mb-8">
-            <RecipeSearchForm />
-          </div>
 
           <Filter
             dishTypes={dishTypes}
