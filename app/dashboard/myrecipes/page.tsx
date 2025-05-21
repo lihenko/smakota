@@ -1,43 +1,45 @@
-import { redirect } from 'next/navigation'
-import { prisma } from '@/app/lib/prisma'
-import RecipeCard from '@/app/components/RecipeCard'
-import Filter from '@/app/components/FilterMyRecipes'
-import Pagination from '@/app/components/Pagination'
-import RecipeSearchForm from '@/app/components/SearchForm'
-import UserMenu from '../UserMenu'
-import { getUser } from '../pageSetting'
+import { redirect } from 'next/navigation';
+import { prisma } from '@/app/lib/prisma';
+import RecipeCard from '@/app/components/RecipeCard';
+import Filter from '@/app/components/FilterMyRecipes';
+import Pagination from '@/app/components/Pagination';
+import RecipeSearchForm from '@/app/components/SearchForm';
+import UserMenu from '../UserMenu';
+import { getUser } from '../pageSetting';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 export default async function MyRecipesPage({
   searchParams,
 }: {
-  searchParams?: {
-    page?: string
-    dishTypeId?: string
-    ingredientIds?: string
-  }
+  searchParams: Record<string, string | string[] | undefined>;
 }) {
-  const currentUser = await getUser()
+  const currentUser = await getUser();
 
   if (!currentUser) {
-    return <p>Будь ласка, увійдіть у свій акаунт, щоб бачити ваші рецепти.</p>
+    return <p>Будь ласка, увійдіть у свій акаунт, щоб бачити ваші рецепти.</p>;
   }
+
   const searchParamsData = await searchParams;
-  const page = Number(searchParamsData?.page) || 1
-  const dishTypeId = searchParamsData?.dishTypeId ? Number(searchParamsData.dishTypeId) : undefined
-  const ingredientIds = searchParamsData?.ingredientIds
-    ? searchParamsData.ingredientIds.split(',').map(Number)
-    : []
+
+  const page = Number(searchParamsData?.page) || 1;
+  const dishTypeId = searchParamsData?.dishTypeId
+    ? Number(searchParamsData.dishTypeId)
+    : undefined;
+
+  const ingredientIds =
+    typeof searchParamsData?.ingredientIds === 'string'
+      ? searchParamsData.ingredientIds.split(',').map(Number)
+      : [];
 
   if (isNaN(page) || page < 1) {
-    redirect('/dashboard/myrecipes')
+    redirect('/dashboard/myrecipes');
   }
 
-  const pageSize = 12
-  const skip = (page - 1) * pageSize
+  const pageSize = 12;
+  const skip = (page - 1) * pageSize;
 
-  const where: any = {
+  const where = {
     userId: currentUser.id,
     ...(dishTypeId && { dishTypeId }),
     ...(ingredientIds.length > 0 && {
@@ -49,7 +51,7 @@ export default async function MyRecipesPage({
         },
       })),
     }),
-  }
+  };
 
   const [recipes, totalCount, dishTypes, ingredients] = await Promise.all([
     prisma.recipe.findMany({
@@ -62,9 +64,21 @@ export default async function MyRecipesPage({
     prisma.recipe.count({ where }),
     prisma.dishType.findMany({ orderBy: { name: 'asc' } }),
     prisma.ingredient.findMany({ orderBy: { name: 'asc' } }),
-  ])
+  ]);
 
-  const totalPages = Math.ceil(totalCount / pageSize)
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  const createPaginationUrl = (newPage: number) => {
+    const updatedParams = new URLSearchParams();
+
+    if (dishTypeId) updatedParams.set('dishTypeId', dishTypeId.toString());
+    if (ingredientIds.length > 0) {
+      updatedParams.set('ingredientIds', ingredientIds.join(','));
+    }
+    updatedParams.set('page', newPage.toString());
+
+    return `/dashboard/myrecipes?${updatedParams.toString()}`;
+  };
 
   return (
     <>
@@ -73,6 +87,11 @@ export default async function MyRecipesPage({
       <main className="py-16">
         <div className="container">
           <h1 className="text-3xl font-bold mb-6 text-center">Мої рецепти</h1>
+
+          <div className="mb-8">
+            <RecipeSearchForm />
+          </div>
+
           <Filter
             dishTypes={dishTypes}
             ingredients={ingredients}
@@ -91,10 +110,14 @@ export default async function MyRecipesPage({
           </div>
 
           {totalPages > 1 && (
-            <Pagination currentPage={page} totalPages={totalPages} basePath="/dashboard/myrecipes" />
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              basePath="/dashboard/myrecipes"
+            />
           )}
         </div>
       </main>
     </>
-  )
+  );
 }
