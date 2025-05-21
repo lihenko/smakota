@@ -1,45 +1,21 @@
-// eslint.config.js
-import js from "@eslint/js";
-import ts from "@typescript-eslint/eslint-plugin";
-import parser from "@typescript-eslint/parser";
-import next from "eslint-plugin-next";
-import globals from "globals";
+// eslint.config.mjs
+import { FlatCompat } from '@eslint/eslintrc';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({ baseDirectory: __dirname });
 
 export default [
   {
     ignores: [
-      "node_modules/**",
-      ".next/**",
-      "dist/**",
-      "out/**",
-      "build/**",
-      "app/generated/prisma/**",
+      '**/node_modules/**',
+      '**/.next/**',
+      '**/public/**',
+      'app/generated/prisma/**',
     ],
   },
-  js.configs.recommended,
-  {
-    files: ["**/*.ts", "**/*.tsx"],
-    languageOptions: {
-      parser,
-      parserOptions: {
-        project: "./tsconfig.json",
-        sourceType: "module",
-      },
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
-    plugins: {
-      "@typescript-eslint": ts,
-    },
-    rules: {
-      ...ts.configs.recommended.rules,
-      ...ts.configs["recommended-type-checked"].rules,
-    },
-  },
-  {
-    plugins: { next },
-    rules: next.configs["core-web-vitals"].rules,
-  },
+  ...compat.extends('next/core-web-vitals'),
 ];
