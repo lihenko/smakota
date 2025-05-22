@@ -7,9 +7,13 @@ import { logout } from '@/utils/logout';
 const Header: React.FC = () => {
   const isLoggedIn = useAuthSync();
 
+  if (isLoggedIn === null) {
+    return null; // або прелоадер, або статичне меню
+  }
+
   return (
     <header className="bg-orange-200 text-black p-4">
-      <div className="flex justify-between items-center">
+       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold">Смакота</h1>
         <nav>
           <ul className="flex space-x-4">

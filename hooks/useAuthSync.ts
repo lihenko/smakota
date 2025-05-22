@@ -2,12 +2,17 @@
 
 import { useEffect, useState } from 'react';
 
-export function useAuthSync(): boolean {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+export function useAuthSync(): boolean | null {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const checkAuth = () => {
-      setIsLoggedIn(document.cookie.includes('Authorization='));
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/me', { credentials: 'include' });
+        setIsLoggedIn(res.ok);
+      } catch {
+        setIsLoggedIn(false);
+      }
     };
 
     checkAuth();
