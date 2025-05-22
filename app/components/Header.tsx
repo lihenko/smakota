@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuthSync } from '@/hooks/useAuthSync';
+import { getUser } from '../dashboard/pageSetting';
 import { logout } from '@/utils/logout';
 
-const Header: React.FC = () => {
-  const isLoggedIn = useAuthSync();
+const currentUser = await getUser();
 
+const Header: React.FC = () => {
+  
   return (
     <header className="bg-orange-200 text-black p-4">
       <div className="flex justify-between items-center">
@@ -22,7 +23,7 @@ const Header: React.FC = () => {
             <li>
               <Link href="/users">Наші кулінари</Link>
             </li>
-            {isLoggedIn ? (
+            {currentUser ? (
               <>
                 <li>
                   <Link href="/dashboard">Кабінет кулінара</Link>
