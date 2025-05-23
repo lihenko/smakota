@@ -58,7 +58,7 @@ async function uploadImageToVercelBlob(file: File): Promise<string> {
   const uint8Array = new Uint8Array(webpBuffer);
   const webpBlob = new Blob([uint8Array], { type: 'image/webp' });
 
-  const fileName = `${Date.now()}.webp`;
+  const fileName = `recipes/img${Date.now()}.webp`;
 
   const blob = await put(fileName, webpBlob, {
     access: 'public',
