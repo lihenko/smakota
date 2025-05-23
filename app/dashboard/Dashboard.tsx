@@ -78,7 +78,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
       const res = await fetch('/api/delete-avatar', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ avatarUrl: displayedAvatarUrl }),
+        body: JSON.stringify({ avatarUrl: displayedAvatarUrl, userId: currentUser?.id,}),
       });
       if (res.ok) setAvatarUrl(DEFAULT_AVATAR);
       else alert('Не вдалося видалити аватар');

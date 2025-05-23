@@ -23,12 +23,17 @@ const UsersPage: React.FC = () => {
 
   return (
     <>
-      <h1>Наші кулінари</h1>
-      <ul>
-        {users.map(user => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
+     <section>
+      <div className="container">
+        <h1 className='text-center text-2xl font-bold mb-4'>Наші кулінари</h1>
+        <ul>
+          {users.map(user => (
+            <li key={user.id}>{user.name}</li>
+          ))}
+        </ul>
+      </div>
+     </section>
+      
     </>
   );
 };
