@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '../../lib/prisma';
 import { cookies } from 'next/headers';
 import * as jose from 'jose';
-import fs from 'fs';
-import path from 'path';
+import { put } from '@vercel/blob';
 import sharp from 'sharp';
 
 // Тип для інгредієнтів
@@ -45,33 +44,29 @@ async function generateSlug(title: string): Promise<string> {
   return uniqueSlug;
 }
 
-// Функція для збереження зображення локально у dev, або викиду помилки в prod
-async function saveImage(file: File): Promise<string> {
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const metadata = await sharp(buffer).metadata();
+// Функція завантаження картинки у Vercel Blob з конвертацією у webp та ресайзом
+async function uploadImageToVercelBlob(file: File): Promise<string> {
+  const arrayBuffer = await file.arrayBuffer();
 
-  if (!metadata.width || !metadata.height || metadata.width < 600 || metadata.height < 400) {
-    throw new Error('Image must be at least 600x400 pixels');
-  }
-
-  if (process.env.NODE_ENV === 'production') {
-    // Тут потрібно реалізувати завантаження у хмарне сховище
-    throw new Error('Image upload not supported in production. Implement cloud storage.');
-  }
-
-  const recipesDir = path.join(process.cwd(), 'public', 'recipes');
-  if (!fs.existsSync(recipesDir)) fs.mkdirSync(recipesDir, { recursive: true });
-
-  const fileName = `${Date.now()}.webp`;
-  const outputFilePath = path.join(recipesDir, fileName);
-
-  await sharp(buffer)
+  // Конвертуємо у webp та ресайзимо
+  const webpBuffer = await sharp(Buffer.from(arrayBuffer))
     .resize(600, 400, { fit: 'cover' })
     .webp({ quality: 80 })
-    .toFile(outputFilePath);
+    .toBuffer();
 
-  return `/recipes/${fileName}`;
+  // Перетворюємо Node.js Buffer у Uint8Array, потім у Blob
+  const uint8Array = new Uint8Array(webpBuffer);
+  const webpBlob = new Blob([uint8Array], { type: 'image/webp' });
+
+  const fileName = `${Date.now()}.webp`;
+
+  const blob = await put(fileName, webpBlob, {
+    access: 'public',
+  });
+
+  return blob.url;
 }
+
 
 export async function POST(request: Request) {
   const cookie = (await cookies()).get('Authorization');
@@ -133,24 +128,18 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Image must be JPG or PNG' }, { status: 400 });
       }
 
-      try {
-        imageUrl = await saveImage(file);
-      } catch (e: any) {
-        return NextResponse.json({ error: e.message || 'Image processing failed' }, { status: 400 });
-      }
-
+      // Завантаження картинки через Vercel Blob
+      imageUrl = await uploadImageToVercelBlob(file);
     } else if (file) {
       if (!['image/jpeg', 'image/png'].includes(file.type)) {
         return NextResponse.json({ error: 'Image must be JPG or PNG' }, { status: 400 });
       }
 
-      try {
-        imageUrl = await saveImage(file);
-      } catch (e: any) {
-        return NextResponse.json({ error: e.message || 'Image processing failed' }, { status: 400 });
-      }
+      // Завантаження картинки через Vercel Blob
+      imageUrl = await uploadImageToVercelBlob(file);
     }
 
+    // Обробка одиниць виміру
     const unitPromises = ingredients.map(async (ingredient: IngredientInput) => {
       if (ingredient && ingredient.unit) {
         const unitName = ingredient.unit.toLowerCase();
@@ -168,6 +157,7 @@ export async function POST(request: Request) {
 
     const units = await Promise.all(unitPromises);
 
+    // Створення рецепта
     const recipe = await prisma.recipe.create({
       data: {
         title,
