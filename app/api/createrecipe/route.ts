@@ -20,8 +20,7 @@ function transliterate(text: string): string {
     а: 'a', б: 'b', в: 'v', г: 'h', д: 'd', е: 'e', є: 'ye', ж: 'zh', з: 'z', и: 'y',
     і: 'i', ї: 'yi', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r',
     с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'shch',
-    ю: 'yu', я: 'ya',
-    // ' ': '-' // видалено, бо заміна пробілів робиться нижче через regex
+    ю: 'yu', я: 'ya', ' ': '-',
   };
   return text.toLowerCase().split('').map(char => map[char] || char).join('');
 }
@@ -46,13 +45,18 @@ async function generateSlug(title: string): Promise<string> {
   return uniqueSlug;
 }
 
-// Винесена функція збереження зображення
-async function saveImage(file: Blob): Promise<string> {
+// Функція для збереження зображення локально у dev, або викиду помилки в prod
+async function saveImage(file: File): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
   const metadata = await sharp(buffer).metadata();
 
   if (!metadata.width || !metadata.height || metadata.width < 600 || metadata.height < 400) {
     throw new Error('Image must be at least 600x400 pixels');
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    // Тут потрібно реалізувати завантаження у хмарне сховище
+    throw new Error('Image upload not supported in production. Implement cloud storage.');
   }
 
   const recipesDir = path.join(process.cwd(), 'public', 'recipes');
@@ -96,20 +100,12 @@ export async function POST(request: Request) {
     const formData = await request.formData();
 
     const title = formData.get('title') as string;
-
-    const ingredientsRaw = JSON.parse(formData.get('ingredients') as string) as IngredientInput[];
-    // нормалізація назв інгредієнтів і одиниць у нижній регістр
-    const ingredients = ingredientsRaw.map(ing => ({
-      ...ing,
-      name: ing.name.toLowerCase(),
-      unit: ing.unit?.toLowerCase(),
-    }));
-
+    const ingredients = JSON.parse(formData.get('ingredients') as string) as IngredientInput[];
     const instructions = JSON.parse(formData.get('instructions') as string) as string[];
     const videoUrl = formData.get('videoUrl') as string | null;
     const tiktokUrl = formData.get('tiktokUrl') as string | null;
     const dishType = formData.get('dishType') as string;
-    const file = formData.get('image');
+    const file = formData.get('image') as File | null;
     const privaterecipe = formData.get('privateRecipe') === 'true';
 
     if (!ingredients || ingredients.length === 0) {
@@ -129,25 +125,29 @@ export async function POST(request: Request) {
     let imageUrl: string | null = null;
 
     if (!privaterecipe) {
-      if (!file || typeof file !== 'object' || !('arrayBuffer' in file)) {
+      if (file == null) {
         return NextResponse.json({ error: "Зображення обов'язкове для публічних рецептів" }, { status: 400 });
       }
-      if (!['image/jpeg', 'image/png'].includes((file as any).type)) {
+
+      if (!['image/jpeg', 'image/png'].includes(file.type)) {
         return NextResponse.json({ error: 'Image must be JPG or PNG' }, { status: 400 });
       }
+
       try {
-        imageUrl = await saveImage(file as Blob);
-      } catch (e) {
-        return NextResponse.json({ error: (e as Error).message }, { status: 400 });
+        imageUrl = await saveImage(file);
+      } catch (e: any) {
+        return NextResponse.json({ error: e.message || 'Image processing failed' }, { status: 400 });
       }
-    } else if (file && typeof file === 'object' && 'arrayBuffer' in file) {
-      if (!['image/jpeg', 'image/png'].includes((file as any).type)) {
+
+    } else if (file) {
+      if (!['image/jpeg', 'image/png'].includes(file.type)) {
         return NextResponse.json({ error: 'Image must be JPG or PNG' }, { status: 400 });
       }
+
       try {
-        imageUrl = await saveImage(file as Blob);
-      } catch (e) {
-        return NextResponse.json({ error: (e as Error).message }, { status: 400 });
+        imageUrl = await saveImage(file);
+      } catch (e: any) {
+        return NextResponse.json({ error: e.message || 'Image processing failed' }, { status: 400 });
       }
     }
 
