@@ -2,13 +2,12 @@ import { prisma } from '@/app/lib/prisma';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
-interface UserPageProps {
-  params: { slug: string };
-}
+export type ParamsPromise = Promise<{ slug: string }>;
 
-export default async function UserPage({ params }: UserPageProps) {
+export default async function UserPage(props: { params: ParamsPromise }) {
+  const { slug } = await props.params;
   const user = await prisma.user.findUnique({
-    where: { slug: params.slug },
+    where: { slug: slug },
     include: {
       avatar: true,
       _count: {
