@@ -34,8 +34,6 @@ export default function CreateRecipePage() {
 
   const [privateRecipe, setPrivateRecipe] = useState<boolean | false>(false);
 
-
-
   const getTiktokEmbedUrl = (url: string): string => {
     try {
       const cleanUrl = url.split('?')[0];
@@ -54,9 +52,7 @@ export default function CreateRecipePage() {
   const [embedTiktok, setEmbedTiktok] = useState('');
   const [youtubeError, setYoutubeError] = useState('');
   const [tiktokError, setTiktokError] = useState('');
-  
 
- 
   useEffect(() => {
     if (!videoUrl) {
       setEmbedYoutube('');
@@ -91,10 +87,8 @@ export default function CreateRecipePage() {
       setTiktokError('❌ Невірне посилання на TikTok');
     }
   }, [tiktokUrl]);
-  
 
   useEffect(() => {
-
     const fetchDishTypes = async () => {
       try {
         const res = await fetch('/api/dishtypes');
@@ -128,30 +122,24 @@ export default function CreateRecipePage() {
     setIngredients(updated);
   };
 
-  const handleImageValidation = (file: File) => {
-    if (!['image/jpeg', 'image/png'].includes(file.type)) {
-      setMessage('❌ Лише JPG або PNG');
+  // --- ОНОВЛЕНА ВАЛІДАЦІЯ ТА ЗАВАНТАЖЕННЯ ЗОБРАЖЕННЯ ---
+  const handleImageValidation = async (file: File) => {
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      setMessage('❌ Лише JPG, PNG або WEBP');
       setImage(null);
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const img = new Image();
-      img.onload = () => {
-        if (img.width < 600 || img.height < 400) {
-          setMessage('❌ Мінімальні розміри — 600x400');
-          setImage(null);
-        } else {
-          setImage(file);
-          setMessage('');
-        }
-      };
-      if (typeof event.target?.result === 'string') {
-        img.src = event.target.result;
-      }
-    };
-    reader.readAsDataURL(file);
+    // Завантажуємо зображення у Image для перевірки розміру
+    const imageBitmap = await createImageBitmap(file);
+    if (imageBitmap.width < 600 || imageBitmap.height < 400) {
+      setMessage('❌ Мінімальні розміри — 600x400');
+      setImage(null);
+      return;
+    }
+
+    setImage(file);
+    setMessage('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -310,33 +298,31 @@ export default function CreateRecipePage() {
                     const updatedQueries = queryList.filter((_, i) => i !== idx);
                     setQueryList(updatedQueries);
                   }}
-                  className="btn btn-xs btn-error ml-2"
+                  className="btn btn-error btn-sm"
                 >
-                  🗑️
+                  Видалити
                 </button>
               )}
             </div>
           ))}
-
           <button
             type="button"
             onClick={() => {
-              setIngredients([...ingredients, { name: '', amount: '', unit: '' }]);
+              setIngredients([...ingredients, { name: '', amount: '', unit: '', toTaste: false }]);
               setQueryList([...queryList, '']);
             }}
-            className="btn btn-outline btn-sm"
+            className="btn btn-primary btn-sm"
           >
             Додати інгредієнт
           </button>
         </div>
 
-        {/* Кроки приготування */}
         <div>
           <h2 className="font-semibold mb-2">Кроки приготування</h2>
           {instructions.map((step, idx) => (
-            <div key={idx} className="flex items-start gap-2 mb-2">
+            <div key={idx} className="mb-2 flex gap-2 items-center">
               <textarea
-                placeholder={`Крок ${idx + 1}`}
+                rows={2}
                 value={step}
                 onChange={(e) => {
                   const updated = [...instructions];
@@ -346,16 +332,16 @@ export default function CreateRecipePage() {
                 className="textarea textarea-bordered w-full"
                 required
               />
-              {idx !== 0 && (
+              {instructions.length > 1 && (
                 <button
                   type="button"
                   onClick={() => {
                     const updated = instructions.filter((_, i) => i !== idx);
                     setInstructions(updated);
                   }}
-                  className="btn btn-xs btn-error"
+                  className="btn btn-error btn-sm"
                 >
-                  🗑️
+                  Видалити
                 </button>
               )}
             </div>
@@ -363,82 +349,84 @@ export default function CreateRecipePage() {
           <button
             type="button"
             onClick={() => setInstructions([...instructions, ''])}
-            className="btn btn-outline btn-sm"
+            className="btn btn-primary btn-sm"
           >
             Додати крок
           </button>
         </div>
 
-        {/* Фото рецепту */}
+        <div>
+          <h2 className="font-semibold mb-2">Відео з YouTube</h2>
+          <input
+            type="text"
+            placeholder="Посилання на YouTube"
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            className="input input-bordered w-full"
+          />
+          {youtubeError && <p className="text-error">{youtubeError}</p>}
+          {embedYoutube && (
+            <iframe
+              width="560"
+              height="315"
+              src={embedYoutube}
+              title="YouTube video player"
+              frameBorder="0"
+              allowFullScreen
+              className="mt-2 w-full aspect-video"
+            />
+          )}
+        </div>
+
+        <div>
+          <h2 className="font-semibold mb-2">Відео з TikTok</h2>
+          <input
+            type="text"
+            placeholder="Посилання на TikTok"
+            value={tiktokUrl}
+            onChange={(e) => setTiktokUrl(e.target.value)}
+            className="input input-bordered w-full"
+          />
+          {tiktokError && <p className="text-error">{tiktokError}</p>}
+          {embedTiktok && (
+            <iframe
+              src={embedTiktok}
+              title="TikTok video player"
+              frameBorder="0"
+              allowFullScreen
+              className="mt-2 w-full aspect-video"
+            />
+          )}
+        </div>
+
+        <div>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={privateRecipe}
+              onChange={(e) => setPrivateRecipe(e.target.checked)}
+              className="checkbox"
+            />
+            Приватний рецепт (не публікувати)
+          </label>
+        </div>
+
         <div>
           <h2 className="font-semibold mb-2">Фото рецепту</h2>
           <input
             type="file"
-            accept="image/webp,image/png,image/jpeg"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleImageValidation(file);
+            accept="image/jpeg,image/png,image/webp"
+            onChange={async (e) => {
+              if (!e.target.files || e.target.files.length === 0) return;
+              const file = e.target.files[0];
+              await handleImageValidation(file);
             }}
             className="file-input file-input-bordered w-full"
           />
         </div>
 
-        
-
-        {/* Відео */}
-        <input
-          type="url"
-          placeholder="YouTube відео (необов’язково)"
-          value={videoUrl}
-          onChange={(e) => setVideoUrl(e.target.value)}
-          className="input input-bordered w-full"
-        />
-
-        {youtubeError && (
-          <p className="text-red-600">{youtubeError}</p>
-        )}
-
-        {embedYoutube && (
-          <div className="aspect-video w-full my-4">
-            <iframe
-              className="w-full h-full rounded-lg"
-              src={embedYoutube}
-              allowFullScreen
-            ></iframe>
-          </div>
-        )}
-
-        <input
-          type="url"
-          placeholder="TikTok відео (необов’язково)"
-          value={tiktokUrl}
-          onChange={(e) => setTiktokUrl(e.target.value)}
-          className="input input-bordered w-full"
-        />
-        {tiktokError && <p className="text-red-600">{tiktokError}</p>}
-        {tiktokUrl && getTiktokEmbedUrl(tiktokUrl) && (
-        <iframe
-          src={getTiktokEmbedUrl(tiktokUrl)}
-          width="325"
-          height="575"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          className="border rounded-xl mt-2"
-        />
-        )}
-        <div className='mb-6'>
-          <label>
-            <input 
-            type="checkbox" 
-            className='toggle mr-3'
-            onChange={(e) => setPrivateRecipe(e.target.checked)} />
-            Приватний рецепт
-          </label>
-        </div>
-        
-        
         <button type="submit" className="btn btn-primary w-full">
-          Зберегти рецепт
+          Створити рецепт
         </button>
       </form>
 
