@@ -16,14 +16,13 @@ const Header: React.FC = () => {
     <header className="bg-orange-200 text-black p-4">
        <div className="flex justify-between items-center">
          <Link href="/" className="flex items-center gap-2">
-        <Image
+          <Image
             src="/Smakota.svg"
             alt="Smakota Logo"
-            width={160}  // вкажи потрібний розмір логотипу
+            width={160}  
             height={40}
             priority
           />
-          <span className="text-xl font-bold">Смакота</span>
         </Link>
         <nav>
           <ul className="flex space-x-4">
