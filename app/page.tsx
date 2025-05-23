@@ -2,6 +2,8 @@ import RecipeCard from "./components/RecipeCard";
 import prisma from "./lib/prisma";
 import RecipeSearchForm from "./components/SearchForm";
 
+export const dynamic = 'force-dynamic'; 
+
 export default async function HomePage() {
   const recipes = await prisma.recipe.findMany({
     where: {

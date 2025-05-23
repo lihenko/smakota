@@ -3,6 +3,9 @@ import prisma from "../../lib/prisma";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
+
+export const dynamic = 'force-dynamic'; 
+
 export default async function Page() {
   const unmoderatedComments = await prisma.comment.findMany({
     where: { moderated: false },

@@ -180,7 +180,8 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   balance: 'balance',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  slug: 'slug'
 };
 
 exports.Prisma.AvatarScalarFieldEnum = {

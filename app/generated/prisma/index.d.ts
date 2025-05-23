@@ -8770,6 +8770,7 @@ export namespace Prisma {
     balance: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    slug: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -8781,6 +8782,7 @@ export namespace Prisma {
     balance: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    slug: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -8792,6 +8794,7 @@ export namespace Prisma {
     balance: number
     createdAt: number
     updatedAt: number
+    slug: number
     _all: number
   }
 
@@ -8815,6 +8818,7 @@ export namespace Prisma {
     balance?: true
     createdAt?: true
     updatedAt?: true
+    slug?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -8826,6 +8830,7 @@ export namespace Prisma {
     balance?: true
     createdAt?: true
     updatedAt?: true
+    slug?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -8837,6 +8842,7 @@ export namespace Prisma {
     balance?: true
     createdAt?: true
     updatedAt?: true
+    slug?: true
     _all?: true
   }
 
@@ -8935,6 +8941,7 @@ export namespace Prisma {
     balance: number
     createdAt: Date
     updatedAt: Date
+    slug: string
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -8965,6 +8972,7 @@ export namespace Prisma {
     balance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    slug?: boolean
     avatar?: boolean | User$avatarArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     recipes?: boolean | User$recipesArgs<ExtArgs>
@@ -8981,6 +8989,7 @@ export namespace Prisma {
     balance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    slug?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8992,6 +9001,7 @@ export namespace Prisma {
     balance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    slug?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -9003,9 +9013,10 @@ export namespace Prisma {
     balance?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    slug?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "balance" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "balance" | "createdAt" | "updatedAt" | "slug", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     avatar?: boolean | User$avatarArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
@@ -9033,6 +9044,7 @@ export namespace Prisma {
       balance: number
       createdAt: Date
       updatedAt: Date
+      slug: string
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -9468,6 +9480,7 @@ export namespace Prisma {
     readonly balance: FieldRef<"User", 'Float'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly slug: FieldRef<"User", 'String'>
   }
     
 
@@ -13457,7 +13470,8 @@ export namespace Prisma {
     role: 'role',
     balance: 'balance',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    slug: 'slug'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -14000,6 +14014,7 @@ export namespace Prisma {
     balance?: FloatFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    slug?: StringFilter<"User"> | string
     avatar?: XOR<AvatarNullableScalarRelationFilter, AvatarWhereInput> | null
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     recipes?: RecipeListRelationFilter
@@ -14015,6 +14030,7 @@ export namespace Prisma {
     balance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    slug?: SortOrder
     avatar?: AvatarOrderByWithRelationInput
     passwordResetTokens?: PasswordResetTokenOrderByRelationAggregateInput
     recipes?: RecipeOrderByRelationAggregateInput
@@ -14024,6 +14040,7 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     email?: string
+    slug?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -14037,7 +14054,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     recipes?: RecipeListRelationFilter
     comments?: CommentListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "slug">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -14048,6 +14065,7 @@ export namespace Prisma {
     balance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    slug?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -14067,6 +14085,7 @@ export namespace Prisma {
     balance?: FloatWithAggregatesFilter<"User"> | number
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    slug?: StringWithAggregatesFilter<"User"> | string
   }
 
   export type AvatarWhereInput = {
@@ -14636,6 +14655,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     avatar?: AvatarCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
@@ -14651,6 +14671,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     avatar?: AvatarUncheckedCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
@@ -14665,6 +14686,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     avatar?: AvatarUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
@@ -14680,6 +14702,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     avatar?: AvatarUncheckedUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
@@ -14695,6 +14718,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -14705,6 +14729,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -14716,6 +14741,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
   }
 
   export type AvatarCreateInput = {
@@ -15423,6 +15449,7 @@ export namespace Prisma {
     balance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    slug?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -15439,6 +15466,7 @@ export namespace Prisma {
     balance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    slug?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -15450,6 +15478,7 @@ export namespace Prisma {
     balance?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    slug?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -16807,6 +16836,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     avatar?: AvatarCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
@@ -16821,6 +16851,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     avatar?: AvatarUncheckedCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
@@ -16956,6 +16987,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     avatar?: AvatarUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
@@ -16970,6 +17002,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     avatar?: AvatarUncheckedUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -17398,6 +17431,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
@@ -17412,6 +17446,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
@@ -17441,6 +17476,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
@@ -17455,6 +17491,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -17468,6 +17505,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     avatar?: AvatarCreateNestedOneWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
@@ -17482,6 +17520,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     avatar?: AvatarUncheckedCreateNestedOneWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
@@ -17511,6 +17550,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     avatar?: AvatarUpdateOneWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
@@ -17525,6 +17565,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     avatar?: AvatarUncheckedUpdateOneWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -17580,6 +17621,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     avatar?: AvatarCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
@@ -17594,6 +17636,7 @@ export namespace Prisma {
     balance: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    slug: string
     avatar?: AvatarUncheckedCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
@@ -17728,6 +17771,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     avatar?: AvatarUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
@@ -17742,6 +17786,7 @@ export namespace Prisma {
     balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
     avatar?: AvatarUncheckedUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput

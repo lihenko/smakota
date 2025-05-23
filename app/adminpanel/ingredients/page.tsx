@@ -3,6 +3,8 @@ import prisma from "../../lib/prisma";
 import { revalidatePath } from 'next/cache'; // щоб оновлювалось після змін
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic'; 
+
 export default async function Page() {
   const unmoderatedIngredients = await prisma.ingredient.findMany({
     where: { moderated: false },
