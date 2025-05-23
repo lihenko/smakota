@@ -73,6 +73,12 @@ export default function Dashboard({ currentUser }: DashboardProps) {
   const deleteAvatar = async () => {
     if (!confirm('Видалити аватар?')) return;
 
+    if (!currentUser?.id) {
+      alert('Користувач не авторизований');
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
     try {
       const res = await fetch('/api/delete-avatar', {
@@ -140,7 +146,6 @@ export default function Dashboard({ currentUser }: DashboardProps) {
         <div>
           <p onClick={() => setIsEditingName(true)} className="cursor-pointer">Імʼя: {newName}</p>
           <p>Email: {currentUser?.email}</p>
-          <p>Баланс: {currentUser?.balance} грн</p>
           <button className="btn btn-neutral mt-2" onClick={() => setIsEditingName(true)}>Змінити імʼя</button>
           <button className="btn btn-neutral mt-2" onClick={() => setIsChangingPassword(true)}>Змінити пароль</button>
         </div>
