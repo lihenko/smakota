@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className="bg-orange-200 text-black p-4">
+    <header className="bg-[#eadcc7] text-black p-4">
        <div className="flex justify-between items-center">
          <Link href="/" className="flex items-center gap-2">
           <Image
