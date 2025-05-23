@@ -35,7 +35,7 @@ const UsersPage: React.FC = () => {
           {users.map((user) => (
             <Link
               key={user.id}
-              href={`/user/${user.slug}`}
+              href={`/users/${user.slug}`}
               className="block text-center hover:shadow-lg rounded-lg p-4 border"
             >
               <div className="w-24 h-24 mx-auto mb-2 relative rounded-full overflow-hidden bg-gray-100">
