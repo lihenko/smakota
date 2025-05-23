@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAuthSync } from '@/hooks/useAuthSync';
 import { logout } from '@/utils/logout';
+import Image from 'next/image';
 
 const Header: React.FC = () => {
   const isLoggedIn = useAuthSync();
@@ -14,7 +15,16 @@ const Header: React.FC = () => {
   return (
     <header className="bg-orange-200 text-black p-4">
        <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold">Смакота</h1>
+         <Link href="/" className="flex items-center gap-2">
+        <Image
+            src="/Smakota.svg"
+            alt="Smakota Logo"
+            width={160}  // вкажи потрібний розмір логотипу
+            height={40}
+            priority
+          />
+          <span className="text-xl font-bold">Смакота</span>
+        </Link>
         <nav>
           <ul className="flex space-x-4">
             <li>
