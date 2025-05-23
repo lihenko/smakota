@@ -3,6 +3,8 @@ import prisma from '../../lib/prisma';
 import RecipeForm from './RecipeForm';
 import { handleSubmit, handleDelete } from './actions';
 
+export const dynamic = 'force-dynamic'; 
+
 export default async function AdminRecipesPage() {
   const recipes = await prisma.recipe.findMany({
     where: { moderated: false },
