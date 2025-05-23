@@ -1,7 +1,5 @@
 // app/api/delete-avatar/route.ts
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import prisma from '../../lib/prisma';
 
 export async function DELETE(req: Request) {
@@ -12,29 +10,28 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: 'Request body is missing.' }, { status: 400 });
     }
 
-    const { avatarUrl } = JSON.parse(body);
+    const { avatarUrl, userId } = JSON.parse(body);
 
     if (!avatarUrl) {
       return NextResponse.json({ error: 'Avatar URL is required.' }, { status: 400 });
     }
 
-    // Перевіряємо, чи це дефолтний аватар
+    if (!userId) {
+      return NextResponse.json({ error: 'User ID is required.' }, { status: 400 });
+    }
+
+    // Якщо дефолтний аватар — нічого не робимо
     if (avatarUrl.includes('/avatars/default-avatar.webp')) {
       return NextResponse.json({ message: 'Default avatar, no action needed.' });
     }
 
-    // Шлях до файлу
-    const avatarFilename = avatarUrl.split('/avatars/')[1];
-    const avatarPath = path.join(process.cwd(), 'public', 'avatars', avatarFilename);
-
-    // Видаляємо файл, якщо існує
-    if (fs.existsSync(avatarPath)) {
-      fs.unlinkSync(avatarPath);
-    }
-
-    // Видаляємо запис у базі даних за avatarUrl
+    // Тут НЕ чіпаємо локальні файли, бо працюємо з @vercel/blob
+    // Просто видаляємо запис у базі, щоб перестати показувати цей аватар
     await prisma.avatar.deleteMany({
-      where: { avatarUrl },
+      where: {
+        userId: Number(userId),
+        avatarUrl,
+      },
     });
 
     return NextResponse.json({ message: 'Avatar deleted successfully.' });

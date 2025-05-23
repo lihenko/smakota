@@ -1,99 +1,51 @@
 import { NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs';
 import sharp from 'sharp';
 import { cookies } from 'next/headers';
 import * as jose from 'jose';
-import prisma from "../../lib/prisma";
+import prisma from '../../lib/prisma';
+import { put } from '@vercel/blob';
 
 export const config = {
-  api: {
-    bodyParser: false, // Вимикаємо автоматичний парсер тіла запиту
-  },
+  api: { bodyParser: false },
 };
 
 export async function POST(req: Request) {
-
   const cookie = (await cookies()).get('Authorization');
-  if (!cookie) {
-    return NextResponse.json({ error: 'Missing JWT token' }, { status: 401 }); 
-  }
-  
+  if (!cookie) return NextResponse.json({ error: 'No token' }, { status: 401 });
+
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-  const jwt = cookie.value;
-
-  let CurrentUserId: string;
-
+  let userId: number;
   try {
-    const { payload } = await jose.jwtVerify(jwt, secret, {});
-    CurrentUserId = payload.sub as string;
-  } catch (error) {
-    console.error('Failed to verify JWT:', error);
-    return NextResponse.json({ error: 'Invalid JWT token' }, { status: 401 });
+    const { payload } = await jose.jwtVerify(cookie.value, secret);
+    userId = Number(payload.sub);
+  } catch {
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
 
-  try {
-    // Створюємо форму для завантаження
-    const formData = await req.formData();
-    const file = formData.get('avatar') as File;
+  const formData = await req.formData();
+  const file = formData.get('avatar') as File | null;
+  if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 });
 
-    if (!file) {
-      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
-    }
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const webpBuffer = await sharp(buffer)
+    .resize(200, 200, { fit: 'cover' })
+    .webp({ quality: 80 })
+    .toBuffer();
 
-    // Створюємо шлях до збереження аватара в окремій папці
-    const avatarsDir = path.join(process.cwd(), 'public', 'avatars'); // Нова папка для аватарів
+  // Конвертуємо Node Buffer у Uint8Array для File constructor
+  const uint8Array = new Uint8Array(webpBuffer);
+  const blobFile = new File([uint8Array], `${Date.now()}.webp`, { type: 'image/webp' });
 
-    // Перевіряємо, чи існує папка, і якщо ні - створюємо її
-    if (!fs.existsSync(avatarsDir)) {
-      fs.mkdirSync(avatarsDir, { recursive: true });
-    }
+  const uploaded = await put(`avatars/${blobFile.name}`, blobFile, { access: 'public' });
 
-    // Отримуємо ім'я файлу і створюємо унікальний шлях
-    const outputFilePath = path.join(avatarsDir, `${Date.now()}.webp`);
+  const avatarUrl = uploaded.url;
 
-    // Перекодовуємо файл у WebP за допомогою sharp
-    const buffer = Buffer.from(await file.arrayBuffer());
-    await sharp(buffer)
-      .resize(200, 200, { // Змінюємо розмір до 300x300 px
-        fit: 'cover', // Обрізаємо по центру
-      })
-      .webp({ quality: 80 })
-      .toFile(outputFilePath);
-
-    // Повертаємо URL до WebP файлу
-    const avatarUrl = `/avatars/${path.basename(outputFilePath)}`;
-
-    // Перевірка, чи є вже аватар для користувача в базі даних
-    const existingAvatar = await prisma.avatar.findFirst({
-      where: { userId: parseInt(CurrentUserId) }, // Замінили findUnique на findFirst для пошуку за userId
-    });
-
-    if (existingAvatar) {
-      // Видаляємо старий файл аватара
-      const oldAvatarPath = path.join(process.cwd(), 'public', existingAvatar.avatarUrl);
-      if (fs.existsSync(oldAvatarPath)) {
-        fs.unlinkSync(oldAvatarPath);
-      }
-    
-      // Оновлюємо URL в базі даних
-      await prisma.avatar.update({
-        where: { id: existingAvatar.id },
-        data: { avatarUrl },
-      });
-    } else {
-      // Якщо аватара немає, створюємо новий запис
-      await prisma.avatar.create({
-        data: {
-          userId: parseInt(CurrentUserId),
-          avatarUrl,
-        },
-      });
-    }
-
-    return NextResponse.json({ avatarUrl });
-  } catch (error) {
-    console.error('Error processing image:', error);
-    return NextResponse.json({ error: 'Failed to process image' }, { status: 500 });
+  const existing = await prisma.avatar.findFirst({ where: { userId } });
+  if (existing) {
+    await prisma.avatar.update({ where: { id: existing.id }, data: { avatarUrl } });
+  } else {
+    await prisma.avatar.create({ data: { userId, avatarUrl } });
   }
+
+  return NextResponse.json({ avatarUrl });
 }
