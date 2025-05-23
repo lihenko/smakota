@@ -6,6 +6,7 @@ export type ParamsPromise = Promise<{ slug: string }>;
 
 export default async function UserPage(props: { params: ParamsPromise }) {
   const { slug } = await props.params;
+  const DEFAULT_AVATAR = '/avatars/default-avatar.webp';
   const user = await prisma.user.findUnique({
     where: { slug: slug },
     include: {
@@ -27,18 +28,12 @@ export default async function UserPage(props: { params: ParamsPromise }) {
             <div className="max-w-3xl mx-auto p-4 flex items-center gap-6 bg-white shadow rounded-lg">
                 {/* Аватар зліва */}
                 <div className="w-32 h-32 relative rounded-full overflow-hidden">
-                    {user.avatar?.avatarUrl ? (
                     <Image
-                        src={user.avatar.avatarUrl}
+                        src={user.avatar?.avatarUrl || DEFAULT_AVATAR }
                         alt="Аватар"
                         fill
                         className="object-cover"
                     />
-                    ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-                        Немає аватара
-                    </div>
-                    )}
                 </div>
 
                 {/* Статистика справа */}

@@ -16,6 +16,8 @@ interface User {
 const UsersPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
 
+  const DEFAULT_AVATAR = '/avatars/default-avatar.webp';
+
   useEffect(() => {
     const fetchUsers = async () => {
       const res = await fetch('/api/users');
@@ -41,7 +43,7 @@ const UsersPage: React.FC = () => {
               <div className="w-24 h-24 mx-auto mb-2 relative rounded-full overflow-hidden bg-gray-100">
                 {user.avatar?.avatarUrl ? (
                   <Image
-                    src={user.avatar.avatarUrl}
+                    src={user.avatar.avatarUrl || DEFAULT_AVATAR }
                     alt={`${user.name} avatar`}
                     fill
                     className="object-cover"
