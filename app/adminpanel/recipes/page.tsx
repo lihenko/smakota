@@ -1,5 +1,3 @@
-'use client';
-
 import AdminMenu from '../AdminMenu';
 import prisma from '../../lib/prisma';
 import RecipeForm from './RecipeForm';
