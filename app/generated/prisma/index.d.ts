@@ -70,6 +70,7 @@ export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
 export namespace $Enums {
   export const Role: {
   user: 'user',
+  moderator: 'moderator',
   admin: 'admin'
 };
 

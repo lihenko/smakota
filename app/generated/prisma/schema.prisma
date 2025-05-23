@@ -123,5 +123,6 @@ model Comment {
 
 enum Role {
   user
+  moderator
   admin
 }
