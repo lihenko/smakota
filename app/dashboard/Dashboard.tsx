@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { User } from '../generated/prisma';
 import { logout } from '@/utils/logout';
@@ -20,7 +21,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
     }
   }, [currentUser, router]);
 
-  const [avatarUrl, setAvatarUrl] = useState(currentUser?.avatar?.avatarUrl || null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(currentUser?.avatar?.avatarUrl || null);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -42,13 +43,18 @@ export default function Dashboard({ currentUser }: DashboardProps) {
 
     if (file.size > 5 * 1024 * 1024) return alert('Розмір файлу не повинен перевищувати 5MB');
 
-    const img = new Image();
+    const img = new window.Image();
     img.onload = () => {
       if (img.width < 200 || img.height < 200) {
         alert('Зображення має бути мінімум 200x200');
       } else {
         uploadAvatar(file);
       }
+      URL.revokeObjectURL(img.src); // чистимо Blob URL
+    };
+    img.onerror = () => {
+      alert('Не вдалося завантажити зображення');
+      URL.revokeObjectURL(img.src);
     };
     img.src = URL.createObjectURL(file);
   };
@@ -75,7 +81,6 @@ export default function Dashboard({ currentUser }: DashboardProps) {
 
     if (!currentUser?.id) {
       alert('Користувач не авторизований');
-      setIsLoading(false);
       return;
     }
 
@@ -84,9 +89,9 @@ export default function Dashboard({ currentUser }: DashboardProps) {
       const res = await fetch('/api/delete-avatar', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ avatarUrl: displayedAvatarUrl, userId: currentUser?.id,}),
+        body: JSON.stringify({ avatarUrl: displayedAvatarUrl, userId: currentUser?.id }),
       });
-      if (res.ok) setAvatarUrl(DEFAULT_AVATAR);
+      if (res.ok) setAvatarUrl(null);
       else alert('Не вдалося видалити аватар');
     } catch {
       alert('Сталася помилка');
@@ -144,26 +149,39 @@ export default function Dashboard({ currentUser }: DashboardProps) {
     <div className="py-16 container">
       <div className="mb-6">
         <div>
-          <p onClick={() => setIsEditingName(true)} className="cursor-pointer">Імʼя: {newName}</p>
+          <p onClick={() => setIsEditingName(true)} className="cursor-pointer">
+            Імʼя: {newName}
+          </p>
           <p>Email: {currentUser?.email}</p>
-          <button className="btn btn-neutral mt-2" onClick={() => setIsEditingName(true)}>Змінити імʼя</button>
-          <button className="btn btn-neutral mt-2" onClick={() => setIsChangingPassword(true)}>Змінити пароль</button>
+          <button className="btn btn-neutral mt-2" onClick={() => setIsEditingName(true)}>
+            Змінити імʼя
+          </button>
+          <button className="btn btn-neutral mt-2" onClick={() => setIsChangingPassword(true)}>
+            Змінити пароль
+          </button>
         </div>
       </div>
 
       {/* Аватар */}
-      <div onClick={() => !isLoading && fileInputRef.current?.click()} className="cursor-pointer inline-block opacity-100">
+      <div
+        onClick={() => !isLoading && fileInputRef.current?.click()}
+        className="cursor-pointer inline-block opacity-100"
+      >
         <h3>Ваш аватар:</h3>
-        <img src={displayedAvatarUrl} alt="Avatar" className="w-[100px] h-[100px] rounded-full object-cover" />
+        <Image
+          src={displayedAvatarUrl}
+          alt="Avatar"
+          width={100}
+          height={100}
+          className="rounded-full object-cover mb-1"
+          unoptimized={displayedAvatarUrl.startsWith('blob:')} // щоб дозволити відображення Blob URL без оптимізації Next.js
+          priority
+        />
         <p className="text-sm text-center">Змінити аватар</p>
       </div>
 
       {displayedAvatarUrl !== DEFAULT_AVATAR && (
-        <button
-          className="btn btn-error mt-2"
-          onClick={deleteAvatar}
-          disabled={isLoading}
-        >
+        <button className="btn btn-error mt-2" onClick={deleteAvatar} disabled={isLoading}>
           {isLoading ? '...' : 'Видалити аватар'}
         </button>
       )}
@@ -183,8 +201,12 @@ export default function Dashboard({ currentUser }: DashboardProps) {
               placeholder="Нове імʼя"
             />
             <div className="modal-action">
-              <button className="btn btn-primary" onClick={handleNameSubmit}>Зберегти</button>
-              <button className="btn" onClick={() => setIsEditingName(false)}>Скасувати</button>
+              <button className="btn btn-primary" onClick={handleNameSubmit}>
+                Зберегти
+              </button>
+              <button className="btn" onClick={() => setIsEditingName(false)}>
+                Скасувати
+              </button>
             </div>
           </div>
         </dialog>
@@ -219,8 +241,12 @@ export default function Dashboard({ currentUser }: DashboardProps) {
               className="input input-bordered w-full my-2"
             />
             <div className="modal-action">
-              <button className="btn btn-primary" onClick={handlePasswordSubmit}>Зберегти</button>
-              <button className="btn" onClick={() => setIsChangingPassword(false)}>Скасувати</button>
+              <button className="btn btn-primary" onClick={handlePasswordSubmit}>
+                Зберегти
+              </button>
+              <button className="btn" onClick={() => setIsChangingPassword(false)}>
+                Скасувати
+              </button>
             </div>
           </div>
         </dialog>

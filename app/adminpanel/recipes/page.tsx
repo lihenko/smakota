@@ -1,9 +1,11 @@
+// app/adminpanel/recipes/page.tsx
+'use client';
+
 import AdminMenu from '../AdminMenu';
 import { revalidatePath } from 'next/cache';
 import prisma from '../../lib/prisma';
 import RecipeForm from './RecipeForm';
-import { unlink } from 'fs/promises';
-import path from 'path';
+import { del } from '@vercel/blob';
 import { RecipeIngredient, Instruction } from '../../generated/prisma/client';
 
 export const dynamic = 'force-dynamic';
@@ -136,12 +138,11 @@ export default async function AdminRecipesPage() {
       select: { imageUrl: true },
     });
 
-    if (recipe?.imageUrl) {
-      const filePath = path.join(process.cwd(), 'public', recipe.imageUrl);
+    if (recipe?.imageUrl && !recipe.imageUrl.includes('/recipes/default.webp')) {
       try {
-        await unlink(filePath);
+        await del(recipe.imageUrl);
       } catch (err) {
-        console.error('Помилка при видаленні зображення:', err);
+        console.error('Помилка при видаленні зображення з blob:', err);
       }
     }
 

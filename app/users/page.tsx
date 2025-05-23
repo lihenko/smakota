@@ -23,7 +23,7 @@ const UsersPage: React.FC = () => {
 
   return (
     <>
-     <section>
+     <section className='py-16'>
       <div className="container">
         <h1 className='text-center text-2xl font-bold mb-4'>Наші кулінари</h1>
         <ul>
