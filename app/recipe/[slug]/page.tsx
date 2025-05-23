@@ -105,7 +105,7 @@ export default async function RecipePage(props: { params: ParamsPromise }) {
                 alt={recipe.title}
                 width={800} // або відповідна ширина
                 height={600} // або відповідна висота
-                className="w-full h-auto mb-6 object-cover"
+                className="mb-6"
                 priority
               />
 
