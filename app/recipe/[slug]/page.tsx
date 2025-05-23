@@ -103,8 +103,8 @@ export default async function RecipePage(props: { params: ParamsPromise }) {
               <Image
                 src={recipe.imageUrl || "/recipes/placeholder.webp"}
                 alt={recipe.title}
-                width={800} // або відповідна ширина
-                height={600} // або відповідна висота
+                width={600} // або відповідна ширина
+                height={400} // або відповідна висота
                 className="mb-6"
                 priority
               />
