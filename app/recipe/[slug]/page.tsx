@@ -7,6 +7,7 @@ import Link from 'next/link';
 import StarDisplay from "../../components/StarDisplay";
 import ReplyFormToggle from "@/app/components/ReplyFormToggle";
 import styles from '../../components/RecipeCard.module.css';
+import Image from "next/image";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 
@@ -99,11 +100,15 @@ export default async function RecipePage(props: { params: ParamsPromise }) {
             </p>
 
             <div className="relative rounded-xl overflow-hidden">
-              <img
+              <Image
                 src={recipe.imageUrl || "/recipes/placeholder.webp"}
                 alt={recipe.title}
-                className="w-full h-auto mb-6"
+                width={800} // або відповідна ширина
+                height={600} // або відповідна висота
+                className="w-full h-auto mb-6 object-cover"
+                priority
               />
+
               {recipe.privaterecipe && (
                 <span className={styles.recipelabel}>
                   Приватний
