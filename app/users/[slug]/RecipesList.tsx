@@ -26,6 +26,7 @@ export default function RecipesList({ slug }: RecipesListProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
   const limit = 3;
 
   const fetchRecipes = async (page: number) => {
@@ -33,17 +34,17 @@ export default function RecipesList({ slug }: RecipesListProps) {
     const res = await fetch(`/api/users/${slug}/recipes?page=${page}`);
     const data = await res.json();
 
-    if (Array.isArray(data)) {
-      // Фільтруємо тільки модераційні рецепти
-      const filteredData = data.filter((r: any) => r.moderated === true);
-
-      const processedData = filteredData.map((recipe: any) => ({
+    // data має вигляд { recipes: Recipe[], totalCount: number }
+    if (data && Array.isArray(data.recipes)) {
+      const processedData = data.recipes.map((recipe: any) => ({
         ...recipe,
         createdAt: new Date(recipe.createdAt),
       }));
 
       if (page === 0) setRecipes(processedData);
       else setRecipes((prev) => [...prev, ...processedData]);
+
+      setTotalCount(data.totalCount ?? 0);
     }
     setLoading(false);
   };
@@ -59,7 +60,6 @@ export default function RecipesList({ slug }: RecipesListProps) {
     fetchRecipes(nextPage);
   };
 
-  // Якщо немає рецептів і не йде завантаження — не рендеримо секцію
   if (!loading && recipes.length === 0) {
     return null;
   }
@@ -76,7 +76,7 @@ export default function RecipesList({ slug }: RecipesListProps) {
 
         {loading && <p>Завантаження...</p>}
 
-        {!loading && recipes.length >= (page + 1) * limit && (
+        {!loading && recipes.length < totalCount && (
           <button onClick={loadMore} className="btn btn-primary mt-4">
             Завантажити ще
           </button>

@@ -22,7 +22,12 @@ export async function GET(
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
 
-  // Вибірка коментарів користувача з пагінацією + додавання інформації про страву
+  // Загальна кількість коментарів користувача
+  const totalCount = await prisma.comment.count({
+    where: { userId: user.id },
+  });
+
+  // Вибірка коментарів користувача з пагінацією + інформація про страву
   const comments = await prisma.comment.findMany({
     where: { userId: user.id },
     skip: page * limit,
@@ -39,5 +44,5 @@ export async function GET(
     },
   });
 
-  return NextResponse.json(comments);
+  return NextResponse.json({ comments, totalCount });
 }

@@ -2,16 +2,22 @@
 import useSWR from 'swr';
 import { useState } from 'react';
 import Link from 'next/link';
-import StarDisplay from '@/app/components/StarDisplay'; // Припустимо, у тебе є цей компонент
+import StarDisplay from '@/app/components/StarDisplay';
 
 export default function CommentsList({ slug }: { slug: string }) {
   const [page, setPage] = useState(0);
   const LIMIT = 9;
 
-  const { data: comments = [], isLoading, mutate } = useSWR(
+  const fetcher = (url: string) => fetch(url).then(res => res.json());
+
+  const { data, isLoading } = useSWR(
     `/api/users/${slug}/comments?page=${page}`,
-    (url) => fetch(url).then((res) => res.json())
+    fetcher
   );
+
+  // Деструктуризуємо дані: масив коментарів і загальну кількість
+  const comments = data?.comments ?? [];
+  const totalCount = data?.totalCount ?? 0;
 
   if (!isLoading && comments.length === 0) {
     return null;
@@ -39,7 +45,8 @@ export default function CommentsList({ slug }: { slug: string }) {
           ))}
         </ul>
 
-        {comments.length === LIMIT && (
+        {/* Показуємо кнопку, якщо ще є коментарі для завантаження */}
+        {!isLoading && comments.length < totalCount && (
           <button onClick={() => setPage(page + 1)} className="mt-4 btn">
             Завантажити ще
           </button>

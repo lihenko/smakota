@@ -22,11 +22,19 @@ export async function GET(
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
 
-  // Вибірка **тільки модераованих** рецептів користувача з пагінацією
+  // Порахувати загальну кількість модераованих рецептів користувача
+  const totalCount = await prisma.recipe.count({
+    where: {
+      userId: user.id,
+      moderated: true,
+    },
+  });
+
+  // Вибірка лише модераованих рецептів користувача з пагінацією
   const recipes = await prisma.recipe.findMany({
     where: {
       userId: user.id,
-      moderated: true,  // Ось фільтр
+      moderated: true,
     },
     skip: page * limit,
     take: limit,
@@ -49,5 +57,5 @@ export async function GET(
     },
   });
 
-  return NextResponse.json(recipes);
+  return NextResponse.json({ recipes, totalCount });
 }
