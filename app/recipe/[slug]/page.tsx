@@ -64,6 +64,7 @@ export default async function RecipePage(props: { params: ParamsPromise }) {
   if (!isOwner && (recipe.privaterecipe || !recipe.moderated)) {
     notFound();
   }
+  
 
   const allowComments = recipe.moderated && !recipe.privaterecipe;
 
@@ -88,6 +89,71 @@ export default async function RecipePage(props: { params: ParamsPromise }) {
 
   const createdDate = new Date(recipe.createdAt);
   const formattedDate = `${createdDate.getDate().toString().padStart(2, "0")}.${(createdDate.getMonth()+1).toString().padStart(2, "0")}.${createdDate.getFullYear()}`;
+
+  const ratings = comments
+  .map(c => c.rating)
+  .filter((r): r is number => typeof r === 'number');
+
+const averageRating = ratings.length
+  ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1)
+  : undefined;
+
+const reviewCount = ratings.length;
+
+function generateDescription(recipe: { title: any; ingredients: any[]; }): string {
+  const title = recipe.title;
+  const ingredientNames = recipe.ingredients
+    .map(i => i.ingredient.name)
+    .slice(0, 3)
+    .join(", ");
+
+  const base = `Дізнайтеся, як приготувати ${title.toLowerCase()}`;
+
+  const withIngredients = ingredientNames
+    ? ` з інгредієнтами: ${ingredientNames}`
+    : "";
+
+  return `${base}${withIngredients}. Смачний покроковий рецепт з фото та відео.`;
+}
+
+
+  const recipeSchema = {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": recipe.title,
+    "author": {
+      "@type": "Person",
+      "name": recipe.user.name,
+    },
+    "datePublished": recipe.createdAt.toISOString(),
+    "description": generateDescription(recipe),
+    "image": recipe.imageUrl || "/recipes/placeholder.webp",
+    "recipeIngredient": recipe.ingredients.map((item) => {
+      const amount = item.toTaste ? 'за смаком' : `${item.amount ?? ''} ${item.unit?.name ?? ''}`;
+      return `${item.ingredient.name} ${amount}`.trim();
+    }),
+    "recipeInstructions": recipe.instructions.map(step => ({
+      "@type": "HowToStep",
+      "text": step.step,
+    })),
+    ...(recipe.videoUrl && {
+      "video": {
+        "@type": "VideoObject",
+        "name": recipe.title,
+        "contentUrl": recipe.videoUrl,
+        "thumbnailUrl": recipe.imageUrl || "/recipes/placeholder.webp",
+        "uploadDate": recipe.createdAt.toISOString(),
+      }
+    }),
+    ...(averageRating && reviewCount > 0 && {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": averageRating,
+        "reviewCount": reviewCount.toString(),
+      }
+    })
+  };
+
 
   return (
     <main className="py-16">
@@ -228,6 +294,9 @@ export default async function RecipePage(props: { params: ParamsPromise }) {
         </div>
 
       </div>
+      <script type="application/ld+json" suppressHydrationWarning>
+        {JSON.stringify(recipeSchema)}
+      </script>
     </main>
   );
 }
