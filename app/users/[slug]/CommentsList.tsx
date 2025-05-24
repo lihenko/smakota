@@ -75,12 +75,6 @@ export default function CommentsList({ slug }: { slug: string }) {
           ))}
         </ul>
 
-        {/* JSON-LD schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-
         {!isLoading && comments.length < totalCount && (
           <div className="text-center">
             <button onClick={() => setPage(page + 1)} className="mt-4 btn">

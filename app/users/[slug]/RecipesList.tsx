@@ -99,11 +99,6 @@ export default function RecipesList({ slug }: RecipesListProps) {
           ))}
         </div>
 
-        {/* JSON-LD Schema for SEO */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
 
         {loading && <p>Завантаження...</p>}
 
