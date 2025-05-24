@@ -12,7 +12,11 @@ export default function CommentsList({ slug }: { slug: string }) {
 
   const { data, isLoading } = useSWR(
     `/api/users/${slug}/comments?page=${page}`,
-    fetcher
+    fetcher,
+    {
+        revalidateOnFocus: false,
+        refreshInterval: 0, // <-- вимикає автоматичні оновлення
+    }
   );
 
   // Деструктуризуємо дані: масив коментарів і загальну кількість
@@ -47,9 +51,12 @@ export default function CommentsList({ slug }: { slug: string }) {
 
         {/* Показуємо кнопку, якщо ще є коментарі для завантаження */}
         {!isLoading && comments.length < totalCount && (
-          <button onClick={() => setPage(page + 1)} className="mt-4 btn">
-            Завантажити ще
-          </button>
+            <div className="text-center">
+                <button onClick={() => setPage(page + 1)} className="mt-4 btn">
+                    Завантажити ще
+                </button>
+            </div>
+          
         )}
 
         {isLoading && <p>Завантаження...</p>}

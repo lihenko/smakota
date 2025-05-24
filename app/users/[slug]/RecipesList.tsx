@@ -77,9 +77,12 @@ export default function RecipesList({ slug }: RecipesListProps) {
         {loading && <p>Завантаження...</p>}
 
         {!loading && recipes.length < totalCount && (
-          <button onClick={loadMore} className="btn btn-primary mt-4">
-            Завантажити ще
-          </button>
+            <div className="text-center">
+                <button onClick={loadMore} className="btn btn-primary mt-4">
+                    Завантажити ще
+                </button>
+            </div>
+          
         )}
       </div>
     </section>

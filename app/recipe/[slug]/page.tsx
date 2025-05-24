@@ -99,13 +99,13 @@ export default async function RecipePage(props: { params: ParamsPromise }) {
               Автор: {recipe.user.name} • {formattedDate}
             </p>
 
-            <div className="relative rounded-xl overflow-hidden">
+            <div className="relative overflow-hidden">
               <Image
                 src={recipe.imageUrl || "/recipes/placeholder.webp"}
                 alt={recipe.title}
                 width={600} // або відповідна ширина
                 height={400} // або відповідна висота
-                className="mb-6"
+                className="mb-6 rounded-t-xl"
                 priority
               />
 
