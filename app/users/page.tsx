@@ -33,10 +33,13 @@ const UsersPage: React.FC = () => {
   "@type": "ItemList",
   "name": "Автори рецептів",
   "itemListElement": users.map((user, index) => ({
-    "@type": "Person",
-    "name": user.name,
-    "url": `/users/${user.slug}`, 
-    "position": index + 1
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "Person",
+      "name": user.name,
+      "url": `/users/${user.slug}`
+    }
   }))
 };
 
