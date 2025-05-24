@@ -28,7 +28,21 @@ const UsersPage: React.FC = () => {
     fetchUsers();
   }, []);
 
+  const userListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Автори рецептів",
+  "itemListElement": users.map((user, index) => ({
+    "@type": "Person",
+    "name": user.name,
+    "url": `/users/${user.slug}`, 
+    "position": index + 1
+  }))
+};
+
+
   return (
+    <main>
     <section className="py-16">
       <div className="container mx-auto px-4">
         <h1 className="text-center text-2xl font-bold mb-8">Наші кулінари</h1>
@@ -60,6 +74,11 @@ const UsersPage: React.FC = () => {
         </div>
       </div>
     </section>
+    <script type="application/ld+json">
+      {JSON.stringify(userListSchema)}
+    </script>
+
+    </main>
   );
 };
 
