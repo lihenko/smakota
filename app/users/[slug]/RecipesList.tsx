@@ -34,7 +34,6 @@ export default function RecipesList({ slug }: RecipesListProps) {
     const res = await fetch(`/api/users/${slug}/recipes?page=${page}`);
     const data = await res.json();
 
-    // data має вигляд { recipes: Recipe[], totalCount: number }
     if (data && Array.isArray(data.recipes)) {
       const processedData = data.recipes.map((recipe: any) => ({
         ...recipe,
@@ -60,6 +59,32 @@ export default function RecipesList({ slug }: RecipesListProps) {
     fetchRecipes(nextPage);
   };
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Рецепти користувача",
+    "itemListElement": recipes.map((recipe, index) => ({
+      "@type": "Recipe",
+      "name": recipe.title,
+      "url": `/recipe/${recipe.slug}`,
+      ...(recipe.imageUrl && { "image": recipe.imageUrl }),
+      "author": {
+        "@type": "Person",
+        "name": recipe.user.name
+      },
+      ...(recipe.averageRating !== null && {
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": recipe.averageRating.toFixed(1),
+          "reviewCount": recipe.commentCount ?? 0,
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      }),
+      "position": index + 1
+    }))
+  };
+
   if (!loading && recipes.length === 0) {
     return null;
   }
@@ -74,15 +99,20 @@ export default function RecipesList({ slug }: RecipesListProps) {
           ))}
         </div>
 
+        {/* JSON-LD Schema for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+
         {loading && <p>Завантаження...</p>}
 
         {!loading && recipes.length < totalCount && (
-            <div className="text-center">
-                <button onClick={loadMore} className="btn btn-primary mt-4">
-                    Завантажити ще
-                </button>
-            </div>
-          
+          <div className="text-center">
+            <button onClick={loadMore} className="btn btn-primary mt-4">
+              Завантажити ще
+            </button>
+          </div>
         )}
       </div>
     </section>

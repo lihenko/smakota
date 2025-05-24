@@ -14,14 +14,41 @@ export default function CommentsList({ slug }: { slug: string }) {
     `/api/users/${slug}/comments?page=${page}`,
     fetcher,
     {
-        revalidateOnFocus: false,
-        refreshInterval: 0, // <-- вимикає автоматичні оновлення
+      revalidateOnFocus: false,
+      refreshInterval: 0,
     }
   );
 
-  // Деструктуризуємо дані: масив коментарів і загальну кількість
   const comments = data?.comments ?? [];
   const totalCount = data?.totalCount ?? 0;
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Відгуки користувача",
+    "itemListElement": comments.map((comment: any, index: number) => ({
+      "@type": "Review",
+      "reviewBody": comment.text,
+      ...(typeof comment.rating === 'number' && {
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": comment.rating.toString(),
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      }),
+      "itemReviewed": {
+        "@type": "Recipe",
+        "name": comment.recipe.title,
+        "url": `/recipe/${comment.recipe.slug}`
+      },
+      "author": {
+        "@type": "Person",
+        "name": slug
+      },
+      "position": index + 1
+    }))
+  };
 
   if (!isLoading && comments.length === 0) {
     return null;
@@ -34,7 +61,6 @@ export default function CommentsList({ slug }: { slug: string }) {
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {comments.map((comment: any) => (
             <li key={comment.id} className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative p-4">
-              {/* Зірочки рейтингу */}
               {typeof comment.rating === 'number' && (
                 <StarDisplay rating={comment.rating} />
               )}
@@ -49,14 +75,18 @@ export default function CommentsList({ slug }: { slug: string }) {
           ))}
         </ul>
 
-        {/* Показуємо кнопку, якщо ще є коментарі для завантаження */}
+        {/* JSON-LD schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+
         {!isLoading && comments.length < totalCount && (
-            <div className="text-center">
-                <button onClick={() => setPage(page + 1)} className="mt-4 btn">
-                    Завантажити ще
-                </button>
-            </div>
-          
+          <div className="text-center">
+            <button onClick={() => setPage(page + 1)} className="mt-4 btn">
+              Завантажити ще
+            </button>
+          </div>
         )}
 
         {isLoading && <p>Завантаження...</p>}
