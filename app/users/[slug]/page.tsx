@@ -27,21 +27,29 @@ export default async function UserPage(props: {
   if (!user) return notFound();
 
   const userSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": user.name,
-    "url": `/users/${user.slug}`,
-    ...(user.avatar && { "image": user.avatar }),
-    ...(user.createdAt && { "memberSince": new Date(user.createdAt).toISOString() }),
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `/users/${user.slug}`
-    },
-  };
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": user.name,
+  "url": `/users/${user.slug}`,
+  ...(user.avatar && {
+    "image": {
+      "@type": "ImageObject",
+      "url": user.avatar
+    }
+  }),
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `/users/${user.slug}`
+  }
+};
+
 
 
   return (
     <main>
+      <script type="application/ld+json">
+        {JSON.stringify(userSchema)}
+      </script>
       <section className="py-16">
         <div className="container">
           <div className="max-w-3xl mx-auto p-4 flex items-center gap-6 bg-white shadow rounded-lg">
@@ -64,9 +72,7 @@ export default async function UserPage(props: {
           <UserClientContent slug={slug} />
         </div>
       </section>
-      <script type="application/ld+json">
-        {JSON.stringify(userSchema)}
-      </script>
+      
     </main>
   );
 }
