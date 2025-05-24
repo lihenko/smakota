@@ -29,7 +29,7 @@ export default function CommentsList({ slug }: { slug: string }) {
       <div className="mt-10">
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {comments.map((comment: any) => (
-            <li key={comment.id} className="border p-4 rounded">
+            <li key={comment.id} className="bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative p-4">
               {/* Зірочки рейтингу */}
               {typeof comment.rating === 'number' && (
                 <StarDisplay rating={comment.rating} />
