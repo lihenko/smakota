@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
   const isLoggedIn = useAuthSync();
 
   return (
-    <footer className="bg-orange-200 text-black p-4">
+    <footer className="bg-[#eadcc7] text-black p-4">
         <div className="container">
             <div className="flex justify-between items-center">
             <h1 className="text-xl font-bold">Смакота</h1>
