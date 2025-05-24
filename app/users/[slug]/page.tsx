@@ -26,22 +26,18 @@ export default async function UserPage(props: {
 
   if (!user) return notFound();
 
-  const ROOT_URL = process.env.ROOT_URL;
 
 const userSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": user.name,
-  "url": `${ROOT_URL}/users/${user.slug}`,
+  "url": `/users/${user.slug}`,
   ...(user.avatar && {
-    "image": {
-      "@type": "ImageObject",
-      "url": user.avatar // переконайтесь, що це теж абсолютний URL
-    }
+    "image": user.avatar?.avatarUrl
   }),
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": `${ROOT_URL}/users/${user.slug}`
+    "@id": `/users/${user.slug}`
   }
 };
 
