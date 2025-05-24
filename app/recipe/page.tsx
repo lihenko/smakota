@@ -4,7 +4,7 @@ import RecipeCard from '../components/RecipeCard';
 import Filter from '../components/Filter';
 import Pagination from '../components/Pagination';
 import RecipeSearchForm from '../components/SearchForm';
-
+import React from 'react';
 
 export const dynamic = 'force-dynamic';
 
@@ -70,32 +70,56 @@ export default async function RecipesPage({
     return `?${updatedParams.toString()}`;
   };
 
+  // Формуємо JSON-LD для CollectionPage + ItemList
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Колекція рецептів",
+    "description": "Сторінка з колекцією смачних рецептів.",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": recipes.map((recipe, index) => ({
+        "@type": "ListItem",
+        "position": index + 1 + (page - 1) * pageSize,
+        "url": `/recipe/${recipe.slug}`,
+        "name": recipe.title,
+      })),
+    },
+  };
+
   return (
-    <main className="py-16">
-      <div className="container">
-        <h1 className="text-3xl font-bold mb-6 text-center">Рецепти</h1>
-        <div className="mb-8">
-          <RecipeSearchForm />
-        </div>
-        <Filter
-          dishTypes={dishTypes}
-          ingredients={ingredients}
-          currentDishTypeId={dishTypeId}
-          currentIngredientIds={ingredientIds}
-        />
+    <>
+      <script
+        type="application/ld+json"
+        // JSON.stringify з 2 пробілами для читабельності
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd, null, 2) }}
+      />
+      <main className="py-16">
+        <div className="container">
+          <h1 className="text-3xl font-bold mb-6 text-center">Рецепти</h1>
+          <div className="mb-8">
+            <RecipeSearchForm />
+          </div>
+          <Filter
+            dishTypes={dishTypes}
+            ingredients={ingredients}
+            currentDishTypeId={dishTypeId}
+            currentIngredientIds={ingredientIds}
+          />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {recipes.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
-          ))}
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            {recipes.map((recipe) => (
+              <RecipeCard key={recipe.id} recipe={recipe} />
+            ))}
+          </div>
 
-        {totalCount === 0 ? (
-          <div className="mt-8 text-center text-gray-500 text-lg">Рецепти не знайдено</div>
-        ) : (
-          totalPages > 1 && <Pagination currentPage={page} totalPages={totalPages} />
-        )}
-      </div>
-    </main>
+          {totalCount === 0 ? (
+            <div className="mt-8 text-center text-gray-500 text-lg">Рецепти не знайдено</div>
+          ) : (
+            totalPages > 1 && <Pagination currentPage={page} totalPages={totalPages} />
+          )}
+        </div>
+      </main>
+    </>
   );
 }
