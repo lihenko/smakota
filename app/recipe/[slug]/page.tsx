@@ -12,9 +12,9 @@ import Image from "next/image";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: ParamsPromise }): Promise<Metadata> {
   const recipe = await prisma.recipe.findUnique({
-    where: { slug: params.slug },
+    where: { slug: (await params).slug },
     include: {
       user: true,
       ingredients: {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 
-  const title = `${recipe.title} – Смакота`;
+  const title = `${recipe.title} – Смакота – Кращі домашні рецепти`;
   const description = `Дізнайтеся, як приготувати ${recipe.title.toLowerCase()} з інгредієнтами: ${recipe.ingredients.map(i => i.ingredient.name).slice(0, 3).join(", ")}. Смачний покроковий рецепт з фото та відео.`;
 
   return {
