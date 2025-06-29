@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import prisma from "../../lib/prisma";
 import { notFound } from "next/navigation";
 import CommentForm from "../../components/CommentForm";
@@ -10,6 +11,41 @@ import styles from '../../components/RecipeCard.module.css';
 import Image from "next/image";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  
+  const recipe = await prisma.recipe.findUnique({
+    where: { slug: params.slug },
+    include: {
+      user: true,
+      ingredients: {
+        include: {
+          ingredient: true,
+        },
+      },
+    },
+  });
+
+  if (!recipe) {
+    return {
+      title: "Рецепт не знайдено",
+      description: "Цей рецепт не існує або був видалений.",
+    };
+  }
+
+  const title = `${recipe.title} – Смакота`;
+  const description = `Дізнайтеся, як приготувати ${recipe.title.toLowerCase()} з інгредієнтами: ${recipe.ingredients.map(i => i.ingredient.name).slice(0, 3).join(", ")}. Смачний покроковий рецепт з фото та відео.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: recipe.imageUrl ? [recipe.imageUrl] : [],
+    },
+  };
+}
 
 export default async function RecipePage(props: { params: ParamsPromise }) {
   const params = await props.params;
