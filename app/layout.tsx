@@ -14,6 +14,9 @@ const geistRoboto = Roboto({
 export const metadata = {
   title: 'Смакота – Кращі домашні рецепти',
   description: 'Готуйте смачно з нашими перевіреними рецептами!',
+  verification: {
+    google: "nWWc1ihe6G11UNZ2eT626c9gU-7qALBwXDcrMGbrm68",
+  },
 };
 
 
