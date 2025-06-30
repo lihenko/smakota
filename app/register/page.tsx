@@ -52,32 +52,38 @@ export default function SignupPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-1/3 mx-auto mt-20">
-      <input 
-        name="name" 
-        type="text" 
-        placeholder="Ім'я" 
-        value={form.name} 
-        onInput={handleInput} 
-        required 
-      />
-      <input 
-        name="email" 
-        type="email" 
-        placeholder="Email" 
-        value={form.email} 
-        onInput={handleInput} 
-        required 
-      />
-      <input 
-        name="password" 
-        type="password" 
-        placeholder="Пароль" 
-        value={form.password} 
-        onInput={handleInput} 
-        required 
-      />
-      <button type="submit" className="btn btn-primary">Зареєструватися</button>
-    </form>
+    <div className="container">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:w-1/3 mx-auto mt-20 mb-20">
+        <input 
+          className='border border-gray-300 p-2 rounded'
+          name="name" 
+          type="text" 
+          placeholder="Ім'я" 
+          value={form.name} 
+          onInput={handleInput} 
+          required 
+        />
+        <input 
+        className='border border-gray-300 p-2 rounded'
+          name="email" 
+          type="email" 
+          placeholder="Email" 
+          value={form.email} 
+          onInput={handleInput} 
+          required 
+        />
+        <input 
+        className='border border-gray-300 p-2 rounded'
+          name="password" 
+          type="password" 
+          placeholder="Пароль" 
+          value={form.password} 
+          onInput={handleInput} 
+          required 
+        />
+        <button type="submit" className="btn btn-primary">Зареєструватися</button>
+      </form>
+    </div>
+    
   );
 }

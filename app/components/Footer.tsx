@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
             <div className="flex justify-between items-center">
             <h1 className="text-xl font-bold">Смакота</h1>
             <nav>
-            <ul className="flex space-x-4">
+            <ul className="">
                 <li>
                 <Link href="/">Головна</Link>
                 </li>

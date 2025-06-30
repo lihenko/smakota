@@ -44,35 +44,38 @@ export default function LoginPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-md mx-auto mt-20">
-      <h1 className="text-2xl font-bold text-center">Вхід</h1>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="border p-2"
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Пароль"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        className="border p-2"
-      />
-      <button type="submit" className="btn btn-primary" disabled={loading}>
-        {loading ? 'Зачекайте...' : 'Увійти'}
-      </button>
+    <div className="container">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:w-1/3 mx-auto mt-20 mb-20">
+        <h1 className="text-2xl font-bold text-center">Вхід</h1>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className='border border-gray-300 p-2 rounded'
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Пароль"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className='border border-gray-300 p-2 rounded'
+        />
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? 'Зачекайте...' : 'Увійти'}
+        </button>
 
-      {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500">{error}</p>}
 
-      <div className="text-center">
-        Забули пароль? <Link href="/forgot-password/">Відновити</Link>
-      </div>
-    </form>
+        <div className="text-center">
+          Забули пароль? <Link href="/forgot-password/">Відновити</Link>
+        </div>
+      </form>
+    </div>
+    
   );
 }
