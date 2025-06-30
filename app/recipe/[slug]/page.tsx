@@ -32,8 +32,9 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
     };
   }
 
+  const hasVideo = !!recipe.videoUrl || !!recipe.tiktokUrl;
   const title = `${recipe.title} – Смакота – Кращі домашні рецепти`;
-  const description = `Дізнайтеся, як приготувати ${recipe.title.toLowerCase()} з інгредієнтами: ${recipe.ingredients.map(i => i.ingredient.name).slice(0, 3).join(", ")}. Смачний покроковий рецепт з фото та відео.`;
+  const description = `Дізнайтеся, як приготувати ${recipe.title.toLowerCase()} з інгредієнтами: ${recipe.ingredients.map(i => i.ingredient.name).slice(0, 3).join(", ")}. Смачний покроковий рецепт з фото${hasVideo ? " та відео" : ""}.`;
 
   return {
     title,
@@ -135,7 +136,7 @@ const averageRating = ratings.length
 
 const reviewCount = ratings.length;
 
-function generateDescription(recipe: { title: any; ingredients: any[]; }): string {
+function generateDescription(recipe: { title: any; ingredients: any[]; videoUrl?: string | null; tiktokUrl?: string | null }): string {
   const title = recipe.title;
   const ingredientNames = recipe.ingredients
     .map(i => i.ingredient.name)
@@ -148,7 +149,8 @@ function generateDescription(recipe: { title: any; ingredients: any[]; }): strin
     ? ` з інгредієнтами: ${ingredientNames}`
     : "";
 
-  return `${base}${withIngredients}. Смачний покроковий рецепт з фото та відео.`;
+  const hasVideo = !!recipe.videoUrl || !!recipe.tiktokUrl;
+  return `${base}${withIngredients}. Смачний покроковий рецепт з фото${hasVideo ? " та відео" : ""}.`;
 }
 
 
