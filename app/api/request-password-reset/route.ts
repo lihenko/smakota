@@ -30,8 +30,8 @@ export async function POST(req: Request) {
 
   try {
     await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "obbdpu@gmail.com",
+      from: "info@smakota.club",
+      to: email,
       subject: 'Відновлення паролю',
       html: `
         <p>Натисніть на кнопку нижче, щоб скинути пароль:</p>
