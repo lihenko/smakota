@@ -1,6 +1,7 @@
 import RecipeCard from "./components/RecipeCard";
 import prisma from "./lib/prisma";
 import RecipeSearchForm from "./components/SearchForm";
+import Link from "next/link";
 
 export const dynamic = 'force-dynamic'; 
 
@@ -30,7 +31,7 @@ export default async function HomePage() {
           ))}
         </div>
         <div className="text-center">
-          <a href="/recipe" className="btn btn-primary">Більше рецептів</a>
+          <Link href="/recipe" className="btn btn-primary">Більше рецептів</Link>
         </div>
       </div>
     </main>
