@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
   try {
     await resend.emails.send({
-      from: "info@smakota.club",
+      from: "Смакота <info@smakota.club>",
       to: email,
       subject: 'Відновлення паролю',
       html: `
