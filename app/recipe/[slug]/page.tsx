@@ -9,6 +9,7 @@ import StarDisplay from "../../components/StarDisplay";
 import ReplyFormToggle from "@/app/components/ReplyFormToggle";
 import styles from '../../components/RecipeCard.module.css';
 import Image from "next/image";
+import FavoriteButton from "@/app/components/FavoriteButton";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 
@@ -203,15 +204,18 @@ function generateDescription(recipe: { title: any; ingredients: any[]; videoUrl?
             </p>
 
             <div className="relative overflow-hidden">
-              <Image
-                src={recipe.imageUrl || "/recipes/placeholder.webp"}
-                alt={recipe.title}
-                width={600} // або відповідна ширина
-                height={400} // або відповідна висота
-                className="mb-6 rounded-t-xl"
-                priority
-              />
-
+              <div className="relative inline-block photo-wrap">
+                <Image
+                  src={recipe.imageUrl || "/recipes/placeholder.webp"}
+                  alt={recipe.title}
+                  width={600} // або відповідна ширина
+                  height={400} // або відповідна висота
+                  className="mb-6 rounded-t-xl"
+                  priority
+                />
+                <FavoriteButton recipeId={recipe.id} />
+              </div>
+              
               {recipe.privaterecipe && (
                 <span className={styles.recipelabel}>
                   Приватний

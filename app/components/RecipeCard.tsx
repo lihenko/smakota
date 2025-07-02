@@ -4,6 +4,7 @@ import Image from 'next/image';
 import StarDisplay from "./StarDisplay";
 import CommentCountDisplay from "./CommentCountDisplay";
 import styles from './RecipeCard.module.css';
+import FavoriteButton from "./FavoriteButton";
 
 interface RecipeCardProps {
   recipe: {
@@ -38,6 +39,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
+        <FavoriteButton recipeId={recipe.id} />
         {recipe.privaterecipe && (
           <span className={styles.recipelabel}>
             Приватний
