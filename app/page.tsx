@@ -24,10 +24,13 @@ export default async function HomePage() {
           <RecipeSearchForm />
         </div>
         <h2 className="text-2xl font-bold mb-4">Останні рецепти</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
           {recipes.map((recipe) => (
             <RecipeCard key={recipe.id} recipe={recipe} />
           ))}
+        </div>
+        <div className="text-center">
+          <a href="/recipe" className="btn btn-primary">Більше рецептів</a>
         </div>
       </div>
     </main>
