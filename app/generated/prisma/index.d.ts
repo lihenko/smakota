@@ -63,6 +63,11 @@ export type PasswordResetToken = $Result.DefaultSelection<Prisma.$PasswordResetT
  * 
  */
 export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
+/**
+ * Model FavoriteRecipe
+ * 
+ */
+export type FavoriteRecipe = $Result.DefaultSelection<Prisma.$FavoriteRecipePayload>
 
 /**
  * Enums
@@ -306,6 +311,16 @@ export class PrismaClient<
     * ```
     */
   get comment(): Prisma.CommentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.favoriteRecipe`: Exposes CRUD operations for the **FavoriteRecipe** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FavoriteRecipes
+    * const favoriteRecipes = await prisma.favoriteRecipe.findMany()
+    * ```
+    */
+  get favoriteRecipe(): Prisma.FavoriteRecipeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -755,7 +770,8 @@ export namespace Prisma {
     User: 'User',
     Avatar: 'Avatar',
     PasswordResetToken: 'PasswordResetToken',
-    Comment: 'Comment'
+    Comment: 'Comment',
+    FavoriteRecipe: 'FavoriteRecipe'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -774,7 +790,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "dishType" | "unit" | "ingredient" | "instruction" | "recipe" | "recipeIngredient" | "user" | "avatar" | "passwordResetToken" | "comment"
+      modelProps: "dishType" | "unit" | "ingredient" | "instruction" | "recipe" | "recipeIngredient" | "user" | "avatar" | "passwordResetToken" | "comment" | "favoriteRecipe"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1518,6 +1534,80 @@ export namespace Prisma {
           }
         }
       }
+      FavoriteRecipe: {
+        payload: Prisma.$FavoriteRecipePayload<ExtArgs>
+        fields: Prisma.FavoriteRecipeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FavoriteRecipeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FavoriteRecipeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>
+          }
+          findFirst: {
+            args: Prisma.FavoriteRecipeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FavoriteRecipeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>
+          }
+          findMany: {
+            args: Prisma.FavoriteRecipeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>[]
+          }
+          create: {
+            args: Prisma.FavoriteRecipeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>
+          }
+          createMany: {
+            args: Prisma.FavoriteRecipeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FavoriteRecipeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>[]
+          }
+          delete: {
+            args: Prisma.FavoriteRecipeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>
+          }
+          update: {
+            args: Prisma.FavoriteRecipeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>
+          }
+          deleteMany: {
+            args: Prisma.FavoriteRecipeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FavoriteRecipeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FavoriteRecipeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>[]
+          }
+          upsert: {
+            args: Prisma.FavoriteRecipeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FavoriteRecipePayload>
+          }
+          aggregate: {
+            args: Prisma.FavoriteRecipeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFavoriteRecipe>
+          }
+          groupBy: {
+            args: Prisma.FavoriteRecipeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FavoriteRecipeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FavoriteRecipeCountArgs<ExtArgs>
+            result: $Utils.Optional<FavoriteRecipeCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1612,6 +1702,7 @@ export namespace Prisma {
     avatar?: AvatarOmit
     passwordResetToken?: PasswordResetTokenOmit
     comment?: CommentOmit
+    favoriteRecipe?: FavoriteRecipeOmit
   }
 
   /* Types for Logging */
@@ -1802,12 +1893,14 @@ export namespace Prisma {
     instructions: number
     ingredients: number
     comments: number
+    favoriteRecipes: number
   }
 
   export type RecipeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     instructions?: boolean | RecipeCountOutputTypeCountInstructionsArgs
     ingredients?: boolean | RecipeCountOutputTypeCountIngredientsArgs
     comments?: boolean | RecipeCountOutputTypeCountCommentsArgs
+    favoriteRecipes?: boolean | RecipeCountOutputTypeCountFavoriteRecipesArgs
   }
 
   // Custom InputTypes
@@ -1842,6 +1935,13 @@ export namespace Prisma {
     where?: CommentWhereInput
   }
 
+  /**
+   * RecipeCountOutputType without action
+   */
+  export type RecipeCountOutputTypeCountFavoriteRecipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavoriteRecipeWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -1851,12 +1951,14 @@ export namespace Prisma {
     passwordResetTokens: number
     recipes: number
     comments: number
+    favoriteRecipes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
     recipes?: boolean | UserCountOutputTypeCountRecipesArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
+    favoriteRecipes?: boolean | UserCountOutputTypeCountFavoriteRecipesArgs
   }
 
   // Custom InputTypes
@@ -1889,6 +1991,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFavoriteRecipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavoriteRecipeWhereInput
   }
 
 
@@ -6539,6 +6648,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     ingredients?: boolean | Recipe$ingredientsArgs<ExtArgs>
     comments?: boolean | Recipe$commentsArgs<ExtArgs>
+    favoriteRecipes?: boolean | Recipe$favoriteRecipesArgs<ExtArgs>
     _count?: boolean | RecipeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["recipe"]>
 
@@ -6604,6 +6714,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     ingredients?: boolean | Recipe$ingredientsArgs<ExtArgs>
     comments?: boolean | Recipe$commentsArgs<ExtArgs>
+    favoriteRecipes?: boolean | Recipe$favoriteRecipesArgs<ExtArgs>
     _count?: boolean | RecipeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RecipeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6623,6 +6734,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       ingredients: Prisma.$RecipeIngredientPayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
+      favoriteRecipes: Prisma.$FavoriteRecipePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -7038,6 +7150,7 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     ingredients<T extends Recipe$ingredientsArgs<ExtArgs> = {}>(args?: Subset<T, Recipe$ingredientsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecipeIngredientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends Recipe$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Recipe$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    favoriteRecipes<T extends Recipe$favoriteRecipesArgs<ExtArgs> = {}>(args?: Subset<T, Recipe$favoriteRecipesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7546,6 +7659,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * Recipe.favoriteRecipes
+   */
+  export type Recipe$favoriteRecipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    where?: FavoriteRecipeWhereInput
+    orderBy?: FavoriteRecipeOrderByWithRelationInput | FavoriteRecipeOrderByWithRelationInput[]
+    cursor?: FavoriteRecipeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FavoriteRecipeScalarFieldEnum | FavoriteRecipeScalarFieldEnum[]
   }
 
   /**
@@ -8978,6 +9115,7 @@ export namespace Prisma {
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     recipes?: boolean | User$recipesArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
+    favoriteRecipes?: boolean | User$favoriteRecipesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -9023,6 +9161,7 @@ export namespace Prisma {
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     recipes?: boolean | User$recipesArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
+    favoriteRecipes?: boolean | User$favoriteRecipesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9035,6 +9174,7 @@ export namespace Prisma {
       passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
       recipes: Prisma.$RecipePayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
+      favoriteRecipes: Prisma.$FavoriteRecipePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -9444,6 +9584,7 @@ export namespace Prisma {
     passwordResetTokens<T extends User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recipes<T extends User$recipesArgs<ExtArgs> = {}>(args?: Subset<T, User$recipesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    favoriteRecipes<T extends User$favoriteRecipesArgs<ExtArgs> = {}>(args?: Subset<T, User$favoriteRecipesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9958,6 +10099,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * User.favoriteRecipes
+   */
+  export type User$favoriteRecipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    where?: FavoriteRecipeWhereInput
+    orderBy?: FavoriteRecipeOrderByWithRelationInput | FavoriteRecipeOrderByWithRelationInput[]
+    cursor?: FavoriteRecipeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FavoriteRecipeScalarFieldEnum | FavoriteRecipeScalarFieldEnum[]
   }
 
   /**
@@ -13380,6 +13545,1101 @@ export namespace Prisma {
 
 
   /**
+   * Model FavoriteRecipe
+   */
+
+  export type AggregateFavoriteRecipe = {
+    _count: FavoriteRecipeCountAggregateOutputType | null
+    _avg: FavoriteRecipeAvgAggregateOutputType | null
+    _sum: FavoriteRecipeSumAggregateOutputType | null
+    _min: FavoriteRecipeMinAggregateOutputType | null
+    _max: FavoriteRecipeMaxAggregateOutputType | null
+  }
+
+  export type FavoriteRecipeAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    recipeId: number | null
+  }
+
+  export type FavoriteRecipeSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    recipeId: number | null
+  }
+
+  export type FavoriteRecipeMinAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    recipeId: number | null
+    createdAt: Date | null
+  }
+
+  export type FavoriteRecipeMaxAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    recipeId: number | null
+    createdAt: Date | null
+  }
+
+  export type FavoriteRecipeCountAggregateOutputType = {
+    id: number
+    userId: number
+    recipeId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FavoriteRecipeAvgAggregateInputType = {
+    id?: true
+    userId?: true
+    recipeId?: true
+  }
+
+  export type FavoriteRecipeSumAggregateInputType = {
+    id?: true
+    userId?: true
+    recipeId?: true
+  }
+
+  export type FavoriteRecipeMinAggregateInputType = {
+    id?: true
+    userId?: true
+    recipeId?: true
+    createdAt?: true
+  }
+
+  export type FavoriteRecipeMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    recipeId?: true
+    createdAt?: true
+  }
+
+  export type FavoriteRecipeCountAggregateInputType = {
+    id?: true
+    userId?: true
+    recipeId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FavoriteRecipeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FavoriteRecipe to aggregate.
+     */
+    where?: FavoriteRecipeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FavoriteRecipes to fetch.
+     */
+    orderBy?: FavoriteRecipeOrderByWithRelationInput | FavoriteRecipeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FavoriteRecipeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FavoriteRecipes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FavoriteRecipes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FavoriteRecipes
+    **/
+    _count?: true | FavoriteRecipeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FavoriteRecipeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FavoriteRecipeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FavoriteRecipeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FavoriteRecipeMaxAggregateInputType
+  }
+
+  export type GetFavoriteRecipeAggregateType<T extends FavoriteRecipeAggregateArgs> = {
+        [P in keyof T & keyof AggregateFavoriteRecipe]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFavoriteRecipe[P]>
+      : GetScalarType<T[P], AggregateFavoriteRecipe[P]>
+  }
+
+
+
+
+  export type FavoriteRecipeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FavoriteRecipeWhereInput
+    orderBy?: FavoriteRecipeOrderByWithAggregationInput | FavoriteRecipeOrderByWithAggregationInput[]
+    by: FavoriteRecipeScalarFieldEnum[] | FavoriteRecipeScalarFieldEnum
+    having?: FavoriteRecipeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FavoriteRecipeCountAggregateInputType | true
+    _avg?: FavoriteRecipeAvgAggregateInputType
+    _sum?: FavoriteRecipeSumAggregateInputType
+    _min?: FavoriteRecipeMinAggregateInputType
+    _max?: FavoriteRecipeMaxAggregateInputType
+  }
+
+  export type FavoriteRecipeGroupByOutputType = {
+    id: number
+    userId: number
+    recipeId: number
+    createdAt: Date
+    _count: FavoriteRecipeCountAggregateOutputType | null
+    _avg: FavoriteRecipeAvgAggregateOutputType | null
+    _sum: FavoriteRecipeSumAggregateOutputType | null
+    _min: FavoriteRecipeMinAggregateOutputType | null
+    _max: FavoriteRecipeMaxAggregateOutputType | null
+  }
+
+  type GetFavoriteRecipeGroupByPayload<T extends FavoriteRecipeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FavoriteRecipeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FavoriteRecipeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FavoriteRecipeGroupByOutputType[P]>
+            : GetScalarType<T[P], FavoriteRecipeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FavoriteRecipeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    recipeId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    recipe?: boolean | RecipeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favoriteRecipe"]>
+
+  export type FavoriteRecipeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    recipeId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    recipe?: boolean | RecipeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favoriteRecipe"]>
+
+  export type FavoriteRecipeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    recipeId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    recipe?: boolean | RecipeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["favoriteRecipe"]>
+
+  export type FavoriteRecipeSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    recipeId?: boolean
+    createdAt?: boolean
+  }
+
+  export type FavoriteRecipeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "recipeId" | "createdAt", ExtArgs["result"]["favoriteRecipe"]>
+  export type FavoriteRecipeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    recipe?: boolean | RecipeDefaultArgs<ExtArgs>
+  }
+  export type FavoriteRecipeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    recipe?: boolean | RecipeDefaultArgs<ExtArgs>
+  }
+  export type FavoriteRecipeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    recipe?: boolean | RecipeDefaultArgs<ExtArgs>
+  }
+
+  export type $FavoriteRecipePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FavoriteRecipe"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      recipe: Prisma.$RecipePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: number
+      recipeId: number
+      createdAt: Date
+    }, ExtArgs["result"]["favoriteRecipe"]>
+    composites: {}
+  }
+
+  type FavoriteRecipeGetPayload<S extends boolean | null | undefined | FavoriteRecipeDefaultArgs> = $Result.GetResult<Prisma.$FavoriteRecipePayload, S>
+
+  type FavoriteRecipeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FavoriteRecipeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FavoriteRecipeCountAggregateInputType | true
+    }
+
+  export interface FavoriteRecipeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FavoriteRecipe'], meta: { name: 'FavoriteRecipe' } }
+    /**
+     * Find zero or one FavoriteRecipe that matches the filter.
+     * @param {FavoriteRecipeFindUniqueArgs} args - Arguments to find a FavoriteRecipe
+     * @example
+     * // Get one FavoriteRecipe
+     * const favoriteRecipe = await prisma.favoriteRecipe.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FavoriteRecipeFindUniqueArgs>(args: SelectSubset<T, FavoriteRecipeFindUniqueArgs<ExtArgs>>): Prisma__FavoriteRecipeClient<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FavoriteRecipe that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FavoriteRecipeFindUniqueOrThrowArgs} args - Arguments to find a FavoriteRecipe
+     * @example
+     * // Get one FavoriteRecipe
+     * const favoriteRecipe = await prisma.favoriteRecipe.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FavoriteRecipeFindUniqueOrThrowArgs>(args: SelectSubset<T, FavoriteRecipeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FavoriteRecipeClient<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FavoriteRecipe that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteRecipeFindFirstArgs} args - Arguments to find a FavoriteRecipe
+     * @example
+     * // Get one FavoriteRecipe
+     * const favoriteRecipe = await prisma.favoriteRecipe.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FavoriteRecipeFindFirstArgs>(args?: SelectSubset<T, FavoriteRecipeFindFirstArgs<ExtArgs>>): Prisma__FavoriteRecipeClient<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FavoriteRecipe that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteRecipeFindFirstOrThrowArgs} args - Arguments to find a FavoriteRecipe
+     * @example
+     * // Get one FavoriteRecipe
+     * const favoriteRecipe = await prisma.favoriteRecipe.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FavoriteRecipeFindFirstOrThrowArgs>(args?: SelectSubset<T, FavoriteRecipeFindFirstOrThrowArgs<ExtArgs>>): Prisma__FavoriteRecipeClient<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FavoriteRecipes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteRecipeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FavoriteRecipes
+     * const favoriteRecipes = await prisma.favoriteRecipe.findMany()
+     * 
+     * // Get first 10 FavoriteRecipes
+     * const favoriteRecipes = await prisma.favoriteRecipe.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const favoriteRecipeWithIdOnly = await prisma.favoriteRecipe.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FavoriteRecipeFindManyArgs>(args?: SelectSubset<T, FavoriteRecipeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FavoriteRecipe.
+     * @param {FavoriteRecipeCreateArgs} args - Arguments to create a FavoriteRecipe.
+     * @example
+     * // Create one FavoriteRecipe
+     * const FavoriteRecipe = await prisma.favoriteRecipe.create({
+     *   data: {
+     *     // ... data to create a FavoriteRecipe
+     *   }
+     * })
+     * 
+     */
+    create<T extends FavoriteRecipeCreateArgs>(args: SelectSubset<T, FavoriteRecipeCreateArgs<ExtArgs>>): Prisma__FavoriteRecipeClient<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FavoriteRecipes.
+     * @param {FavoriteRecipeCreateManyArgs} args - Arguments to create many FavoriteRecipes.
+     * @example
+     * // Create many FavoriteRecipes
+     * const favoriteRecipe = await prisma.favoriteRecipe.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FavoriteRecipeCreateManyArgs>(args?: SelectSubset<T, FavoriteRecipeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FavoriteRecipes and returns the data saved in the database.
+     * @param {FavoriteRecipeCreateManyAndReturnArgs} args - Arguments to create many FavoriteRecipes.
+     * @example
+     * // Create many FavoriteRecipes
+     * const favoriteRecipe = await prisma.favoriteRecipe.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FavoriteRecipes and only return the `id`
+     * const favoriteRecipeWithIdOnly = await prisma.favoriteRecipe.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FavoriteRecipeCreateManyAndReturnArgs>(args?: SelectSubset<T, FavoriteRecipeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FavoriteRecipe.
+     * @param {FavoriteRecipeDeleteArgs} args - Arguments to delete one FavoriteRecipe.
+     * @example
+     * // Delete one FavoriteRecipe
+     * const FavoriteRecipe = await prisma.favoriteRecipe.delete({
+     *   where: {
+     *     // ... filter to delete one FavoriteRecipe
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FavoriteRecipeDeleteArgs>(args: SelectSubset<T, FavoriteRecipeDeleteArgs<ExtArgs>>): Prisma__FavoriteRecipeClient<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FavoriteRecipe.
+     * @param {FavoriteRecipeUpdateArgs} args - Arguments to update one FavoriteRecipe.
+     * @example
+     * // Update one FavoriteRecipe
+     * const favoriteRecipe = await prisma.favoriteRecipe.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FavoriteRecipeUpdateArgs>(args: SelectSubset<T, FavoriteRecipeUpdateArgs<ExtArgs>>): Prisma__FavoriteRecipeClient<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FavoriteRecipes.
+     * @param {FavoriteRecipeDeleteManyArgs} args - Arguments to filter FavoriteRecipes to delete.
+     * @example
+     * // Delete a few FavoriteRecipes
+     * const { count } = await prisma.favoriteRecipe.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FavoriteRecipeDeleteManyArgs>(args?: SelectSubset<T, FavoriteRecipeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FavoriteRecipes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteRecipeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FavoriteRecipes
+     * const favoriteRecipe = await prisma.favoriteRecipe.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FavoriteRecipeUpdateManyArgs>(args: SelectSubset<T, FavoriteRecipeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FavoriteRecipes and returns the data updated in the database.
+     * @param {FavoriteRecipeUpdateManyAndReturnArgs} args - Arguments to update many FavoriteRecipes.
+     * @example
+     * // Update many FavoriteRecipes
+     * const favoriteRecipe = await prisma.favoriteRecipe.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FavoriteRecipes and only return the `id`
+     * const favoriteRecipeWithIdOnly = await prisma.favoriteRecipe.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FavoriteRecipeUpdateManyAndReturnArgs>(args: SelectSubset<T, FavoriteRecipeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FavoriteRecipe.
+     * @param {FavoriteRecipeUpsertArgs} args - Arguments to update or create a FavoriteRecipe.
+     * @example
+     * // Update or create a FavoriteRecipe
+     * const favoriteRecipe = await prisma.favoriteRecipe.upsert({
+     *   create: {
+     *     // ... data to create a FavoriteRecipe
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FavoriteRecipe we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FavoriteRecipeUpsertArgs>(args: SelectSubset<T, FavoriteRecipeUpsertArgs<ExtArgs>>): Prisma__FavoriteRecipeClient<$Result.GetResult<Prisma.$FavoriteRecipePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FavoriteRecipes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteRecipeCountArgs} args - Arguments to filter FavoriteRecipes to count.
+     * @example
+     * // Count the number of FavoriteRecipes
+     * const count = await prisma.favoriteRecipe.count({
+     *   where: {
+     *     // ... the filter for the FavoriteRecipes we want to count
+     *   }
+     * })
+    **/
+    count<T extends FavoriteRecipeCountArgs>(
+      args?: Subset<T, FavoriteRecipeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FavoriteRecipeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FavoriteRecipe.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteRecipeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FavoriteRecipeAggregateArgs>(args: Subset<T, FavoriteRecipeAggregateArgs>): Prisma.PrismaPromise<GetFavoriteRecipeAggregateType<T>>
+
+    /**
+     * Group by FavoriteRecipe.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FavoriteRecipeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FavoriteRecipeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FavoriteRecipeGroupByArgs['orderBy'] }
+        : { orderBy?: FavoriteRecipeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FavoriteRecipeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFavoriteRecipeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FavoriteRecipe model
+   */
+  readonly fields: FavoriteRecipeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FavoriteRecipe.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FavoriteRecipeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    recipe<T extends RecipeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RecipeDefaultArgs<ExtArgs>>): Prisma__RecipeClient<$Result.GetResult<Prisma.$RecipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FavoriteRecipe model
+   */
+  interface FavoriteRecipeFieldRefs {
+    readonly id: FieldRef<"FavoriteRecipe", 'Int'>
+    readonly userId: FieldRef<"FavoriteRecipe", 'Int'>
+    readonly recipeId: FieldRef<"FavoriteRecipe", 'Int'>
+    readonly createdAt: FieldRef<"FavoriteRecipe", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FavoriteRecipe findUnique
+   */
+  export type FavoriteRecipeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which FavoriteRecipe to fetch.
+     */
+    where: FavoriteRecipeWhereUniqueInput
+  }
+
+  /**
+   * FavoriteRecipe findUniqueOrThrow
+   */
+  export type FavoriteRecipeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which FavoriteRecipe to fetch.
+     */
+    where: FavoriteRecipeWhereUniqueInput
+  }
+
+  /**
+   * FavoriteRecipe findFirst
+   */
+  export type FavoriteRecipeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which FavoriteRecipe to fetch.
+     */
+    where?: FavoriteRecipeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FavoriteRecipes to fetch.
+     */
+    orderBy?: FavoriteRecipeOrderByWithRelationInput | FavoriteRecipeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FavoriteRecipes.
+     */
+    cursor?: FavoriteRecipeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FavoriteRecipes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FavoriteRecipes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FavoriteRecipes.
+     */
+    distinct?: FavoriteRecipeScalarFieldEnum | FavoriteRecipeScalarFieldEnum[]
+  }
+
+  /**
+   * FavoriteRecipe findFirstOrThrow
+   */
+  export type FavoriteRecipeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which FavoriteRecipe to fetch.
+     */
+    where?: FavoriteRecipeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FavoriteRecipes to fetch.
+     */
+    orderBy?: FavoriteRecipeOrderByWithRelationInput | FavoriteRecipeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FavoriteRecipes.
+     */
+    cursor?: FavoriteRecipeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FavoriteRecipes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FavoriteRecipes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FavoriteRecipes.
+     */
+    distinct?: FavoriteRecipeScalarFieldEnum | FavoriteRecipeScalarFieldEnum[]
+  }
+
+  /**
+   * FavoriteRecipe findMany
+   */
+  export type FavoriteRecipeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which FavoriteRecipes to fetch.
+     */
+    where?: FavoriteRecipeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FavoriteRecipes to fetch.
+     */
+    orderBy?: FavoriteRecipeOrderByWithRelationInput | FavoriteRecipeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FavoriteRecipes.
+     */
+    cursor?: FavoriteRecipeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FavoriteRecipes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FavoriteRecipes.
+     */
+    skip?: number
+    distinct?: FavoriteRecipeScalarFieldEnum | FavoriteRecipeScalarFieldEnum[]
+  }
+
+  /**
+   * FavoriteRecipe create
+   */
+  export type FavoriteRecipeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FavoriteRecipe.
+     */
+    data: XOR<FavoriteRecipeCreateInput, FavoriteRecipeUncheckedCreateInput>
+  }
+
+  /**
+   * FavoriteRecipe createMany
+   */
+  export type FavoriteRecipeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FavoriteRecipes.
+     */
+    data: FavoriteRecipeCreateManyInput | FavoriteRecipeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FavoriteRecipe createManyAndReturn
+   */
+  export type FavoriteRecipeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * The data used to create many FavoriteRecipes.
+     */
+    data: FavoriteRecipeCreateManyInput | FavoriteRecipeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FavoriteRecipe update
+   */
+  export type FavoriteRecipeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FavoriteRecipe.
+     */
+    data: XOR<FavoriteRecipeUpdateInput, FavoriteRecipeUncheckedUpdateInput>
+    /**
+     * Choose, which FavoriteRecipe to update.
+     */
+    where: FavoriteRecipeWhereUniqueInput
+  }
+
+  /**
+   * FavoriteRecipe updateMany
+   */
+  export type FavoriteRecipeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FavoriteRecipes.
+     */
+    data: XOR<FavoriteRecipeUpdateManyMutationInput, FavoriteRecipeUncheckedUpdateManyInput>
+    /**
+     * Filter which FavoriteRecipes to update
+     */
+    where?: FavoriteRecipeWhereInput
+    /**
+     * Limit how many FavoriteRecipes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FavoriteRecipe updateManyAndReturn
+   */
+  export type FavoriteRecipeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * The data used to update FavoriteRecipes.
+     */
+    data: XOR<FavoriteRecipeUpdateManyMutationInput, FavoriteRecipeUncheckedUpdateManyInput>
+    /**
+     * Filter which FavoriteRecipes to update
+     */
+    where?: FavoriteRecipeWhereInput
+    /**
+     * Limit how many FavoriteRecipes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FavoriteRecipe upsert
+   */
+  export type FavoriteRecipeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FavoriteRecipe to update in case it exists.
+     */
+    where: FavoriteRecipeWhereUniqueInput
+    /**
+     * In case the FavoriteRecipe found by the `where` argument doesn't exist, create a new FavoriteRecipe with this data.
+     */
+    create: XOR<FavoriteRecipeCreateInput, FavoriteRecipeUncheckedCreateInput>
+    /**
+     * In case the FavoriteRecipe was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FavoriteRecipeUpdateInput, FavoriteRecipeUncheckedUpdateInput>
+  }
+
+  /**
+   * FavoriteRecipe delete
+   */
+  export type FavoriteRecipeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+    /**
+     * Filter which FavoriteRecipe to delete.
+     */
+    where: FavoriteRecipeWhereUniqueInput
+  }
+
+  /**
+   * FavoriteRecipe deleteMany
+   */
+  export type FavoriteRecipeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FavoriteRecipes to delete
+     */
+    where?: FavoriteRecipeWhereInput
+    /**
+     * Limit how many FavoriteRecipes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FavoriteRecipe without action
+   */
+  export type FavoriteRecipeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FavoriteRecipe
+     */
+    select?: FavoriteRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FavoriteRecipe
+     */
+    omit?: FavoriteRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FavoriteRecipeInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13512,6 +14772,16 @@ export namespace Prisma {
   };
 
   export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+  export const FavoriteRecipeScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    recipeId: 'recipeId',
+    createdAt: 'createdAt'
+  };
+
+  export type FavoriteRecipeScalarFieldEnum = (typeof FavoriteRecipeScalarFieldEnum)[keyof typeof FavoriteRecipeScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13839,6 +15109,7 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     ingredients?: RecipeIngredientListRelationFilter
     comments?: CommentListRelationFilter
+    favoriteRecipes?: FavoriteRecipeListRelationFilter
   }
 
   export type RecipeOrderByWithRelationInput = {
@@ -13861,6 +15132,7 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     ingredients?: RecipeIngredientOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
+    favoriteRecipes?: FavoriteRecipeOrderByRelationAggregateInput
   }
 
   export type RecipeWhereUniqueInput = Prisma.AtLeast<{
@@ -13886,6 +15158,7 @@ export namespace Prisma {
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     ingredients?: RecipeIngredientListRelationFilter
     comments?: CommentListRelationFilter
+    favoriteRecipes?: FavoriteRecipeListRelationFilter
   }, "id" | "slug">
 
   export type RecipeOrderByWithAggregationInput = {
@@ -14020,6 +15293,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     recipes?: RecipeListRelationFilter
     comments?: CommentListRelationFilter
+    favoriteRecipes?: FavoriteRecipeListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -14036,6 +15310,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenOrderByRelationAggregateInput
     recipes?: RecipeOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
+    favoriteRecipes?: FavoriteRecipeOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14055,6 +15330,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     recipes?: RecipeListRelationFilter
     comments?: CommentListRelationFilter
+    favoriteRecipes?: FavoriteRecipeListRelationFilter
   }, "id" | "email" | "slug">
 
   export type UserOrderByWithAggregationInput = {
@@ -14284,6 +15560,62 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
   }
 
+  export type FavoriteRecipeWhereInput = {
+    AND?: FavoriteRecipeWhereInput | FavoriteRecipeWhereInput[]
+    OR?: FavoriteRecipeWhereInput[]
+    NOT?: FavoriteRecipeWhereInput | FavoriteRecipeWhereInput[]
+    id?: IntFilter<"FavoriteRecipe"> | number
+    userId?: IntFilter<"FavoriteRecipe"> | number
+    recipeId?: IntFilter<"FavoriteRecipe"> | number
+    createdAt?: DateTimeFilter<"FavoriteRecipe"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    recipe?: XOR<RecipeScalarRelationFilter, RecipeWhereInput>
+  }
+
+  export type FavoriteRecipeOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    recipeId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    recipe?: RecipeOrderByWithRelationInput
+  }
+
+  export type FavoriteRecipeWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    userId_recipeId?: FavoriteRecipeUserIdRecipeIdCompoundUniqueInput
+    AND?: FavoriteRecipeWhereInput | FavoriteRecipeWhereInput[]
+    OR?: FavoriteRecipeWhereInput[]
+    NOT?: FavoriteRecipeWhereInput | FavoriteRecipeWhereInput[]
+    userId?: IntFilter<"FavoriteRecipe"> | number
+    recipeId?: IntFilter<"FavoriteRecipe"> | number
+    createdAt?: DateTimeFilter<"FavoriteRecipe"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    recipe?: XOR<RecipeScalarRelationFilter, RecipeWhereInput>
+  }, "id" | "userId_recipeId">
+
+  export type FavoriteRecipeOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    recipeId?: SortOrder
+    createdAt?: SortOrder
+    _count?: FavoriteRecipeCountOrderByAggregateInput
+    _avg?: FavoriteRecipeAvgOrderByAggregateInput
+    _max?: FavoriteRecipeMaxOrderByAggregateInput
+    _min?: FavoriteRecipeMinOrderByAggregateInput
+    _sum?: FavoriteRecipeSumOrderByAggregateInput
+  }
+
+  export type FavoriteRecipeScalarWhereWithAggregatesInput = {
+    AND?: FavoriteRecipeScalarWhereWithAggregatesInput | FavoriteRecipeScalarWhereWithAggregatesInput[]
+    OR?: FavoriteRecipeScalarWhereWithAggregatesInput[]
+    NOT?: FavoriteRecipeScalarWhereWithAggregatesInput | FavoriteRecipeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"FavoriteRecipe"> | number
+    userId?: IntWithAggregatesFilter<"FavoriteRecipe"> | number
+    recipeId?: IntWithAggregatesFilter<"FavoriteRecipe"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"FavoriteRecipe"> | Date | string
+  }
+
   export type DishTypeCreateInput = {
     name: string
     slug: string
@@ -14475,6 +15807,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutRecipesInput
     ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
     comments?: CommentCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateInput = {
@@ -14495,6 +15828,7 @@ export namespace Prisma {
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUpdateInput = {
@@ -14514,6 +15848,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
     ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
     comments?: CommentUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeUncheckedUpdateInput = {
@@ -14534,6 +15869,7 @@ export namespace Prisma {
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeCreateManyInput = {
@@ -14661,6 +15997,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14677,6 +16014,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -14692,6 +16030,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14708,6 +16047,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14924,6 +16264,50 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     moderated?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteRecipeCreateInput = {
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutFavoriteRecipesInput
+    recipe: RecipeCreateNestedOneWithoutFavoriteRecipesInput
+  }
+
+  export type FavoriteRecipeUncheckedCreateInput = {
+    id?: number
+    userId: number
+    recipeId: number
+    createdAt?: Date | string
+  }
+
+  export type FavoriteRecipeUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFavoriteRecipesNestedInput
+    recipe?: RecipeUpdateOneRequiredWithoutFavoriteRecipesNestedInput
+  }
+
+  export type FavoriteRecipeUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    recipeId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteRecipeCreateManyInput = {
+    id?: number
+    userId: number
+    recipeId: number
+    createdAt?: Date | string
+  }
+
+  export type FavoriteRecipeUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteRecipeUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    recipeId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -15206,6 +16590,12 @@ export namespace Prisma {
     none?: CommentWhereInput
   }
 
+  export type FavoriteRecipeListRelationFilter = {
+    every?: FavoriteRecipeWhereInput
+    some?: FavoriteRecipeWhereInput
+    none?: FavoriteRecipeWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -15216,6 +16606,10 @@ export namespace Prisma {
   }
 
   export type CommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FavoriteRecipeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15633,6 +17027,44 @@ export namespace Prisma {
     parentId?: SortOrder
   }
 
+  export type FavoriteRecipeUserIdRecipeIdCompoundUniqueInput = {
+    userId: number
+    recipeId: number
+  }
+
+  export type FavoriteRecipeCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    recipeId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FavoriteRecipeAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    recipeId?: SortOrder
+  }
+
+  export type FavoriteRecipeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    recipeId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FavoriteRecipeMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    recipeId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FavoriteRecipeSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    recipeId?: SortOrder
+  }
+
   export type RecipeCreateNestedManyWithoutDishTypeInput = {
     create?: XOR<RecipeCreateWithoutDishTypeInput, RecipeUncheckedCreateWithoutDishTypeInput> | RecipeCreateWithoutDishTypeInput[] | RecipeUncheckedCreateWithoutDishTypeInput[]
     connectOrCreate?: RecipeCreateOrConnectWithoutDishTypeInput | RecipeCreateOrConnectWithoutDishTypeInput[]
@@ -15822,6 +17254,13 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
+  export type FavoriteRecipeCreateNestedManyWithoutRecipeInput = {
+    create?: XOR<FavoriteRecipeCreateWithoutRecipeInput, FavoriteRecipeUncheckedCreateWithoutRecipeInput> | FavoriteRecipeCreateWithoutRecipeInput[] | FavoriteRecipeUncheckedCreateWithoutRecipeInput[]
+    connectOrCreate?: FavoriteRecipeCreateOrConnectWithoutRecipeInput | FavoriteRecipeCreateOrConnectWithoutRecipeInput[]
+    createMany?: FavoriteRecipeCreateManyRecipeInputEnvelope
+    connect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+  }
+
   export type InstructionUncheckedCreateNestedManyWithoutRecipeInput = {
     create?: XOR<InstructionCreateWithoutRecipeInput, InstructionUncheckedCreateWithoutRecipeInput> | InstructionCreateWithoutRecipeInput[] | InstructionUncheckedCreateWithoutRecipeInput[]
     connectOrCreate?: InstructionCreateOrConnectWithoutRecipeInput | InstructionCreateOrConnectWithoutRecipeInput[]
@@ -15841,6 +17280,13 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutRecipeInput | CommentCreateOrConnectWithoutRecipeInput[]
     createMany?: CommentCreateManyRecipeInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type FavoriteRecipeUncheckedCreateNestedManyWithoutRecipeInput = {
+    create?: XOR<FavoriteRecipeCreateWithoutRecipeInput, FavoriteRecipeUncheckedCreateWithoutRecipeInput> | FavoriteRecipeCreateWithoutRecipeInput[] | FavoriteRecipeUncheckedCreateWithoutRecipeInput[]
+    connectOrCreate?: FavoriteRecipeCreateOrConnectWithoutRecipeInput | FavoriteRecipeCreateOrConnectWithoutRecipeInput[]
+    createMany?: FavoriteRecipeCreateManyRecipeInputEnvelope
+    connect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -15925,6 +17371,20 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type FavoriteRecipeUpdateManyWithoutRecipeNestedInput = {
+    create?: XOR<FavoriteRecipeCreateWithoutRecipeInput, FavoriteRecipeUncheckedCreateWithoutRecipeInput> | FavoriteRecipeCreateWithoutRecipeInput[] | FavoriteRecipeUncheckedCreateWithoutRecipeInput[]
+    connectOrCreate?: FavoriteRecipeCreateOrConnectWithoutRecipeInput | FavoriteRecipeCreateOrConnectWithoutRecipeInput[]
+    upsert?: FavoriteRecipeUpsertWithWhereUniqueWithoutRecipeInput | FavoriteRecipeUpsertWithWhereUniqueWithoutRecipeInput[]
+    createMany?: FavoriteRecipeCreateManyRecipeInputEnvelope
+    set?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    disconnect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    delete?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    connect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    update?: FavoriteRecipeUpdateWithWhereUniqueWithoutRecipeInput | FavoriteRecipeUpdateWithWhereUniqueWithoutRecipeInput[]
+    updateMany?: FavoriteRecipeUpdateManyWithWhereWithoutRecipeInput | FavoriteRecipeUpdateManyWithWhereWithoutRecipeInput[]
+    deleteMany?: FavoriteRecipeScalarWhereInput | FavoriteRecipeScalarWhereInput[]
+  }
+
   export type InstructionUncheckedUpdateManyWithoutRecipeNestedInput = {
     create?: XOR<InstructionCreateWithoutRecipeInput, InstructionUncheckedCreateWithoutRecipeInput> | InstructionCreateWithoutRecipeInput[] | InstructionUncheckedCreateWithoutRecipeInput[]
     connectOrCreate?: InstructionCreateOrConnectWithoutRecipeInput | InstructionCreateOrConnectWithoutRecipeInput[]
@@ -15965,6 +17425,20 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutRecipeInput | CommentUpdateWithWhereUniqueWithoutRecipeInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutRecipeInput | CommentUpdateManyWithWhereWithoutRecipeInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type FavoriteRecipeUncheckedUpdateManyWithoutRecipeNestedInput = {
+    create?: XOR<FavoriteRecipeCreateWithoutRecipeInput, FavoriteRecipeUncheckedCreateWithoutRecipeInput> | FavoriteRecipeCreateWithoutRecipeInput[] | FavoriteRecipeUncheckedCreateWithoutRecipeInput[]
+    connectOrCreate?: FavoriteRecipeCreateOrConnectWithoutRecipeInput | FavoriteRecipeCreateOrConnectWithoutRecipeInput[]
+    upsert?: FavoriteRecipeUpsertWithWhereUniqueWithoutRecipeInput | FavoriteRecipeUpsertWithWhereUniqueWithoutRecipeInput[]
+    createMany?: FavoriteRecipeCreateManyRecipeInputEnvelope
+    set?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    disconnect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    delete?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    connect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    update?: FavoriteRecipeUpdateWithWhereUniqueWithoutRecipeInput | FavoriteRecipeUpdateWithWhereUniqueWithoutRecipeInput[]
+    updateMany?: FavoriteRecipeUpdateManyWithWhereWithoutRecipeInput | FavoriteRecipeUpdateManyWithWhereWithoutRecipeInput[]
+    deleteMany?: FavoriteRecipeScalarWhereInput | FavoriteRecipeScalarWhereInput[]
   }
 
   export type IngredientCreateNestedOneWithoutRecipesInput = {
@@ -16038,6 +17512,13 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
+  export type FavoriteRecipeCreateNestedManyWithoutUserInput = {
+    create?: XOR<FavoriteRecipeCreateWithoutUserInput, FavoriteRecipeUncheckedCreateWithoutUserInput> | FavoriteRecipeCreateWithoutUserInput[] | FavoriteRecipeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavoriteRecipeCreateOrConnectWithoutUserInput | FavoriteRecipeCreateOrConnectWithoutUserInput[]
+    createMany?: FavoriteRecipeCreateManyUserInputEnvelope
+    connect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+  }
+
   export type AvatarUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<AvatarCreateWithoutUserInput, AvatarUncheckedCreateWithoutUserInput>
     connectOrCreate?: AvatarCreateOrConnectWithoutUserInput
@@ -16063,6 +17544,13 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
     createMany?: CommentCreateManyUserInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type FavoriteRecipeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FavoriteRecipeCreateWithoutUserInput, FavoriteRecipeUncheckedCreateWithoutUserInput> | FavoriteRecipeCreateWithoutUserInput[] | FavoriteRecipeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavoriteRecipeCreateOrConnectWithoutUserInput | FavoriteRecipeCreateOrConnectWithoutUserInput[]
+    createMany?: FavoriteRecipeCreateManyUserInputEnvelope
+    connect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -16129,6 +17617,20 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type FavoriteRecipeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FavoriteRecipeCreateWithoutUserInput, FavoriteRecipeUncheckedCreateWithoutUserInput> | FavoriteRecipeCreateWithoutUserInput[] | FavoriteRecipeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavoriteRecipeCreateOrConnectWithoutUserInput | FavoriteRecipeCreateOrConnectWithoutUserInput[]
+    upsert?: FavoriteRecipeUpsertWithWhereUniqueWithoutUserInput | FavoriteRecipeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FavoriteRecipeCreateManyUserInputEnvelope
+    set?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    disconnect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    delete?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    connect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    update?: FavoriteRecipeUpdateWithWhereUniqueWithoutUserInput | FavoriteRecipeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FavoriteRecipeUpdateManyWithWhereWithoutUserInput | FavoriteRecipeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FavoriteRecipeScalarWhereInput | FavoriteRecipeScalarWhereInput[]
+  }
+
   export type AvatarUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<AvatarCreateWithoutUserInput, AvatarUncheckedCreateWithoutUserInput>
     connectOrCreate?: AvatarCreateOrConnectWithoutUserInput
@@ -16179,6 +17681,20 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutUserInput | CommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutUserInput | CommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type FavoriteRecipeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FavoriteRecipeCreateWithoutUserInput, FavoriteRecipeUncheckedCreateWithoutUserInput> | FavoriteRecipeCreateWithoutUserInput[] | FavoriteRecipeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FavoriteRecipeCreateOrConnectWithoutUserInput | FavoriteRecipeCreateOrConnectWithoutUserInput[]
+    upsert?: FavoriteRecipeUpsertWithWhereUniqueWithoutUserInput | FavoriteRecipeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FavoriteRecipeCreateManyUserInputEnvelope
+    set?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    disconnect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    delete?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    connect?: FavoriteRecipeWhereUniqueInput | FavoriteRecipeWhereUniqueInput[]
+    update?: FavoriteRecipeUpdateWithWhereUniqueWithoutUserInput | FavoriteRecipeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FavoriteRecipeUpdateManyWithWhereWithoutUserInput | FavoriteRecipeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FavoriteRecipeScalarWhereInput | FavoriteRecipeScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAvatarInput = {
@@ -16293,6 +17809,34 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutParentInput | CommentUpdateWithWhereUniqueWithoutParentInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutParentInput | CommentUpdateManyWithWhereWithoutParentInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutFavoriteRecipesInput = {
+    create?: XOR<UserCreateWithoutFavoriteRecipesInput, UserUncheckedCreateWithoutFavoriteRecipesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFavoriteRecipesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RecipeCreateNestedOneWithoutFavoriteRecipesInput = {
+    create?: XOR<RecipeCreateWithoutFavoriteRecipesInput, RecipeUncheckedCreateWithoutFavoriteRecipesInput>
+    connectOrCreate?: RecipeCreateOrConnectWithoutFavoriteRecipesInput
+    connect?: RecipeWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutFavoriteRecipesNestedInput = {
+    create?: XOR<UserCreateWithoutFavoriteRecipesInput, UserUncheckedCreateWithoutFavoriteRecipesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFavoriteRecipesInput
+    upsert?: UserUpsertWithoutFavoriteRecipesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFavoriteRecipesInput, UserUpdateWithoutFavoriteRecipesInput>, UserUncheckedUpdateWithoutFavoriteRecipesInput>
+  }
+
+  export type RecipeUpdateOneRequiredWithoutFavoriteRecipesNestedInput = {
+    create?: XOR<RecipeCreateWithoutFavoriteRecipesInput, RecipeUncheckedCreateWithoutFavoriteRecipesInput>
+    connectOrCreate?: RecipeCreateOrConnectWithoutFavoriteRecipesInput
+    upsert?: RecipeUpsertWithoutFavoriteRecipesInput
+    connect?: RecipeWhereUniqueInput
+    update?: XOR<XOR<RecipeUpdateToOneWithWhereWithoutFavoriteRecipesInput, RecipeUpdateWithoutFavoriteRecipesInput>, RecipeUncheckedUpdateWithoutFavoriteRecipesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -16536,6 +18080,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutRecipesInput
     ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
     comments?: CommentCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateWithoutDishTypeInput = {
@@ -16555,6 +18100,7 @@ export namespace Prisma {
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeCreateOrConnectWithoutDishTypeInput = {
@@ -16718,6 +18264,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutRecipesInput
     ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
     comments?: CommentCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateWithoutInstructionsInput = {
@@ -16737,6 +18284,7 @@ export namespace Prisma {
     commentCount?: number | null
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeCreateOrConnectWithoutInstructionsInput = {
@@ -16771,6 +18319,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
     ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
     comments?: CommentUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeUncheckedUpdateWithoutInstructionsInput = {
@@ -16790,6 +18339,7 @@ export namespace Prisma {
     commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutRecipeNestedInput
   }
 
   export type InstructionCreateWithoutRecipeInput = {
@@ -16841,6 +18391,7 @@ export namespace Prisma {
     avatar?: AvatarCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRecipesInput = {
@@ -16856,6 +18407,7 @@ export namespace Prisma {
     avatar?: AvatarUncheckedCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRecipesInput = {
@@ -16918,6 +18470,27 @@ export namespace Prisma {
 
   export type CommentCreateManyRecipeInputEnvelope = {
     data: CommentCreateManyRecipeInput | CommentCreateManyRecipeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FavoriteRecipeCreateWithoutRecipeInput = {
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutFavoriteRecipesInput
+  }
+
+  export type FavoriteRecipeUncheckedCreateWithoutRecipeInput = {
+    id?: number
+    userId: number
+    createdAt?: Date | string
+  }
+
+  export type FavoriteRecipeCreateOrConnectWithoutRecipeInput = {
+    where: FavoriteRecipeWhereUniqueInput
+    create: XOR<FavoriteRecipeCreateWithoutRecipeInput, FavoriteRecipeUncheckedCreateWithoutRecipeInput>
+  }
+
+  export type FavoriteRecipeCreateManyRecipeInputEnvelope = {
+    data: FavoriteRecipeCreateManyRecipeInput | FavoriteRecipeCreateManyRecipeInput[]
     skipDuplicates?: boolean
   }
 
@@ -16992,6 +18565,7 @@ export namespace Prisma {
     avatar?: AvatarUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRecipesInput = {
@@ -17007,6 +18581,7 @@ export namespace Prisma {
     avatar?: AvatarUncheckedUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RecipeIngredientUpsertWithWhereUniqueWithoutRecipeInput = {
@@ -17055,6 +18630,32 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Comment"> | Date | string
   }
 
+  export type FavoriteRecipeUpsertWithWhereUniqueWithoutRecipeInput = {
+    where: FavoriteRecipeWhereUniqueInput
+    update: XOR<FavoriteRecipeUpdateWithoutRecipeInput, FavoriteRecipeUncheckedUpdateWithoutRecipeInput>
+    create: XOR<FavoriteRecipeCreateWithoutRecipeInput, FavoriteRecipeUncheckedCreateWithoutRecipeInput>
+  }
+
+  export type FavoriteRecipeUpdateWithWhereUniqueWithoutRecipeInput = {
+    where: FavoriteRecipeWhereUniqueInput
+    data: XOR<FavoriteRecipeUpdateWithoutRecipeInput, FavoriteRecipeUncheckedUpdateWithoutRecipeInput>
+  }
+
+  export type FavoriteRecipeUpdateManyWithWhereWithoutRecipeInput = {
+    where: FavoriteRecipeScalarWhereInput
+    data: XOR<FavoriteRecipeUpdateManyMutationInput, FavoriteRecipeUncheckedUpdateManyWithoutRecipeInput>
+  }
+
+  export type FavoriteRecipeScalarWhereInput = {
+    AND?: FavoriteRecipeScalarWhereInput | FavoriteRecipeScalarWhereInput[]
+    OR?: FavoriteRecipeScalarWhereInput[]
+    NOT?: FavoriteRecipeScalarWhereInput | FavoriteRecipeScalarWhereInput[]
+    id?: IntFilter<"FavoriteRecipe"> | number
+    userId?: IntFilter<"FavoriteRecipe"> | number
+    recipeId?: IntFilter<"FavoriteRecipe"> | number
+    createdAt?: DateTimeFilter<"FavoriteRecipe"> | Date | string
+  }
+
   export type IngredientCreateWithoutRecipesInput = {
     name: string
     moderated?: boolean
@@ -17087,6 +18688,7 @@ export namespace Prisma {
     dishType: DishTypeCreateNestedOneWithoutRecipesInput
     user: UserCreateNestedOneWithoutRecipesInput
     comments?: CommentCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateWithoutIngredientsInput = {
@@ -17106,6 +18708,7 @@ export namespace Prisma {
     commentCount?: number | null
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeCreateOrConnectWithoutIngredientsInput = {
@@ -17178,6 +18781,7 @@ export namespace Prisma {
     dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
     comments?: CommentUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeUncheckedUpdateWithoutIngredientsInput = {
@@ -17197,6 +18801,7 @@ export namespace Prisma {
     commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutRecipeNestedInput
   }
 
   export type UnitUpsertWithoutRecipesInput = {
@@ -17279,6 +18884,7 @@ export namespace Prisma {
     dishType: DishTypeCreateNestedOneWithoutRecipesInput
     ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
     comments?: CommentCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateWithoutUserInput = {
@@ -17298,6 +18904,7 @@ export namespace Prisma {
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
     comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeCreateOrConnectWithoutUserInput = {
@@ -17338,6 +18945,27 @@ export namespace Prisma {
 
   export type CommentCreateManyUserInputEnvelope = {
     data: CommentCreateManyUserInput | CommentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FavoriteRecipeCreateWithoutUserInput = {
+    createdAt?: Date | string
+    recipe: RecipeCreateNestedOneWithoutFavoriteRecipesInput
+  }
+
+  export type FavoriteRecipeUncheckedCreateWithoutUserInput = {
+    id?: number
+    recipeId: number
+    createdAt?: Date | string
+  }
+
+  export type FavoriteRecipeCreateOrConnectWithoutUserInput = {
+    where: FavoriteRecipeWhereUniqueInput
+    create: XOR<FavoriteRecipeCreateWithoutUserInput, FavoriteRecipeUncheckedCreateWithoutUserInput>
+  }
+
+  export type FavoriteRecipeCreateManyUserInputEnvelope = {
+    data: FavoriteRecipeCreateManyUserInput | FavoriteRecipeCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -17424,6 +19052,22 @@ export namespace Prisma {
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type FavoriteRecipeUpsertWithWhereUniqueWithoutUserInput = {
+    where: FavoriteRecipeWhereUniqueInput
+    update: XOR<FavoriteRecipeUpdateWithoutUserInput, FavoriteRecipeUncheckedUpdateWithoutUserInput>
+    create: XOR<FavoriteRecipeCreateWithoutUserInput, FavoriteRecipeUncheckedCreateWithoutUserInput>
+  }
+
+  export type FavoriteRecipeUpdateWithWhereUniqueWithoutUserInput = {
+    where: FavoriteRecipeWhereUniqueInput
+    data: XOR<FavoriteRecipeUpdateWithoutUserInput, FavoriteRecipeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FavoriteRecipeUpdateManyWithWhereWithoutUserInput = {
+    where: FavoriteRecipeScalarWhereInput
+    data: XOR<FavoriteRecipeUpdateManyMutationInput, FavoriteRecipeUncheckedUpdateManyWithoutUserInput>
+  }
+
   export type UserCreateWithoutAvatarInput = {
     name: string
     email: string
@@ -17436,6 +19080,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAvatarInput = {
@@ -17451,6 +19096,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAvatarInput = {
@@ -17481,6 +19127,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAvatarInput = {
@@ -17496,6 +19143,7 @@ export namespace Prisma {
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPasswordResetTokensInput = {
@@ -17510,6 +19158,7 @@ export namespace Prisma {
     avatar?: AvatarCreateNestedOneWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -17525,6 +19174,7 @@ export namespace Prisma {
     avatar?: AvatarUncheckedCreateNestedOneWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -17555,6 +19205,7 @@ export namespace Prisma {
     avatar?: AvatarUpdateOneWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -17570,6 +19221,7 @@ export namespace Prisma {
     avatar?: AvatarUncheckedUpdateOneWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RecipeCreateWithoutCommentsInput = {
@@ -17588,6 +19240,7 @@ export namespace Prisma {
     dishType: DishTypeCreateNestedOneWithoutRecipesInput
     user: UserCreateNestedOneWithoutRecipesInput
     ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeUncheckedCreateWithoutCommentsInput = {
@@ -17607,6 +19260,7 @@ export namespace Prisma {
     commentCount?: number | null
     instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
     ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutRecipeInput
   }
 
   export type RecipeCreateOrConnectWithoutCommentsInput = {
@@ -17626,6 +19280,7 @@ export namespace Prisma {
     avatar?: AvatarCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -17641,6 +19296,7 @@ export namespace Prisma {
     avatar?: AvatarUncheckedCreateNestedOneWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
+    favoriteRecipes?: FavoriteRecipeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -17732,6 +19388,7 @@ export namespace Prisma {
     dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
     ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeUncheckedUpdateWithoutCommentsInput = {
@@ -17751,6 +19408,7 @@ export namespace Prisma {
     commentCount?: NullableIntFieldUpdateOperationsInput | number | null
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutRecipeNestedInput
   }
 
   export type UserUpsertWithoutCommentsInput = {
@@ -17776,6 +19434,7 @@ export namespace Prisma {
     avatar?: AvatarUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -17791,6 +19450,7 @@ export namespace Prisma {
     avatar?: AvatarUncheckedUpdateOneWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithoutRepliesInput = {
@@ -17841,6 +19501,178 @@ export namespace Prisma {
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutParentInput>
   }
 
+  export type UserCreateWithoutFavoriteRecipesInput = {
+    name: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    balance: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    slug: string
+    avatar?: AvatarCreateNestedOneWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    recipes?: RecipeCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFavoriteRecipesInput = {
+    id?: number
+    name: string
+    email: string
+    password: string
+    role?: $Enums.Role
+    balance: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    slug: string
+    avatar?: AvatarUncheckedCreateNestedOneWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFavoriteRecipesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFavoriteRecipesInput, UserUncheckedCreateWithoutFavoriteRecipesInput>
+  }
+
+  export type RecipeCreateWithoutFavoriteRecipesInput = {
+    title: string
+    tiktokUrl?: string | null
+    videoUrl?: string | null
+    slug: string
+    createdAt?: Date | string
+    moderated?: boolean
+    updatedAt?: Date | string
+    imageUrl?: string | null
+    privaterecipe?: boolean
+    averageRating?: number | null
+    commentCount?: number | null
+    instructions?: InstructionCreateNestedManyWithoutRecipeInput
+    dishType: DishTypeCreateNestedOneWithoutRecipesInput
+    user: UserCreateNestedOneWithoutRecipesInput
+    ingredients?: RecipeIngredientCreateNestedManyWithoutRecipeInput
+    comments?: CommentCreateNestedManyWithoutRecipeInput
+  }
+
+  export type RecipeUncheckedCreateWithoutFavoriteRecipesInput = {
+    id?: number
+    title: string
+    userId: number
+    tiktokUrl?: string | null
+    videoUrl?: string | null
+    dishTypeId: number
+    slug: string
+    createdAt?: Date | string
+    moderated?: boolean
+    updatedAt?: Date | string
+    imageUrl?: string | null
+    privaterecipe?: boolean
+    averageRating?: number | null
+    commentCount?: number | null
+    instructions?: InstructionUncheckedCreateNestedManyWithoutRecipeInput
+    ingredients?: RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
+    comments?: CommentUncheckedCreateNestedManyWithoutRecipeInput
+  }
+
+  export type RecipeCreateOrConnectWithoutFavoriteRecipesInput = {
+    where: RecipeWhereUniqueInput
+    create: XOR<RecipeCreateWithoutFavoriteRecipesInput, RecipeUncheckedCreateWithoutFavoriteRecipesInput>
+  }
+
+  export type UserUpsertWithoutFavoriteRecipesInput = {
+    update: XOR<UserUpdateWithoutFavoriteRecipesInput, UserUncheckedUpdateWithoutFavoriteRecipesInput>
+    create: XOR<UserCreateWithoutFavoriteRecipesInput, UserUncheckedCreateWithoutFavoriteRecipesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFavoriteRecipesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFavoriteRecipesInput, UserUncheckedUpdateWithoutFavoriteRecipesInput>
+  }
+
+  export type UserUpdateWithoutFavoriteRecipesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
+    avatar?: AvatarUpdateOneWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    recipes?: RecipeUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFavoriteRecipesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    slug?: StringFieldUpdateOperationsInput | string
+    avatar?: AvatarUncheckedUpdateOneWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type RecipeUpsertWithoutFavoriteRecipesInput = {
+    update: XOR<RecipeUpdateWithoutFavoriteRecipesInput, RecipeUncheckedUpdateWithoutFavoriteRecipesInput>
+    create: XOR<RecipeCreateWithoutFavoriteRecipesInput, RecipeUncheckedCreateWithoutFavoriteRecipesInput>
+    where?: RecipeWhereInput
+  }
+
+  export type RecipeUpdateToOneWithWhereWithoutFavoriteRecipesInput = {
+    where?: RecipeWhereInput
+    data: XOR<RecipeUpdateWithoutFavoriteRecipesInput, RecipeUncheckedUpdateWithoutFavoriteRecipesInput>
+  }
+
+  export type RecipeUpdateWithoutFavoriteRecipesInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    tiktokUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    moderated?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    privaterecipe?: BoolFieldUpdateOperationsInput | boolean
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: InstructionUpdateManyWithoutRecipeNestedInput
+    dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
+    user?: UserUpdateOneRequiredWithoutRecipesNestedInput
+    ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
+    comments?: CommentUpdateManyWithoutRecipeNestedInput
+  }
+
+  export type RecipeUncheckedUpdateWithoutFavoriteRecipesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
+    tiktokUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    dishTypeId?: IntFieldUpdateOperationsInput | number
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    moderated?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    privaterecipe?: BoolFieldUpdateOperationsInput | boolean
+    averageRating?: NullableFloatFieldUpdateOperationsInput | number | null
+    commentCount?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
+    ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
+  }
+
   export type RecipeCreateManyDishTypeInput = {
     id?: number
     title: string
@@ -17873,6 +19705,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutRecipesNestedInput
     ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
     comments?: CommentUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeUncheckedUpdateWithoutDishTypeInput = {
@@ -17892,6 +19725,7 @@ export namespace Prisma {
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeUncheckedUpdateManyWithoutDishTypeInput = {
@@ -18005,6 +19839,12 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type FavoriteRecipeCreateManyRecipeInput = {
+    id?: number
+    userId: number
+    createdAt?: Date | string
+  }
+
   export type InstructionUpdateWithoutRecipeInput = {
     step?: StringFieldUpdateOperationsInput | string
     stepNumber?: IntFieldUpdateOperationsInput | number
@@ -18079,6 +19919,23 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FavoriteRecipeUpdateWithoutRecipeInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFavoriteRecipesNestedInput
+  }
+
+  export type FavoriteRecipeUncheckedUpdateWithoutRecipeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteRecipeUncheckedUpdateManyWithoutRecipeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PasswordResetTokenCreateManyUserInput = {
     id?: string
     token: string
@@ -18109,6 +19966,12 @@ export namespace Prisma {
     recipeId: number
     parentId?: number | null
     moderated?: boolean
+    createdAt?: Date | string
+  }
+
+  export type FavoriteRecipeCreateManyUserInput = {
+    id?: number
+    recipeId: number
     createdAt?: Date | string
   }
 
@@ -18149,6 +20012,7 @@ export namespace Prisma {
     dishType?: DishTypeUpdateOneRequiredWithoutRecipesNestedInput
     ingredients?: RecipeIngredientUpdateManyWithoutRecipeNestedInput
     comments?: CommentUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeUncheckedUpdateWithoutUserInput = {
@@ -18168,6 +20032,7 @@ export namespace Prisma {
     instructions?: InstructionUncheckedUpdateManyWithoutRecipeNestedInput
     ingredients?: RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
     comments?: CommentUncheckedUpdateManyWithoutRecipeNestedInput
+    favoriteRecipes?: FavoriteRecipeUncheckedUpdateManyWithoutRecipeNestedInput
   }
 
   export type RecipeUncheckedUpdateManyWithoutUserInput = {
@@ -18214,6 +20079,23 @@ export namespace Prisma {
     recipeId?: IntFieldUpdateOperationsInput | number
     parentId?: NullableIntFieldUpdateOperationsInput | number | null
     moderated?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteRecipeUpdateWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recipe?: RecipeUpdateOneRequiredWithoutFavoriteRecipesNestedInput
+  }
+
+  export type FavoriteRecipeUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recipeId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FavoriteRecipeUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recipeId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

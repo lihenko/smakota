@@ -211,6 +211,13 @@ exports.Prisma.CommentScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FavoriteRecipeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recipeId: 'recipeId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -241,7 +248,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Avatar: 'Avatar',
   PasswordResetToken: 'PasswordResetToken',
-  Comment: 'Comment'
+  Comment: 'Comment',
+  FavoriteRecipe: 'FavoriteRecipe'
 };
 
 /**
