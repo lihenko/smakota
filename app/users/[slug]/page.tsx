@@ -2,8 +2,56 @@ import { prisma } from '@/app/lib/prisma';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import UserClientContent from './UserClientContent';
+import type { Metadata } from "next";
 
 export type ParamsPromise = Promise<{ slug: string }>;
+
+export async function generateMetadata({ params }: { params: ParamsPromise }): Promise<Metadata> {
+  const { slug } = await params;
+  const DEFAULT_AVATAR = '/avatars/default-avatar.webp';
+
+  const user = await prisma.user.findUnique({
+    where: { slug },
+    include: {
+      avatar: true,
+      _count: {
+        select: {
+          recipes: true,
+          comments: true,
+        },
+      },
+    },
+  });
+
+  if (!user) {
+    return {
+      title: "Кулінар не знайдений – Смакота",
+      description: "Цей кулінар не знайдений або був видалений.",
+    };
+  }
+
+  const title = `${user.name} – Кулінар на Смакота`;
+  const description = `Профіль кулінара ${user.name} на Смакота. Створено страв: ${user._count.recipes}, залишено відгуків: ${user._count.comments}. Долучайтеся до спільноти домашніх кухарів!`;
+  const image = user.avatar?.avatarUrl || DEFAULT_AVATAR;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [image],
+      type: "profile",
+      url: `/users/${user.slug}`,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
 export default async function UserPage(props: {
   params: ParamsPromise;
