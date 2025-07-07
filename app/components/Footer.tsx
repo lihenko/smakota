@@ -11,7 +11,10 @@ const Footer: React.FC = () => {
     <footer className="bg-[#eadcc7] text-black p-4">
         <div className="container">
             <div className="flex flex-wrap justify-between">
-            <h1 className="text-xl font-bold">Смакота</h1>
+                <div className="px-4 w-full text-center md:w-auto md:text-left">
+                    <h1 className="text-xl font-bold">Смакота</h1>
+                    <p>Твоя кулінарна книга онлайн.</p>
+                </div>
             <div className="px-4">
                 <nav>
                     <ul>
