@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import UserClientContent from './UserClientContent';
 import type { Metadata } from "next";
+import { getUserId } from '@/hooks/useAuth.server';
 
 export type ParamsPromise = Promise<{ slug: string }>;
 
@@ -89,6 +90,17 @@ const userSchema = {
   }
 };
 
+  const userId = await getUserId();
+
+  let favorites: number[] = [];
+
+  if (userId) {
+    const favs = await prisma.favoriteRecipe.findMany({
+      where: { userId: Number(userId) },
+      select: { recipeId: true },
+    });
+    favorites = favs.map((f) => f.recipeId);
+  }
 
 
 
@@ -116,7 +128,11 @@ const userSchema = {
           </div>
 
           {/* Клієнтська частина (динамічні рецепти й коментарі) */}
-          <UserClientContent slug={slug} />
+          <UserClientContent 
+                slug={slug}
+                currentUserId={userId ? Number(userId) : null}
+                favoriteIds={favorites}
+              />
         </div>
       </section>
       

@@ -20,9 +20,11 @@ type Recipe = {
 
 interface RecipesListProps {
   slug: string;
+  currentUserId: number | null;
+  favoriteIds: number[]
 }
 
-export default function RecipesList({ slug }: RecipesListProps) {
+export default function RecipesList({ slug, currentUserId, favoriteIds }: RecipesListProps) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -95,7 +97,12 @@ export default function RecipesList({ slug }: RecipesListProps) {
       <div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {recipes.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                userId={currentUserId}
+              isInitiallyFavorite={favoriteIds.includes(recipe.id)}
+              />
           ))}
         </div>
 
