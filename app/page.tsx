@@ -47,9 +47,30 @@ export default async function HomePage() {
           />
           ))}
         </div>
-        <div className="text-center">
+        <div className="text-center mb-8">
           <Link href="/recipe" className="btn btn-primary">Більше рецептів</Link>
         </div>
+        <section
+          className="py-10 px-6 sm:px-12 rounded-2xl shadow-lg my-10">
+          <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="text-center lg:text-left">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-2 text-primary">
+                Створи свою кулінарну книгу
+              </h2>
+              <p className="text-lg text-base-content">
+                Зберігай улюблені рецепти, додавай власні, готуй із задоволенням.
+              </p>
+            </div>
+            <div>
+              <Link
+                href="/dashboard/createrecipe"
+                className="mt-4 lg:mt-0 inline-block px-6 py-3 bg-primary text-primary-content hover:brightness-110 font-semibold rounded-xl transition"
+              >
+                Почати зараз
+              </Link>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );
