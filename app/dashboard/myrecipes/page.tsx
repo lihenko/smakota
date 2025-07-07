@@ -62,6 +62,15 @@ export default async function MyRecipesPage(props: { searchParams: SearchParamsP
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
+  let favorites: Record<number, boolean> = {};
+  if (currentUser !== null) {
+    const favList = await prisma.favoriteRecipe.findMany({
+      where: { userId: currentUser.id },
+      select: { recipeId: true },
+    });
+    favorites = Object.fromEntries(favList.map(f => [f.recipeId, true]));
+  }
+
   return (
     <>
       <UserMenu currentUser={currentUser} />
@@ -83,7 +92,12 @@ export default async function MyRecipesPage(props: { searchParams: SearchParamsP
                 Рецепти не знайдено
               </p>
             ) : (
-              recipes.map((recipe) => <RecipeCard key={recipe.id} recipe={recipe} />)
+              recipes.map((recipe) => <RecipeCard
+                                        key={recipe.id}
+                                        recipe={recipe}
+                                        userId={currentUser.id}
+                                        isInitiallyFavorite={!!favorites[recipe.id]}
+                                      />)
             )}
           </div>
 

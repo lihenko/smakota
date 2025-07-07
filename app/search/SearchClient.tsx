@@ -3,32 +3,53 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import RecipeCard from '@/app/components/RecipeCard';
+import prisma from '../lib/prisma';
 
-export default function SearchClient() {
+interface Recipe {
+  id: number;
+  title: string;
+  slug: string;
+  imageUrl?: string | null;
+  createdAt: Date;
+  averageRating: number | null;
+  commentCount: number | null;
+  privaterecipe: boolean;
+  moderated: boolean;
+  user: { name: string };
+  isInitiallyFavorite: boolean;
+}
+
+interface SearchClientProps {
+  initialQuery: string;
+  userId: number | null;
+  favoriteIds: number[];
+}
+
+export default function SearchClient({ initialQuery, userId, favoriteIds }: SearchClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryFromUrl = searchParams.get('q') || '';
 
-  const [query, setQuery] = useState(queryFromUrl);
-  const [results, setResults] = useState<any[]>([]);
+  const [query, setQuery] = useState(initialQuery);
+  const [results, setResults] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setQuery(queryFromUrl);
-  }, [queryFromUrl]);
-
-  async function fetchResults(searchQuery: string) {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
-      const data = await res.json();
-      setResults(data.recipes);
-    } catch (error) {
-      console.error('Search API error:', error);
-      setResults([]);
-    }
-    setLoading(false);
+  const fetchResults = async (searchQuery: string) => {
+  setLoading(true);
+  try {
+    const res = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+    const data = await res.json();
+    const recipes = data.recipes.map((r: any) => ({
+      ...r,
+      createdAt: new Date(r.createdAt),  // Перетворюємо строку в Date
+    }));
+    setResults(recipes);
+  } catch (e) {
+    console.error(e);
+    setResults([]);
   }
+  setLoading(false);
+};
 
   useEffect(() => {
     if (queryFromUrl.trim()) {
@@ -36,6 +57,7 @@ export default function SearchClient() {
     } else {
       setResults([]);
     }
+    setQuery(queryFromUrl);
   }, [queryFromUrl]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -45,10 +67,10 @@ export default function SearchClient() {
     router.push(`/search?q=${encodeURIComponent(trimmed)}`);
   };
 
+
   return (
     <section className="py-16">
       <div className="container">
-        {/* Форма пошуку */}
         <div className="max-w-3xl mx-auto mb-8">
           <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
             <input
@@ -59,28 +81,28 @@ export default function SearchClient() {
               className="input input-bordered w-full"
               autoFocus
             />
-            <button type="submit" className="btn btn-primary">
-              Пошук
-            </button>
+            <button type="submit" className="btn btn-primary">Пошук</button>
           </form>
         </div>
 
-        {/* Статус пошуку */}
         {loading && <p>Завантаження...</p>}
         {!loading && !queryFromUrl && <p>Введіть текст для пошуку.</p>}
         {!loading && queryFromUrl && results.length === 0 && (
-          <p>
-            За запитом &quot;{queryFromUrl}&quot; нічого не знайдено.
-          </p>
+          <p>За запитом &quot;{queryFromUrl}&quot; нічого не знайдено.</p>
         )}
 
-        {/* Вивід результатів у вигляді карточок */}
         <div className="text-center mb-8">
           <h1 className="text-xl font-bold">Результати пошуку</h1>
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {results.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+          {results.map(recipe => (
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              userId={userId}
+              isInitiallyFavorite={favoriteIds.includes(recipe.id)}
+            />
           ))}
         </div>
       </div>

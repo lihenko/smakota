@@ -5,6 +5,7 @@ import Filter from '../components/Filter';
 import Pagination from '../components/Pagination';
 import RecipeSearchForm from '../components/SearchForm';
 import React from 'react';
+import { getUserId } from "@/hooks/useAuth.server";
 
 export const dynamic = 'force-dynamic';
 
@@ -26,6 +27,9 @@ export default async function RecipesPage({
   if (isNaN(page) || page < 1) {
     redirect('/recipe');
   }
+
+  const userId = await getUserId();
+  const numericUserId = userId ? Number(userId) : null;
 
   const pageSize = 12;
   const skip = (page - 1) * pageSize;
@@ -87,6 +91,15 @@ export default async function RecipesPage({
     },
   };
 
+  let favorites: Record<number, boolean> = {};
+    if (numericUserId !== null) {
+      const favList = await prisma.favoriteRecipe.findMany({
+        where: { userId: numericUserId },
+        select: { recipeId: true },
+      });
+      favorites = Object.fromEntries(favList.map(f => [f.recipeId, true]));
+    }
+
   return (
     <>
       <script
@@ -109,7 +122,12 @@ export default async function RecipesPage({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             {recipes.map((recipe) => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                userId={numericUserId}
+                isInitiallyFavorite={!!favorites[recipe.id]}
+              />
             ))}
           </div>
 

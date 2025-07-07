@@ -3,13 +3,11 @@ import StarDisplay from "./StarDisplay";
 import CommentCountDisplay from "./CommentCountDisplay";
 import styles from './RecipeCard.module.css';
 import FavoriteButton from "./FavoriteButton";
-import { getUserId } from "@/hooks/useAuth.server";
-import prisma from "@/app/lib/prisma";
 
 interface RecipeCardProps {
   recipe: {
-    privaterecipe: any;
-    moderated: any;
+    privaterecipe: boolean;
+    moderated: boolean;
     id: number;
     title: string;
     slug: string;
@@ -21,25 +19,12 @@ interface RecipeCardProps {
       name: string;
     };
   };
+  userId: number | null;
+  isInitiallyFavorite: boolean;
 }
 
-export default async function RecipeCard({ recipe }: RecipeCardProps) {
+export default function RecipeCard({ recipe, userId, isInitiallyFavorite }: RecipeCardProps) {
   const imageSrc = recipe.imageUrl || "/recipes/placeholder.webp";
-  const userId = await getUserId();
-
-  // Перевіряємо, чи цей рецепт вже улюблений для користувача
-  let isInitiallyFavorite = false;
-  if (userId) {
-    const favorite = await prisma.favoriteRecipe.findUnique({
-      where: {
-        userId_recipeId: {
-          userId: Number(userId),
-          recipeId: recipe.id,
-        },
-      },
-    });
-    isInitiallyFavorite = !!favorite;
-  }
 
   return (
     <a
@@ -56,18 +41,14 @@ export default async function RecipeCard({ recipe }: RecipeCardProps) {
         />
         <FavoriteButton
           recipeId={recipe.id}
-          userId={userId ? Number(userId) : null}
+          userId={userId}
           isInitiallyFavorite={isInitiallyFavorite}
         />
         {recipe.privaterecipe && (
-          <span className={styles.recipelabel}>
-            Приватний
-          </span>
+          <span className={styles.recipelabel}>Приватний</span>
         )}
         {!recipe.moderated && !recipe.privaterecipe && (
-          <span className={styles.recipelabel}>
-            На модерації
-          </span>
+          <span className={styles.recipelabel}>На модерації</span>
         )}
       </div>
 
