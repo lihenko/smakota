@@ -1,10 +1,10 @@
-// app/components/RecipeCard.tsx
-
 import Image from 'next/image';
 import StarDisplay from "./StarDisplay";
 import CommentCountDisplay from "./CommentCountDisplay";
 import styles from './RecipeCard.module.css';
 import FavoriteButton from "./FavoriteButton";
+import { getUserId } from "@/hooks/useAuth.server";
+import prisma from "@/app/lib/prisma";
 
 interface RecipeCardProps {
   recipe: {
@@ -23,8 +23,23 @@ interface RecipeCardProps {
   };
 }
 
-export default function RecipeCard({ recipe }: RecipeCardProps) {
+export default async function RecipeCard({ recipe }: RecipeCardProps) {
   const imageSrc = recipe.imageUrl || "/recipes/placeholder.webp";
+  const userId = await getUserId();
+
+  // Перевіряємо, чи цей рецепт вже улюблений для користувача
+  let isInitiallyFavorite = false;
+  if (userId) {
+    const favorite = await prisma.favoriteRecipe.findUnique({
+      where: {
+        userId_recipeId: {
+          userId: Number(userId),
+          recipeId: recipe.id,
+        },
+      },
+    });
+    isInitiallyFavorite = !!favorite;
+  }
 
   return (
     <a
@@ -39,7 +54,11 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
-        <FavoriteButton recipeId={recipe.id} />
+        <FavoriteButton
+          recipeId={recipe.id}
+          userId={userId ? Number(userId) : null}
+          isInitiallyFavorite={isInitiallyFavorite}
+        />
         {recipe.privaterecipe && (
           <span className={styles.recipelabel}>
             Приватний

@@ -26,6 +26,9 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
                             <Link href="/dashboard/createrecipe/">Новий рецепт</Link>
                         </li>
                         <li>
+                            <Link href="/dashboard/cookbook/">Моя кулінарна книга</Link>
+                        </li>
+                        <li>
                             <Link href="/dashboard/myrecipes/">Мої рецепти</Link>
                         </li>
                         {currentUser?.role === 'admin' && (

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { addPendingFavoriteAfterLogin } from "@/utils/favoriteFromLocalStorage";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -34,6 +35,9 @@ export default function LoginPage() {
       setError(data.error || 'Помилка при вході');
       return;
     }
+
+    // Додаємо рецепт до обраного, якщо він був у localStorage
+    await addPendingFavoriteAfterLogin();
 
     // Повідомити інші вкладки, якщо потрібно
     const channel = new BroadcastChannel('auth');

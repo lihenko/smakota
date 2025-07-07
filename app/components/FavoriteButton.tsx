@@ -1,18 +1,42 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface FavoriteButtonProps {
   recipeId: number;
+  isInitiallyFavorite?: boolean;
+  userId?: number | null;
 }
 
-export default function FavoriteButton({ recipeId }: FavoriteButtonProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
+export default function FavoriteButton({ recipeId, isInitiallyFavorite = false, userId }: FavoriteButtonProps) {
+  const [isFavorite, setIsFavorite] = useState(isInitiallyFavorite);
+  const router = useRouter();
 
-  const handleClick = (e: React.MouseEvent) => {
+  useEffect(() => {
+    setIsFavorite(isInitiallyFavorite);
+  }, [isInitiallyFavorite]);
+
+  const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsFavorite((prev) => !prev);
-    // TODO: Додайте тут реальний запит до API для додавання/видалення з обраного
+
+    if (!userId) {
+      // Зберігаємо в localStorage і редіректимо на реєстрацію
+      localStorage.setItem("pendingFavoriteRecipe", recipeId.toString());
+      router.push("/login?favorite=1");
+      return;
+    }
+
+    // Відправляємо запит до API
+    const res = await fetch("/api/favorites", {
+      method: isFavorite ? "DELETE" : "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ recipeId }),
+    });
+
+    if (res.ok) {
+      setIsFavorite(!isFavorite);
+    }
   };
 
   return (

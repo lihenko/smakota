@@ -192,6 +192,18 @@ function generateDescription(recipe: { title: any; ingredients: any[]; videoUrl?
     })
   };
 
+  let isInitiallyFavorite = false;
+if (userId) {
+  const favorite = await prisma.favoriteRecipe.findUnique({
+    where: {
+      userId_recipeId: {
+        userId,
+        recipeId: recipe.id,
+      },
+    },
+  });
+  isInitiallyFavorite = !!favorite;
+}
 
   return (
     <main className="py-16">
@@ -213,7 +225,11 @@ function generateDescription(recipe: { title: any; ingredients: any[]; videoUrl?
                   className="mb-6 rounded-t-xl"
                   priority
                 />
-                <FavoriteButton recipeId={recipe.id} />
+                <FavoriteButton
+                  recipeId={recipe.id}
+                  userId={userId ?? null}
+                  isInitiallyFavorite={isInitiallyFavorite}
+                />
               </div>
               
               {recipe.privaterecipe && (
