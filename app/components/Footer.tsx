@@ -11,11 +11,11 @@ const Footer: React.FC = () => {
     <footer className="bg-[#eadcc7] text-black p-4">
         <div className="container">
             <div className="flex flex-wrap justify-between">
-                <div className="px-4 w-full text-center md:w-auto md:text-left">
+                <div className="px-4 w-full text-center mb-6 md:w-1/5 md:text-left">
                     <h1 className="text-xl font-bold">Смакота</h1>
-                    <p>Твоя кулінарна книга онлайн.</p>
+                    <p className='font-bold'>Твоя кулінарна книга онлайн</p>
                 </div>
-            <div className="px-4">
+            <div className="px-4 w-1/2 mb-3 md:w-1/5">
                 <nav>
                     <ul>
                         <li>
@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
                     </ul>
                 </nav>
             </div>
-            <div className="px-4">
+            <div className="px-4 w-1/2 mb-3 md:w-1/5">
                 <nav>
                     <ul>
                         <li>
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
                     </ul>
                 </nav>
             </div>
-            <div className="px-4">
+            <div className="px-4 w-1/2 mb-3 md:w-1/5">
                 <nav>
                     <ul>
                         <li>
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
                     </ul>
                 </nav>
             </div>
-            <div className="px-4">
+            <div className="px-4 w-1/2 mb-3 md:w-1/5">
                 <nav>
                     <ul>
                         <li>
