@@ -2,6 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { prisma } from '@/app/lib/prisma'; // або свій імпорт prisma
 import React from 'react';
+import { metadata } from "./metadata";
+
+export { metadata };
 
 interface User {
   id: number;
@@ -14,6 +17,11 @@ const DEFAULT_AVATAR = '/avatars/default-avatar.webp';
 
 async function getUsers(): Promise<User[]> {
   const users = await prisma.user.findMany({
+    where: {
+      recipes: {
+        some: {}, 
+      },
+    },
     select: {
       id: true,
       name: true,
