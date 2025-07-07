@@ -10,39 +10,77 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-[#eadcc7] text-black p-4">
         <div className="container">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-wrap justify-between">
             <h1 className="text-xl font-bold">Смакота</h1>
-            <nav>
-            <ul className="">
-                <li>
-                <Link href="/">Головна</Link>
-                </li>
-                <li>
-                <Link href="/users">Наші кулінари</Link>
-                </li>
-                {isLoggedIn ? (
-                <>
-                    <li>
-                    <Link href="/dashboard">Кабінет кулінара</Link>
-                    </li>
-                    <li>
-                    <button onClick={logout} className="cursor-pointer hover:underline">
-                        Вийти
-                    </button>
-                    </li>
-                </>
-                ) : (
-                <>
-                    <li>
-                    <Link href="/register">Реєстрація</Link>
-                    </li>
-                    <li>
-                    <Link href="/login">Вхід</Link>
-                    </li>
-                </>
-                )}
-            </ul>
-            </nav>
+            <div className="px-4">
+                <nav>
+                    <ul>
+                        <li>
+                        <Link href="/">Головна</Link>
+                        </li>
+                        <li>
+                        <Link href="/users">Наші кулінари</Link>
+                        </li>
+                        <li>
+                        <Link href="/about">Про нас</Link>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div className="px-4">
+                <nav>
+                    <ul>
+                        <li>
+                        <Link href="/recipe/type/osnovni-stravy">Основні страви</Link>
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/yushky">Юшки</Link>   
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/garniry">Гарніри</Link>
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/salaty">Салати</Link>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div className="px-4">
+                <nav>
+                    <ul>
+                        <li>
+                        <Link href="/recipe/type/zakusky">Закуски</Link>
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/sousy">Соуси</Link>   
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/snidanok">Сніданок</Link>
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/deserty">Десерти</Link>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div className="px-4">
+                <nav>
+                    <ul>
+                        <li>
+                        <Link href="/recipe/type/napoyi">Напої</Link>
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/vypichka">Випічка</Link>   
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/torty">Торти</Link>
+                        </li>
+                        <li>
+                        <Link href="/recipe/type/konservatsiya">Консервація</Link>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
         </div>
       
