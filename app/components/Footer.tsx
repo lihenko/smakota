@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuthSync } from '@/hooks/useAuthSync';
-import { logout } from '@/utils/logout';
+
+
 
 const Footer: React.FC = () => {
-  const isLoggedIn = useAuthSync();
+
 
   return (
     <footer className="bg-[#eadcc7] text-black p-4">
