@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import prisma from '../../../lib/prisma';
 import RecipeCard from '../../../components/RecipeCard';
 import Pagination from '../../../components/Pagination';
+import { getUserId } from "@/hooks/useAuth.server";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 export type SearchParamsPromise = Promise<Record<'page', string | undefined> | undefined>;
@@ -51,6 +52,18 @@ export default async function DishTypeSlugPage({ params, searchParams }: Props) 
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
+  const userId = await getUserId();
+  const numericUserId = userId ? Number(userId) : null;
+
+  let favorites: Record<number, boolean> = {};
+    if (numericUserId !== null) {
+      const favList = await prisma.favoriteRecipe.findMany({
+        where: { userId: numericUserId },
+        select: { recipeId: true },
+      });
+      favorites = Object.fromEntries(favList.map(f => [f.recipeId, true]));
+    }
+
   return (
     <main className="py-16">
       <div className="container">
@@ -62,7 +75,12 @@ export default async function DishTypeSlugPage({ params, searchParams }: Props) 
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {recipes.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} />
+                <RecipeCard
+                                key={recipe.id}
+                                recipe={recipe}
+                                userId={numericUserId}
+                                isInitiallyFavorite={!!favorites[recipe.id]}
+                              />
               ))}
             </div>
             {totalPages > 1 && (
