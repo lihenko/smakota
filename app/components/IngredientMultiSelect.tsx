@@ -53,7 +53,7 @@ export default function IngredientMultiSelect({ ingredients, selected, onChange 
   };
 
   return (
-    <div>
+    <div className='w-full sm:w-auto'>
       <label className="block font-bold mb-1">Інгредієнти</label>
       <div className="flex flex-wrap gap-2 mb-2">
         {selected.map((id) => {
@@ -68,7 +68,7 @@ export default function IngredientMultiSelect({ ingredients, selected, onChange 
         })}
       </div>
 
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full sm:max-w-xl">
         <input
           type="text"
           ref={inputRef}

@@ -182,7 +182,7 @@ export default function CreateRecipePage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
+    <div className="max-w-3xl mx-auto p-4 pb-20">
       <h1 className="text-2xl font-bold mb-4">Додати рецепт</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Title, Dish Type, Ingredients, Instructions, Image, Videos - all UI */}
@@ -207,10 +207,10 @@ export default function CreateRecipePage() {
           ))}
         </select>
 
-        <div>
+        <div className='pb-10'>
           <h2 className="font-semibold mb-2">Інгредієнти</h2>
           {ingredients.map((ingredient, idx) => (
-            <div key={idx} className="flex gap-2 mb-2 relative items-center">
+            <div key={idx} className="flex flex-wrap gap-2 mb-2 relative items-center">
               <div className='relative'>
                 <input
                   type="text"
@@ -317,7 +317,7 @@ export default function CreateRecipePage() {
           </button>
         </div>
 
-        <div>
+        <div className='pb-10'>
           <h2 className="font-semibold mb-2">Кроки приготування</h2>
           {instructions.map((step, idx) => (
             <div key={idx} className="mb-2 flex gap-2 items-center">
@@ -355,7 +355,7 @@ export default function CreateRecipePage() {
           </button>
         </div>
 
-        <div>
+        <div className='mb-2'>
           <h2 className="font-semibold mb-2">Відео з YouTube</h2>
           <input
             type="text"
@@ -378,7 +378,7 @@ export default function CreateRecipePage() {
           )}
         </div>
 
-        <div>
+        <div className='mb-2'>
           <h2 className="font-semibold mb-2">Відео з TikTok</h2>
           <input
             type="text"
@@ -399,7 +399,7 @@ export default function CreateRecipePage() {
           )}
         </div>
 
-        <div>
+        <div className='mb-2'>
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
@@ -411,7 +411,7 @@ export default function CreateRecipePage() {
           </label>
         </div>
 
-        <div>
+        <div className='mb-2'>
           <h2 className="font-semibold mb-2">Фото рецепту</h2>
           <input
             type="file"

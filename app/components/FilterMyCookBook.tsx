@@ -105,7 +105,7 @@ const Filter = ({
   return (
     <div className="mb-8 space-y-4">
       <div className="flex flex-wrap gap-4">
-        <div className='flex flex-col justify-between'>
+        <div className='flex flex-col justify-between w-full sm:w-auto'>
           <label htmlFor="dishType" className="block font-bold mb-1">
             Тип страви
           </label>
@@ -113,7 +113,7 @@ const Filter = ({
             id="dishType"
             value={selectedDishTypeId}
             onChange={handleDishTypeChange}
-            className="select select-bordered w-full max-w-xs"
+            className="select select-bordered w-full sm:max-w-xs"
           >
             <option value={0}>Всі типи</option>
             {dishTypes.map((dishType) => (
@@ -125,7 +125,7 @@ const Filter = ({
         </div>
 
         
-        <div className="flex">
+        <div className="flex w-full sm:w-auto">
             <IngredientMultiSelect
             ingredients={ingredients}
             selected={selectedIngredientIds}

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { User } from '../generated/prisma';
 import { logout } from '@/utils/logout';
+import Link from 'next/link';
 
 interface DashboardProps {
   currentUser: (User & { avatar?: { avatarUrl: string } }) | null;
@@ -153,6 +154,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
             Імʼя: {newName}
           </p>
           <p>Email: {currentUser?.email}</p>
+          <p>Моя сторінка: <Link href={`/users/${currentUser?.slug}`} className='underline hover:text-accent'>Дивитись</Link></p>
           <button className="btn btn-neutral mt-2" onClick={() => setIsEditingName(true)}>
             Змінити імʼя
           </button>
