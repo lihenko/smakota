@@ -75,9 +75,12 @@ export default function LoginPage() {
 
         {error && <p className="text-red-500">{error}</p>}
 
-        <div className="text-center">
+        <div className="text-center mb-2">
           Забули пароль? <Link href="/forgot-password/">Відновити</Link>
         </div>
+        <div className="text-center">
+          Немає акаунту? <Link href="/register/">Зареєструватися</Link>
+        </div> 
       </form>
     </div>
     
