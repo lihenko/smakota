@@ -12,6 +12,7 @@ type IngredientInput = {
 };
 
 export default function CreateRecipePage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [title, setTitle] = useState('');
   const [dishType, setDishType] = useState('');
   const [ingredients, setIngredients] = useState<IngredientInput[]>([
@@ -143,23 +144,26 @@ export default function CreateRecipePage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
+  setIsSubmitting(true); // ➕ показуємо індикатор
 
-    if (!privateRecipe && !image) {
-      setMessage('❌ Для публічного рецепту обов’язково додати зображення');
-      return;
-    }
+  if (!privateRecipe && !image) {
+    setMessage('❌ Для публічного рецепту обов’язково додати зображення');
+    setIsSubmitting(false); // ❗️відміна індикатора
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('dishType', dishType);
-    formData.append('videoUrl', embedYoutube);
-    formData.append('tiktokUrl', embedTiktok);
-    formData.append('privateRecipe', privateRecipe ? "true" : "false");
-    formData.append('ingredients', JSON.stringify(ingredients));
-    formData.append('instructions', JSON.stringify(instructions));
-    if (image) formData.append('image', image);
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('dishType', dishType);
+  formData.append('videoUrl', embedYoutube);
+  formData.append('tiktokUrl', embedTiktok);
+  formData.append('privateRecipe', privateRecipe ? "true" : "false");
+  formData.append('ingredients', JSON.stringify(ingredients));
+  formData.append('instructions', JSON.stringify(instructions));
+  if (image) formData.append('image', image);
 
+  try {
     const res = await fetch('/api/createrecipe', {
       method: 'POST',
       body: formData,
@@ -167,11 +171,12 @@ export default function CreateRecipePage() {
 
     if (res.ok) {
       setMessage('✅ Рецепт успішно створено!');
+      // Очистити форму
       setTitle('');
       setDishType('');
       setVideoUrl('');
       setTiktokUrl('');
-      setIngredients([{ name: '', amount: '', unit: '' }]);
+      setIngredients([{ name: '', amount: '', unit: '', toTaste: false }]);
       setInstructions(['']);
       setImage(null);
       setQueryList(['']);
@@ -179,7 +184,12 @@ export default function CreateRecipePage() {
       const data = await res.json();
       setMessage(`❌ Помилка: ${data.error || 'невідомо'}`);
     }
-  };
+  } catch (error) {
+    setMessage('❌ Помилка при надсиланні форми');
+  } finally {
+    setIsSubmitting(false); // 🔄 Завершено
+  }
+};
 
   return (
     <div className="max-w-3xl mx-auto p-4 pb-20">
@@ -425,8 +435,12 @@ export default function CreateRecipePage() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary w-full">
-          Створити рецепт
+        <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <span className="loading loading-spinner loading-sm"></span>
+          ) : (
+            'Створити рецепт'
+          )}
         </button>
       </form>
 
