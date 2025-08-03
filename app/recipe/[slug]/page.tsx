@@ -10,6 +10,7 @@ import ReplyFormToggle from "@/app/components/ReplyFormToggle";
 import styles from '../../components/RecipeCard.module.css';
 import Image from "next/image";
 import FavoriteButton from "@/app/components/FavoriteButton";
+import RelatedRecipes from '@/app/components/RelatedRecipes';
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 
@@ -205,11 +206,20 @@ if (userId) {
   isInitiallyFavorite = !!favorite;
 }
 
+let favorites: Record<number, boolean> = {};
+if (userId) {
+  const favList = await prisma.favoriteRecipe.findMany({
+    where: { userId },
+    select: { recipeId: true },
+  });
+  favorites = Object.fromEntries(favList.map(f => [f.recipeId, true]));
+}
+
   return (
     <main className="py-16">
       <div className="container">
-        <div className="flex flex-wrap">
-          <div className="w-full lg:w-2/3">
+        <div className="flex flex-wrap -mx-3">
+          <div className="w-full px-3 lg:w-2/3">
             <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
             <p className="text-sm text-gray-500 mb-4">
               Автор: {recipe.user.name} • {formattedDate}
@@ -289,9 +299,16 @@ if (userId) {
             )}
           </div>
 
-          <div className="w-full lg:w-1/3" />
+          <div className="w-full px-3 lg:w-1/3">
+            <RelatedRecipes
+              recipeId={recipe.id}
+              dishTypeId={recipe.dishTypeId}
+              ingredientIds={recipe.ingredients.map(i => i.ingredientId)}
+              userId={userId ?? null}
+              favorites={favorites}
+            />
+          </div>
         </div>
-
         <div className="flex">
           <div className="w-full">
             <div className="mt-10">
