@@ -11,6 +11,7 @@ import styles from '../../components/RecipeCard.module.css';
 import Image from "next/image";
 import FavoriteButton from "@/app/components/FavoriteButton";
 import RelatedRecipes from '@/app/components/RelatedRecipes';
+import RecipeShare from "@/app/components/RecipeShare";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 
@@ -297,6 +298,7 @@ if (userId) {
                 />
               </div>
             )}
+            <RecipeShare url={`https://smakota.club/recipe/${recipe.slug}`} title={recipe.title} />
           </div>
 
           <div className="w-full px-3 lg:w-1/3">
