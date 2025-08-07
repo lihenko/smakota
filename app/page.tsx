@@ -6,6 +6,15 @@ import { getUserId } from "@/hooks/useAuth.server";
 
 export const dynamic = 'force-dynamic'; 
 
+
+export const metadata = {
+  alternates: {
+    canonical: 'https://www.smakota.club/',
+  },
+};
+
+
+
 export default async function HomePage() {
   const userId = await getUserId();
   const numericUserId = userId ? Number(userId) : null;

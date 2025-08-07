@@ -47,6 +47,9 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
       description,
       images: recipe.imageUrl ? [recipe.imageUrl] : [],
     },
+    alternates: {
+      canonical: `https://www.smakota.club/recipe/${recipe.slug}`,
+    },
   };
 }
 
