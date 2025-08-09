@@ -15,7 +15,7 @@ interface Recipe {
   commentCount: number | null;
   privaterecipe: boolean;
   moderated: boolean;
-  user: { name: string };
+  user: { name: string, slug: string };
   isInitiallyFavorite: boolean;
 }
 
