@@ -15,6 +15,7 @@ type Recipe = {
   commentCount: number | null;
   user: {
     name: string;
+    slug: string;
   };
 };
 

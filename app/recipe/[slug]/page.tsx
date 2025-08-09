@@ -226,7 +226,14 @@ if (userId) {
           <div className="w-full px-3 lg:w-2/3">
             <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
             <p className="text-sm text-gray-500 mb-4">
-              Автор: {recipe.user.name} • {formattedDate}
+              Автор:{" "}
+              <Link
+                href={`/users/${recipe.user.slug}`}
+                className="transition hover:text-black"
+              >
+                {recipe.user.name}
+              </Link>
+              {" • "}{formattedDate}
             </p>
 
             <div className="relative overflow-hidden">

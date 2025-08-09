@@ -52,6 +52,7 @@ export async function GET(
       user: {
         select: {
           name: true,
+          slug: true,
         },
       },
     },
