@@ -10,10 +10,10 @@ export async function GET() {
 
   // Додайте інші сторінки за потреби
   const urls = [
-    { loc: 'https://smakota.club/' },
-    { loc: 'https://smakota.club/about' },
+    { loc: 'https://www.smakota.club/' },
+    { loc: 'https://www.smakota.club/about' },
     ...recipes.map(r => ({
-      loc: `https://smakota.club/recipe/${r.slug}`,
+      loc: `https://www.smakota.club/recipe/${r.slug}`,
     })),
   ];
 
