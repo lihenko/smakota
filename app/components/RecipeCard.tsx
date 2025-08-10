@@ -29,7 +29,7 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite }: Reci
   const imageSrc = recipe.imageUrl || "/recipes/placeholder.webp";
 
   return (
-    <Link
+    <a
       href={`/recipe/${recipe.slug}`}
       className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
     >
@@ -76,6 +76,6 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite }: Reci
           )}
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
