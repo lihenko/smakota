@@ -1,0 +1,27 @@
+
+:global(.swiper-button-prev) {
+  color: #fff;
+}
+
+:global(.swiper-button-next) {
+  color: #fff;
+}
+
+:global(.swiper-pagination-bullet) {
+  width: 20px;
+  height: 20px;
+}
+
+:global(.swiper-pagination-bullet-active){
+    background: #fff;
+}
+
+.productSlider {
+  width: 100%;
+}
+
+.productSlider img{
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}

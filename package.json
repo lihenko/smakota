@@ -25,6 +25,7 @@
     "resend": "^4.2.0",
     "sharp": "^0.34.1",
     "slugify": "^1.6.6",
+    "swiper": "^11.2.10",
     "swr": "^2.3.3"
   },
   "devDependencies": {
