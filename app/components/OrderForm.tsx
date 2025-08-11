@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import CitySelect from './CitySelect';
 
 const initialState = {
   firstName: "",
@@ -91,18 +92,11 @@ export default function OrderForm() {
       </div>
       <div className="mb-3">
         <label className="block mb-1">Місто</label>
-        <select
-          name="city"
-          value={form.city}
-          onChange={handleChange}
-          required
-          className="select select-bordered w-full"
-        >
-          <option value="">Оберіть місто</option>
-          {cities.map(city => (
-            <option key={city.Ref} value={city.Ref}>{city.Description}</option>
-          ))}
-        </select>
+        <CitySelect
+            cities={cities}
+            value={form.city}
+            onChange={(ref) => setForm(prev => ({ ...prev, city: ref, npBranch: '' }))}
+        />
         {loadingCities && <span className="text-xs text-gray-400">Завантаження міст...</span>}
       </div>
       <div className="mb-3">
