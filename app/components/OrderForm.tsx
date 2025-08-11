@@ -78,7 +78,7 @@ export default function OrderForm() {
     <form className="max-w-lg mx-auto bg-white p-6 rounded-xl shadow" onSubmit={handleSubmit}>
       <h2 className="text-xl font-bold mb-4">Форма замовлення</h2>
       <div className="mb-3">
-        <label className="block mb-1">Ім'я</label>
+        <label className="block mb-1">Ім&apos;я</label>
         <input type="text" name="firstName" value={form.firstName} onChange={handleChange} required className="input input-bordered w-full" />
       </div>
       <div className="mb-3">
