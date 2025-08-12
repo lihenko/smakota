@@ -25,7 +25,7 @@ export default async function RelatedRecipes({
       privaterecipe: false,
     },
     orderBy: { createdAt: "desc" },
-    take: 4,
+    take: 3,
     include: { user: true, dishType: true },
   });
 
@@ -66,6 +66,23 @@ export default async function RelatedRecipes({
             isInitiallyFavorite={!!favorites[recipe.id]}
           />
         ))}
+        <a
+              href={`/shop/veggie-slicer`}
+              className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+            >
+              <div className="relative w-full aspect-[3/2]">
+                <img
+                  src="/shop/49aa9d8e-c889-47fd-9967-fe069d228593.webp"
+                  alt="Ручна овочерізка VEGGIE SLICER"
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              </div>
+
+              <div className="px-4 pt-4 pb-10">
+                <h2 className="text-lg font-semibold">Ручна овочерізка VEGGIE SLICER</h2>
+              </div>
+            </a>
       </div>
     </div>
   );

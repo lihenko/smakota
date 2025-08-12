@@ -5,6 +5,8 @@ import OrderForm from "@/app/components/OrderForm";
 export { metadata };
 
 export default function ShopPage() {
+  const ProductName = "Вакуумний пакувальник для кухні";
+  const ProductPrice = 250;
   return (
     <main className="py-16">
       <div className="container max-w-5xl mx-auto">
@@ -15,12 +17,12 @@ export default function ShopPage() {
             </div>
           </div>
           <div className="w-full lg:w-1/2 px-3 xl:pl-10">
-            <h1 className="text-3xl font-bold mb-6 text-center lg:text-left">Вакуумний пакувальник для кухні</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center lg:text-left">{ ProductName }</h1>
             <div className="text-lg mb-4">
               Вакуумний пакувальник — це незамінний помічник на вашій кухні, який допоможе зберегти свіжість продуктів, продовжити термін їх зберігання та зменшити витрати.
             </div>
             <div className="text-lg mb-4">
-              Ціна: <span className="font-bold">250 грн</span>
+              Ціна: <span className="font-bold">{ ProductPrice } грн</span>
             </div>
             <div className="text-lg mb-4">
               <a className="btn btn-primary" href="#order">Замовити</a>
@@ -76,7 +78,7 @@ export default function ShopPage() {
             </ul>
             <h2 id="order" className="text-2xl font-bold mb-6">Замовлення:</h2>
             <p>Щоб замовити вакуумний пакувальник, заповніть форму нижче:</p>
-            <OrderForm />
+            <OrderForm productName={ProductName} productPrice={ProductPrice} />
           </div>
         </div>
       </div>

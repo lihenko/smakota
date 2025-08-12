@@ -319,6 +319,7 @@ if (userId) {
               userId={userId ?? null}
               favorites={favorites}
             />
+            
           </div>
         </div>
         <div className="flex">
