@@ -81,13 +81,13 @@ export default function CreateRecipePage() {
   };
 
   if (tiktokUrl.includes('vm.tiktok.com/')) {
-    // Розрішуємо редірект
-    fetch(tiktokUrl, { method: 'HEAD', redirect: 'follow' })
-      .then((res) => processUrl(res.url))
-      .catch(() => {
-        setEmbedTiktok('');
-        setTiktokError('❌ Не вдалося розпізнати посилання TikTok');
-      });
+    fetch(`/api/resolve-tiktok?url=${encodeURIComponent(tiktokUrl)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.finalUrl) processUrl(data.finalUrl);
+        else setTiktokError('❌ Не вдалося розпізнати посилання TikTok');
+      })
+      .catch(() => setTiktokError('❌ Не вдалося розпізнати посилання TikTok'));
   } else {
     processUrl(tiktokUrl);
   }
