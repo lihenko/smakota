@@ -35,18 +35,6 @@ export default function CreateRecipePage() {
 
   const [privateRecipe, setPrivateRecipe] = useState<boolean | false>(false);
 
-  const getTiktokEmbedUrl = (url: string): string => {
-    try {
-      const cleanUrl = url.split('?')[0];
-      const match = cleanUrl.match(/tiktok\.com\/(@[\w.-]+)\/video\/(\d+)/);
-      if (!match) return '';
-      const videoId = match[2];
-      return `https://www.tiktok.com/embed/${videoId}`;
-    } catch {
-      return '';
-    }
-  };
-
   const [videoUrl, setVideoUrl] = useState('');
   const [tiktokUrl, setTiktokUrl] = useState('');
   const [embedYoutube, setEmbedYoutube] = useState('');
@@ -73,13 +61,16 @@ export default function CreateRecipePage() {
 
   // Функція для формування embed URL для TikTok
   useEffect(() => {
-    if (!tiktokUrl) {
-      setEmbedTiktok('');
-      setTiktokError('');
-      return;
-    }
-    const regex = /tiktok\.com\/(@[\w.-]+)\/video\/(\d+)/;
-    const match = tiktokUrl.match(regex);
+  if (!tiktokUrl) {
+    setEmbedTiktok('');
+    setTiktokError('');
+    return;
+  }
+
+  const regexFull = /tiktok\.com\/(@[\w.-]+)\/video\/(\d+)/;
+
+  const processUrl = (url: string) => {
+    const match = url.match(regexFull);
     if (match) {
       setEmbedTiktok(`https://www.tiktok.com/embed/${match[2]}`);
       setTiktokError('');
@@ -87,7 +78,20 @@ export default function CreateRecipePage() {
       setEmbedTiktok('');
       setTiktokError('❌ Невірне посилання на TikTok');
     }
-  }, [tiktokUrl]);
+  };
+
+  if (tiktokUrl.includes('vm.tiktok.com/')) {
+    // Розрішуємо редірект
+    fetch(tiktokUrl, { method: 'HEAD', redirect: 'follow' })
+      .then((res) => processUrl(res.url))
+      .catch(() => {
+        setEmbedTiktok('');
+        setTiktokError('❌ Не вдалося розпізнати посилання TikTok');
+      });
+  } else {
+    processUrl(tiktokUrl);
+  }
+}, [tiktokUrl]);
 
   useEffect(() => {
     const fetchDishTypes = async () => {
