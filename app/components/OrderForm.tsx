@@ -108,14 +108,31 @@ export default function OrderForm({ productName, productPrice }: OrderFormProps)
 
       <div className="mb-3">
         <label className="block mb-1">Кількість</label>
-        <input
-          type="number"
-          min="1"
-          value={quantity}
-          onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
-          className="input input-bordered w-full"
-        />
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="btn btn-outline btn-sm"
+            onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+          >
+            −
+          </button>
+          <input
+            type="number"
+            min="1"
+            value={quantity}
+            onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
+            className="input input-bordered w-20 text-center no-arrows"
+          />
+          <button
+            type="button"
+            className="btn btn-outline btn-sm"
+            onClick={() => setQuantity((prev) => prev + 1)}
+          >
+            +
+          </button>
+        </div>
       </div>
+
 
       <div className="mb-3">
         <label className="block mb-1">Ім&apos;я</label>

@@ -46,7 +46,7 @@ export default async function RelatedRecipes({
         },
       },
       orderBy: { createdAt: "desc" },
-      take: 4 - recipes.length,
+      take: 3 - recipes.length,
       include: { user: true, dishType: true },
     });
     recipes = [...recipes, ...byIngredients];

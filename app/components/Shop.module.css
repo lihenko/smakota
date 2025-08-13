@@ -1,10 +1,10 @@
 
 .productSlider :global(.swiper-button-prev) {
-  color: #fff;
+  color: #7c2808;
 }
 
 .productSlider :global(.swiper-button-next) {
-  color: #fff;
+  color: #7c2808;
 }
 
 .productSlider :global(.swiper-pagination-bullet) {
@@ -13,7 +13,7 @@
 }
 
 .productSlider :global(.swiper-pagination-bullet-active){
-    background: #fff;
+    background: #7c2808;
 }
 
 .productSlider {
