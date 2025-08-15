@@ -40,6 +40,7 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite }: Reci
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
+          loading="lazy"
         />
         <FavoriteButton
           recipeId={recipe.id}
