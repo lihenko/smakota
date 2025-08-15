@@ -41,8 +41,10 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite, isLCP 
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
-          priority={isLCP} // якщо true — preload + fetchpriority=high
-          loading={isLCP ? undefined : "lazy"} // lazy для інших
+          priority={isLCP}
+          fetchPriority={isLCP ? "high" : undefined}
+          loading={isLCP ? undefined : "lazy"}
+          decoding={isLCP ? undefined : "async"}
         />
         <FavoriteButton
           recipeId={recipe.id}
