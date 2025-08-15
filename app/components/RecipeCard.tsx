@@ -23,9 +23,10 @@ interface RecipeCardProps {
   };
   userId: number | null;
   isInitiallyFavorite: boolean;
+  isLCP?: boolean;
 }
 
-export default function RecipeCard({ recipe, userId, isInitiallyFavorite }: RecipeCardProps) {
+export default function RecipeCard({ recipe, userId, isInitiallyFavorite, isLCP = false}: RecipeCardProps) {
   const imageSrc = recipe.imageUrl || "/recipes/placeholder.webp";
 
   return (
@@ -40,7 +41,8 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite }: Reci
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
-          loading="lazy"
+          priority={isLCP} // якщо true — preload + fetchpriority=high
+          loading={isLCP ? undefined : "lazy"} // lazy для інших
         />
         <FavoriteButton
           recipeId={recipe.id}

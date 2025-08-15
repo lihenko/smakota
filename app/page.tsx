@@ -47,13 +47,14 @@ export default async function HomePage() {
         </div>
         <h2 className="text-2xl font-bold mb-4">Останні рецепти</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-          {recipes.map((recipe) => (
+          {recipes.map((recipe, index) => (
             <RecipeCard
-            key={recipe.id}
-            recipe={recipe}
-            userId={numericUserId}
-            isInitiallyFavorite={!!favorites[recipe.id]}
-          />
+              key={recipe.id}
+              recipe={recipe}
+              userId={numericUserId}
+              isInitiallyFavorite={!!favorites[recipe.id]}
+              isLCP={index === 0} // перше зображення без lazy
+            />
           ))}
         </div>
         <div className="text-center mb-8">
