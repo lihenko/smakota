@@ -38,6 +38,7 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
   const hasVideo = !!recipe.videoUrl || !!recipe.tiktokUrl;
   const title = `${recipe.title} – Смакота – Кращі домашні рецепти`;
   const description = `Дізнайтеся, як приготувати ${recipe.title.toLowerCase()} з інгредієнтами: ${recipe.ingredients.map(i => i.ingredient.name).slice(0, 3).join(", ")}. Смачний покроковий рецепт з фото${hasVideo ? " та відео" : ""}.`;
+  const url = `https://smakota.club/recipe/${recipe.slug}`;
 
   return {
     title,
@@ -45,6 +46,9 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
     openGraph: {
       title,
       description,
+      url,
+      type: "article", 
+      siteName: "Смакота",
       images: recipe.imageUrl ? [recipe.imageUrl] : [],
     },
     alternates: {
