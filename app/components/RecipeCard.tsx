@@ -38,7 +38,8 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite, isLCP 
         <Image
           src={imageSrc}
           alt={recipe.title}
-          fill
+          width={488}
+          height={325}
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
           priority={isLCP}
