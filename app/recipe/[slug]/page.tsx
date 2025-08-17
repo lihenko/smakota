@@ -51,6 +51,9 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
       siteName: "Смакота",
       images: recipe.imageUrl ? [recipe.imageUrl] : [],
     },
+    other: {
+      "fb:app_id": process.env.FB_APP_ID ?? "654006950465573", 
+    },
     alternates: {
       canonical: `https://www.smakota.club/recipe/${recipe.slug}`,
     },
