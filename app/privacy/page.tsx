@@ -3,7 +3,7 @@ import { metadata } from "./metadata";
 
 export { metadata };
 
-export default function AboutPage() {
+export default function PrivacyPage() {
   return (
     <main className="py-16">
       <div className="container max-w-5xl mx-auto">
