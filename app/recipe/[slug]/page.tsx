@@ -244,7 +244,8 @@ if (userId) {
                   width={600} // або відповідна ширина
                   height={400} // або відповідна висота
                   className="mb-6 rounded-t-xl"
-                  priority
+                  priority={true}
+                  fetchPriority="high"
                 />
                 <FavoriteButton
                   recipeId={recipe.id}
