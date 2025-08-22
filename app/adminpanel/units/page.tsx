@@ -1,6 +1,6 @@
 import AdminMenu from '../AdminMenu';
 import prisma from "../../lib/prisma";
-import { revalidatePath } from 'next/cache'; // щоб оновлювалось після змін
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic'; 
@@ -10,24 +10,34 @@ export default async function Page() {
     where: { moderated: false },
   });
 
-  async function approveUnit(formData: FormData) {
+  // Єдиний server action для approve/delete
+  async function handleUnit(formData: FormData) {
     'use server';
 
     const id = Number(formData.get('id'));
-    const name = formData.get('name') as string;
+    const name = (formData.get('name') as string) ?? '';
+    const action = (formData.get('action') as string) ?? '';
 
-    if (!id || !name) return;
+    if (!id) return;
 
-    await prisma.unit.update({
-      where: { id },
-      data: {
-        name,
-        moderated: true,
-      },
-    });
+    try {
+      if (action === 'approve' && name.trim()) {
+        await prisma.unit.update({
+          where: { id },
+          data: { name: name.trim(), moderated: true },
+        });
+      } else if (action === 'delete') {
+        await prisma.unit.delete({
+          where: { id },
+        });
+      }
+    } catch (err: any) {
+      console.error('Unit action error:', err);
+      throw err; // Next.js покаже помилку
+    }
 
-    revalidatePath('/adminpanel/units'); // або актуальний шлях
-    redirect('/adminpanel/units'); // редірект для оновлення сторінки
+    revalidatePath('/adminpanel/units');
+    redirect('/adminpanel/units');
   }
 
   return (
@@ -36,18 +46,14 @@ export default async function Page() {
         <h1>Панель адміністратора</h1>
       </div>
       <AdminMenu />
-      <div>
+      <div className='py-16'>
         <div className="container max-w-xl mx-auto">
           <h2 className="text-center font-bold mb-4">Немодеровані одиниці виміру</h2>
           <ul className="space-y-4">
             {unmoderatedUnits.map((unit) => (
               <li key={unit.id} className="border p-4 rounded shadow">
-                <form action={approveUnit} className="flex items-center gap-2">
-                  <input
-                    type="hidden"
-                    name="id"
-                    value={unit.id}
-                  />
+                <form action={handleUnit} className="flex items-center gap-2">
+                  <input type="hidden" name="id" value={unit.id} />
                   <input
                     type="text"
                     name="name"
@@ -56,9 +62,19 @@ export default async function Page() {
                   />
                   <button
                     type="submit"
+                    name="action"
+                    value="approve"
                     className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
                   >
                     Затвердити
+                  </button>
+                  <button
+                    type="submit"
+                    name="action"
+                    value="delete"
+                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                  >
+                    Видалити
                   </button>
                 </form>
               </li>
