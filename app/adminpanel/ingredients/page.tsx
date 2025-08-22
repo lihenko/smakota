@@ -1,6 +1,6 @@
 import AdminMenu from '../AdminMenu';
 import prisma from "../../lib/prisma";
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from 'next/cache'; // щоб оновлювалось після змін
 import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic'; 
@@ -10,32 +10,24 @@ export default async function Page() {
     where: { moderated: false },
   });
 
-  // Єдиний server action для approve/delete
-  async function handleIngredient(formData: FormData) {
+  async function approveIngredient(formData: FormData) {
     'use server';
 
     const id = Number(formData.get('id'));
     const name = formData.get('name') as string;
-    const action = formData.get('action') as string;
 
-    if (!id) return;
+    if (!id || !name) return;
 
-    if (action === 'approve' && name) {
-      await prisma.ingredient.update({
-        where: { id },
-        data: {
-          name,
-          moderated: true,
-        },
-      });
-    } else if (action === 'delete') {
-      await prisma.ingredient.delete({
-        where: { id },
-      });
-    }
+    await prisma.ingredient.update({
+      where: { id },
+      data: {
+        name,
+        moderated: true,
+      },
+    });
 
-    revalidatePath('/adminpanel/ingredients');
-    redirect('/adminpanel/ingredients');
+    revalidatePath('/adminpanel/ingredients'); // або актуальний шлях
+    redirect('/adminpanel/ingredients'); // редірект для оновлення сторінки
   }
 
   return (
@@ -50,8 +42,12 @@ export default async function Page() {
           <ul className="space-y-4">
             {unmoderatedIngredients.map((ingredient) => (
               <li key={ingredient.id} className="border p-4 rounded shadow">
-                <form action={handleIngredient} className="flex items-center gap-2">
-                  <input type="hidden" name="id" value={ingredient.id} />
+                <form action={approveIngredient} className="flex items-center gap-2">
+                  <input
+                    type="hidden"
+                    name="id"
+                    value={ingredient.id}
+                  />
                   <input
                     type="text"
                     name="name"
@@ -60,19 +56,9 @@ export default async function Page() {
                   />
                   <button
                     type="submit"
-                    name="action"
-                    value="approve"
                     className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
                   >
                     Затвердити
-                  </button>
-                  <button
-                    type="submit"
-                    name="action"
-                    value="delete"
-                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                  >
-                    Видалити
                   </button>
                 </form>
               </li>
