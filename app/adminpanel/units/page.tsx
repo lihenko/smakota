@@ -51,34 +51,41 @@ export default async function Page() {
           <h2 className="text-center font-bold mb-4">Немодеровані одиниці виміру</h2>
           <ul className="space-y-4">
             {unmoderatedUnits.map((unit) => (
-              <li key={unit.id} className="border p-4 rounded shadow">
-                <form action={handleUnit} className="flex items-center gap-2">
-                  <input type="hidden" name="id" value={unit.id} />
-                  <input
-                    type="text"
-                    name="name"
-                    defaultValue={unit.name}
-                    className="border px-2 py-1 rounded flex-1"
-                  />
-                  <button
-                    type="submit"
-                    name="action"
-                    value="approve"
-                    className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                  >
-                    Затвердити
-                  </button>
-                  <button
-                    type="submit"
-                    name="action"
-                    value="delete"
-                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                  >
-                    Видалити
-                  </button>
-                </form>
-              </li>
-            ))}
+            <li key={unit.id} className="border p-4 rounded shadow flex flex-wrap items-center gap-2">
+              <input
+                type="text"
+                name="name"
+                defaultValue={unit.name}
+                className="border px-2 py-1 rounded flex-1"
+                form={`approve-${unit.id}`}
+              />
+
+              {/* Форма для approve */}
+              <form id={`approve-${unit.id}`} action={handleUnit}>
+                <input type="hidden" name="id" value={unit.id} />
+                <input type="hidden" name="action" value="approve" />
+                <button
+                  type="submit"
+                  className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                >
+                  Затвердити
+                </button>
+              </form>
+
+              {/* Форма для delete */}
+              <form action={handleUnit}>
+                <input type="hidden" name="id" value={unit.id} />
+                <input type="hidden" name="action" value="delete" />
+                <button
+                  type="submit"
+                  className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                >
+                  Видалити
+                </button>
+              </form>
+            </li>
+          ))}
+
           </ul>
         </div>
       </div>

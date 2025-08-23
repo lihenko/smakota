@@ -11,6 +11,12 @@ type IngredientInput = {
   toTaste?: boolean;
 };
 
+// Функція нормалізації інгредієнта
+function capitalizeName(name: string): string {
+  const lower = name.trim().toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+}
+
 export default function CreateRecipePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [title, setTitle] = useState('');
@@ -27,13 +33,11 @@ export default function CreateRecipePage() {
   const [message, setMessage] = useState('');
 
   const activeQuery = activeIngredientIndex !== null ? queryList[activeIngredientIndex] : '';
-  const { suggestions: ingredientSuggestions, isLoading: ingredientLoading } = useIngredientSuggestions(activeQuery);
+  const { suggestions: ingredientSuggestions } = useIngredientSuggestions(activeQuery);
   const activeUnit = activeUnitIndex !== null ? ingredients[activeUnitIndex] : ingredients[0];
-  const { suggestions: unitSuggestions, isLoading: unitLoading } = useUnitSuggestions(
-    activeUnit?.unit || ''
-  );
+  const { suggestions: unitSuggestions } = useUnitSuggestions(activeUnit?.unit || '');
 
-  const [privateRecipe, setPrivateRecipe] = useState<boolean | false>(false);
+  const [privateRecipe, setPrivateRecipe] = useState<boolean>(false);
 
   const [videoUrl, setVideoUrl] = useState('');
   const [tiktokUrl, setTiktokUrl] = useState('');
@@ -42,6 +46,7 @@ export default function CreateRecipePage() {
   const [youtubeError, setYoutubeError] = useState('');
   const [tiktokError, setTiktokError] = useState('');
 
+  // --- YouTube embed ---
   useEffect(() => {
     if (!videoUrl) {
       setEmbedYoutube('');
@@ -59,40 +64,41 @@ export default function CreateRecipePage() {
     }
   }, [videoUrl]);
 
-  // Функція для формування embed URL для TikTok
+  // --- TikTok embed ---
   useEffect(() => {
-  if (!tiktokUrl) {
-    setEmbedTiktok('');
-    setTiktokError('');
-    return;
-  }
-
-  const regexFull = /tiktok\.com\/(@[\w.-]+)\/video\/(\d+)/;
-
-  const processUrl = (url: string) => {
-    const match = url.match(regexFull);
-    if (match) {
-      setEmbedTiktok(`https://www.tiktok.com/embed/${match[2]}`);
-      setTiktokError('');
-    } else {
+    if (!tiktokUrl) {
       setEmbedTiktok('');
-      setTiktokError('❌ Невірне посилання на TikTok');
+      setTiktokError('');
+      return;
     }
-  };
 
-  if (tiktokUrl.includes('vm.tiktok.com/')) {
-    fetch(`/api/resolve-tiktok?url=${encodeURIComponent(tiktokUrl)}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.finalUrl) processUrl(data.finalUrl);
-        else setTiktokError('❌ Не вдалося розпізнати посилання TikTok');
-      })
-      .catch(() => setTiktokError('❌ Не вдалося розпізнати посилання TikTok'));
-  } else {
-    processUrl(tiktokUrl);
-  }
-}, [tiktokUrl]);
+    const regexFull = /tiktok\.com\/(@[\w.-]+)\/video\/(\d+)/;
 
+    const processUrl = (url: string) => {
+      const match = url.match(regexFull);
+      if (match) {
+        setEmbedTiktok(`https://www.tiktok.com/embed/${match[2]}`);
+        setTiktokError('');
+      } else {
+        setEmbedTiktok('');
+        setTiktokError('❌ Невірне посилання на TikTok');
+      }
+    };
+
+    if (tiktokUrl.includes('vm.tiktok.com/')) {
+      fetch(`/api/resolve-tiktok?url=${encodeURIComponent(tiktokUrl)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.finalUrl) processUrl(data.finalUrl);
+          else setTiktokError('❌ Не вдалося розпізнати посилання TikTok');
+        })
+        .catch(() => setTiktokError('❌ Не вдалося розпізнати посилання TikTok'));
+    } else {
+      processUrl(tiktokUrl);
+    }
+  }, [tiktokUrl]);
+
+  // --- Завантаження типів страв ---
   useEffect(() => {
     const fetchDishTypes = async () => {
       try {
@@ -103,103 +109,114 @@ export default function CreateRecipePage() {
         setMessage('❌ Не вдалося завантажити типи страв');
       }
     };
-
     fetchDishTypes();
   }, []);
 
+  // --- Оновлення інгредієнтів з перевіркою унікальності ---
   const handleIngredientChange = (
     idx: number,
     field: keyof IngredientInput,
     value: string | boolean
   ) => {
     const updated = [...ingredients];
+
     if (field === 'toTaste') {
       updated[idx].toTaste = value as boolean;
+    } else if (field === 'name') {
+      updated[idx].name = capitalizeName(value as string);
+    } else if (field === 'unit') {
+      updated[idx].unit = (value as string).toLowerCase();
     } else {
       updated[idx][field] = value as string;
     }
-    setIngredients(updated);
+
+    // Прибираємо дублікати (name + unit)
+    const unique = updated.filter(
+      (ing, i, arr) =>
+        arr.findIndex(
+          (el) =>
+            el.name.trim().toLowerCase() === ing.name.trim().toLowerCase() &&
+            el.unit.trim().toLowerCase() === ing.unit.trim().toLowerCase()
+        ) === i
+    );
+
+    setIngredients(unique);
   };
 
   const handleUnitChange = (idx: number, value: string) => {
-    const updated = [...ingredients];
-    updated[idx].unit = value;
-    setIngredients(updated);
+    handleIngredientChange(idx, 'unit', value);
   };
 
-  // --- ОНОВЛЕНА ВАЛІДАЦІЯ ТА ЗАВАНТАЖЕННЯ ЗОБРАЖЕННЯ ---
+  // --- Валідація зображення ---
   const handleImageValidation = async (file: File) => {
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
       setMessage('❌ Лише JPG, PNG або WEBP');
       setImage(null);
       return;
     }
-
-    // Завантажуємо зображення у Image для перевірки розміру
     const imageBitmap = await createImageBitmap(file);
     if (imageBitmap.width < 600 || imageBitmap.height < 400) {
       setMessage('❌ Мінімальні розміри — 600x400');
       setImage(null);
       return;
     }
-
     setImage(file);
     setMessage('');
   };
 
+  // --- Submit форми ---
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsSubmitting(true); // ➕ показуємо індикатор
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  if (!privateRecipe && !image) {
-    setMessage('❌ Для публічного рецепту обов’язково додати зображення');
-    setIsSubmitting(false); // ❗️відміна індикатора
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('title', title);
-  formData.append('dishType', dishType);
-  formData.append('videoUrl', embedYoutube);
-  formData.append('tiktokUrl', embedTiktok);
-  formData.append('privateRecipe', privateRecipe ? "true" : "false");
-  formData.append('ingredients', JSON.stringify(ingredients));
-  formData.append('instructions', JSON.stringify(instructions));
-  if (image) formData.append('image', image);
-
-  try {
-    const res = await fetch('/api/createrecipe', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (res.ok) {
-      setMessage('✅ Рецепт успішно створено!');
-      // Очистити форму
-      setTitle('');
-      setDishType('');
-      setVideoUrl('');
-      setTiktokUrl('');
-      setIngredients([{ name: '', amount: '', unit: '', toTaste: false }]);
-      setInstructions(['']);
-      setImage(null);
-      setQueryList(['']);
-    } else {
-      const data = await res.json();
-      setMessage(`❌ Помилка: ${data.error || 'невідомо'}`);
+    if (!privateRecipe && !image) {
+      setMessage('❌ Для публічного рецепту обов’язково додати зображення');
+      setIsSubmitting(false);
+      return;
     }
-  } catch (error) {
-    setMessage('❌ Помилка при надсиланні форми');
-  } finally {
-    setIsSubmitting(false); // 🔄 Завершено
-  }
-};
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('dishType', dishType);
+    formData.append('videoUrl', embedYoutube);
+    formData.append('tiktokUrl', embedTiktok);
+    formData.append('privateRecipe', privateRecipe ? 'true' : 'false');
+    formData.append('ingredients', JSON.stringify(ingredients));
+    formData.append('instructions', JSON.stringify(instructions));
+    if (image) formData.append('image', image);
+
+    try {
+      const res = await fetch('/api/createrecipe', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) {
+        setMessage('✅ Рецепт успішно створено!');
+        setTitle('');
+        setDishType('');
+        setVideoUrl('');
+        setTiktokUrl('');
+        setIngredients([{ name: '', amount: '', unit: '', toTaste: false }]);
+        setInstructions(['']);
+        setImage(null);
+        setQueryList(['']);
+      } else {
+        const data = await res.json();
+        setMessage(`❌ Помилка: ${data.error || 'невідомо'}`);
+      }
+    } catch {
+      setMessage('❌ Помилка при надсиланні форми');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="max-w-3xl mx-auto p-4 pb-20">
       <h1 className="text-2xl font-bold mb-4">Додати рецепт</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Title, Dish Type, Ingredients, Instructions, Image, Videos - all UI */}
+        {/* Назва */}
         <input
           type="text"
           placeholder="Назва рецепту"
@@ -209,6 +226,7 @@ export default function CreateRecipePage() {
           required
         />
 
+        {/* Тип страви */}
         <select
           value={dishType}
           onChange={(e) => setDishType(e.target.value)}
@@ -221,11 +239,13 @@ export default function CreateRecipePage() {
           ))}
         </select>
 
-        <div className='pb-10'>
+        {/* Інгредієнти */}
+        <div className="pb-10">
           <h2 className="font-semibold mb-2">Інгредієнти</h2>
           {ingredients.map((ingredient, idx) => (
             <div key={idx} className="flex flex-wrap gap-2 mb-2 relative items-center">
-              <div className='relative'>
+              {/* Назва */}
+              <div className="relative">
                 <input
                   type="text"
                   placeholder="Назва"
@@ -233,7 +253,7 @@ export default function CreateRecipePage() {
                   onChange={(e) => {
                     handleIngredientChange(idx, 'name', e.target.value);
                     const updatedQueries = [...queryList];
-                    updatedQueries[idx] = e.target.value;
+                    updatedQueries[idx] = e.target.value.toLowerCase();
                     setQueryList(updatedQueries);
                   }}
                   onFocus={() => setActiveIngredientIndex(idx)}
@@ -242,19 +262,26 @@ export default function CreateRecipePage() {
                   required
                 />
                 {activeIngredientIndex === idx && ingredientSuggestions.length > 0 && (
-                    <ul className="absolute top-full bg-white border rounded-md shadow-lg w-fit max-h-40 overflow-auto z-10">
-                      {ingredientSuggestions.map((ingredient) => (
-                        <li
-                          key={ingredient.id}
-                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                          onMouseDown={() => handleIngredientChange(activeIngredientIndex!, 'name', ingredient.name)}
-                        >
-                          {ingredient.name}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  <ul className="absolute top-full bg-white border rounded-md shadow-lg w-fit max-h-40 overflow-auto z-10">
+                    {ingredientSuggestions.map((sugg) => (
+                      <li
+                        key={sugg.id}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                        onMouseDown={() => {
+                          handleIngredientChange(idx, 'name', sugg.name);
+                          const updatedQueries = [...queryList];
+                          updatedQueries[idx] = sugg.name.toLowerCase();
+                          setQueryList(updatedQueries);
+                        }}
+                      >
+                        {sugg.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
+
+              {/* Кількість */}
               <div>
                 <input
                   type="number"
@@ -266,7 +293,9 @@ export default function CreateRecipePage() {
                   disabled={ingredient.toTaste}
                 />
               </div>
-              <div className='relative'>
+
+              {/* Одиниця */}
+              <div className="relative">
                 <input
                   type="text"
                   placeholder="Одиниця"
@@ -277,25 +306,26 @@ export default function CreateRecipePage() {
                   className="input input-bordered w-24"
                   disabled={ingredient.toTaste}
                 />
-                {/* Підказки для одиниць виміру */}
-                  {activeUnitIndex === idx && unitSuggestions.length > 0 && (
-                    <ul className="absolute top-full bg-white border rounded-md shadow-lg w-fit max-h-40 overflow-auto z-10">
-                      {unitSuggestions.map((unit) => (
-                        <li
-                          key={unit.id}
-                          className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                          onMouseDown={() => handleUnitChange(idx, unit.name)}
-                        >
-                          {unit.name}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                {activeUnitIndex === idx && unitSuggestions.length > 0 && (
+                  <ul className="absolute top-full bg-white border rounded-md shadow-lg w-fit max-h-40 overflow-auto z-10">
+                    {unitSuggestions.map((unit) => (
+                      <li
+                        key={unit.id}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                        onMouseDown={() => handleUnitChange(idx, unit.name)}
+                      >
+                        {unit.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
+
+              {/* За смаком */}
               <div>
                 <label className="ml-2">
                   <input
-                    className='toggle mr-3'
+                    className="toggle mr-3"
                     type="checkbox"
                     checked={ingredient.toTaste || false}
                     onChange={(e) => handleIngredientChange(idx, 'toTaste', e.target.checked)}
@@ -303,6 +333,8 @@ export default function CreateRecipePage() {
                   За смаком
                 </label>
               </div>
+
+              {/* Видалити */}
               {idx !== 0 && (
                 <button
                   type="button"
@@ -331,7 +363,8 @@ export default function CreateRecipePage() {
           </button>
         </div>
 
-        <div className='pb-10'>
+        {/* Кроки */}
+        <div className="pb-10">
           <h2 className="font-semibold mb-2">Кроки приготування</h2>
           {instructions.map((step, idx) => (
             <div key={idx} className="mb-2 flex gap-2 items-center">
@@ -369,7 +402,8 @@ export default function CreateRecipePage() {
           </button>
         </div>
 
-        <div className='mb-2'>
+        {/* YouTube */}
+        <div className="mb-2">
           <h2 className="font-semibold mb-2">Відео з YouTube</h2>
           <input
             type="text"
@@ -392,7 +426,8 @@ export default function CreateRecipePage() {
           )}
         </div>
 
-        <div className='mb-2'>
+        {/* TikTok */}
+        <div className="mb-2">
           <h2 className="font-semibold mb-2">Відео з TikTok</h2>
           <input
             type="text"
@@ -413,7 +448,8 @@ export default function CreateRecipePage() {
           )}
         </div>
 
-        <div className='mb-2'>
+        {/* Приватний рецепт */}
+        <div className="mb-2">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
@@ -425,7 +461,8 @@ export default function CreateRecipePage() {
           </label>
         </div>
 
-        <div className='mb-2'>
+        {/* Фото */}
+        <div className="mb-2">
           <h2 className="font-semibold mb-2">Фото рецепту</h2>
           <input
             type="file"

@@ -53,7 +53,7 @@ async function handleIngredient(formData: FormData) {
           <h2 className="text-center font-bold mb-4">Немодеровані інгредієнти</h2>
           <ul className="space-y-4">
   {unmoderatedIngredients.map((ingredient) => (
-    <li key={ingredient.id} className="border p-4 rounded shadow flex items-center gap-2">
+    <li key={ingredient.id} className="border p-4 rounded shadow flex flex-wrap items-center gap-2">
       <input
         type="text"
         name="name"
