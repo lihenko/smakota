@@ -44,12 +44,15 @@ const Header: React.FC = () => {
           />
         </Link>
         <nav className='hidden md:block'>
-          <ul className="flex space-x-4">
+          <ul className="flex space-x-3 lg:space-x-4">
             <li>
               <Link href="/">Головна</Link>
             </li>
             <li>
               <Link href="/recipe">Рецепти</Link>
+            </li>
+            <li>
+              <Link href="/calc">Калькулятор</Link>
             </li>
             <li>
               <Link href="/users">Наші кулінари</Link>
@@ -103,6 +106,7 @@ const Header: React.FC = () => {
           <ul className="flex flex-col space-y-2">
             <li><Link href="/" onClick={() => setMenuOpen(false)}>Головна</Link></li>
             <li><Link href="/recipe" onClick={() => setMenuOpen(false)}>Рецепти</Link></li>
+            <li><Link href="/calc" onClick={() => setMenuOpen(false)}>Калькулятор</Link></li>
             <li><Link href="/users" onClick={() => setMenuOpen(false)}>Наші кулінари</Link></li>
             {isLoggedIn ? (
               <>

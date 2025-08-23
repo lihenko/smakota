@@ -12,6 +12,7 @@ export async function GET() {
   const urls = [
     { loc: 'https://www.smakota.club/' },
     { loc: 'https://www.smakota.club/about' },
+    { loc: 'https://www.smakota.club/calc' },
     ...recipes.map(r => ({
       loc: `https://www.smakota.club/recipe/${r.slug}`,
     })),
