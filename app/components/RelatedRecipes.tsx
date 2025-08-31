@@ -66,7 +66,8 @@ export default async function RelatedRecipes({
             isInitiallyFavorite={!!favorites[recipe.id]}
           />
         ))}
-        <a
+        <div className="grid grid-cols-2 gap-6">
+          <a
               href={`/shop/veggie-slicer`}
               className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
             >
@@ -83,6 +84,25 @@ export default async function RelatedRecipes({
                 <h2 className="text-lg font-semibold">Ручна овочерізка VEGGIE SLICER</h2>
               </div>
             </a>
+            <a
+              href={`/shop/vacuum-sealer`}
+              className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+            >
+              <div className="relative w-full aspect-[3/2]">
+                <img
+                  src="/shop/6638216620_vakuumnyj-upakovschik-dlya.jpg"
+                  alt="Вакуумний пакувальник для кухні"
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              </div>
+
+              <div className="px-4 pt-4 pb-10">
+                <h2 className="text-lg font-semibold">Вакуумний пакувальник для кухні</h2>
+              </div>
+            </a>
+        </div>
+        
       </div>
     </div>
   );
