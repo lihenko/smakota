@@ -11,11 +11,6 @@ type IngredientInput = {
   toTaste?: boolean;
 };
 
-// Функція нормалізації інгредієнта
-function capitalizeName(name: string): string {
-  const lower = name.trim().toLowerCase();
-  return lower.charAt(0).toUpperCase() + lower.slice(1);
-}
 
 export default function CreateRecipePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -123,7 +118,7 @@ export default function CreateRecipePage() {
     if (field === 'toTaste') {
       updated[idx].toTaste = value as boolean;
     } else if (field === 'name') {
-      updated[idx].name = capitalizeName(value as string);
+      updated[idx].name = value as string;
     } else if (field === 'unit') {
       updated[idx].unit = (value as string).toLowerCase();
     } else {
@@ -181,7 +176,15 @@ export default function CreateRecipePage() {
     formData.append('videoUrl', embedYoutube);
     formData.append('tiktokUrl', embedTiktok);
     formData.append('privateRecipe', privateRecipe ? 'true' : 'false');
-    formData.append('ingredients', JSON.stringify(ingredients));
+
+    // нормалізуємо інгредієнти перед відправкою
+    const normalizedIngredients = ingredients.map((ing) => ({
+      ...ing,
+      name: ing.name.trim().toLowerCase(),  // у нижній регістр для БД
+      unit: ing.unit.trim().toLowerCase(),  // одиниці теж
+    }));
+
+    formData.append('ingredients', JSON.stringify(normalizedIngredients));
     formData.append('instructions', JSON.stringify(instructions));
     if (image) formData.append('image', image);
 
