@@ -16,7 +16,7 @@ const initialState = {
   city: "",
   npBranch: "",
   notes: "",
-  payment: "card",
+  payment: "cod",
 };
 
 export default function OrderForm({ productName, productPrice }: OrderFormProps) {
