@@ -218,8 +218,8 @@ export default function OrderForm({ productName, productPrice }: OrderFormProps)
           onChange={handleChange}
           className="select select-bordered w-full"
         >
-          <option value="card">За реквізитами</option>
           <option value="cod">Післяплата</option>
+          <option value="card">За реквізитами</option>
         </select>
       </div>
 
