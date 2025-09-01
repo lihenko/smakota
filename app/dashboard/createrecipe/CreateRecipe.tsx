@@ -180,7 +180,7 @@ export default function CreateRecipePage() {
     // нормалізуємо інгредієнти перед відправкою
     const normalizedIngredients = ingredients.map((ing) => ({
       ...ing,
-      name: ing.name.trim().toLowerCase(),  // у нижній регістр для БД
+      name: ing.name.trim().toLowerCase().replace(/^\w/, c => c.toUpperCase()),  // у нижній регістр для БД
       unit: ing.unit.trim().toLowerCase(),  // одиниці теж
     }));
 
