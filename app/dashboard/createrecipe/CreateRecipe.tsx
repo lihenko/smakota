@@ -41,6 +41,11 @@ export default function CreateRecipePage() {
   const [youtubeError, setYoutubeError] = useState('');
   const [tiktokError, setTiktokError] = useState('');
 
+  function capitalizeFirst(str: string) {
+    if (!str) return '';
+    return str.trim().charAt(0).toUpperCase() + str.trim().slice(1);
+}
+
   // --- YouTube embed ---
   useEffect(() => {
     if (!videoUrl) {
@@ -170,10 +175,7 @@ export default function CreateRecipePage() {
       return;
     }
 
-    function capitalizeFirst(str: string) {
-    if (!str) return '';
-    return str.trim().charAt(0).toUpperCase() + str.trim().slice(1);
-}
+    
 
     const formData = new FormData();
     formData.append('title', title);
