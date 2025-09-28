@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { User } from '../generated/prisma'; // імпорт типу User
+import type { User } from '../generated/prisma'; // імпорт типу User
 
 
 
