@@ -5,8 +5,9 @@ import OrderForm from "@/app/components/OrderForm";
 export { metadata };
 
 export default function ShopPage() {
-  const ProductName = "Ручна овочерізка VEGGIE SLICER";
-  const ProductPrice = 360;
+  const ProductName = 'Самогонний апарат "Старт" на закритому кубі';
+  const ProductPrice = [5990,6490,7290,7900];
+  const ProductVolume = [15,23,37,60];
   return (
     <main className="py-16">
       <div className="container max-w-5xl mx-auto">
@@ -20,6 +21,12 @@ export default function ShopPage() {
             <h1 className="text-3xl font-bold mb-6 text-center lg:text-left">{ ProductName }</h1>
             <div className="text-lg mb-4">
               Овочерізка зі знімним контейнером допоможе швидко та рівно нарізати продукти кільцями, соломкою чи кубиками. Гумові ніжки фіксують її на поверхні, а насадки легко мити під водою чи в посудомийці.
+            </div>
+            <div className="text-lg mb-4">
+              Об'єм:
+              <ul>
+
+              </ul>
             </div>
             <div className="text-lg mb-4">
               Ціна: <span className="font-bold">{ ProductPrice } грн</span>
@@ -66,7 +73,7 @@ export default function ShopPage() {
             </ul>
             <h2 id="order" className="text-2xl font-bold mb-6">Замовлення:</h2>
             <p className="mb-3">Щоб замовити вакуумний пакувальник, заповніть форму нижче:</p>
-            <OrderForm productName={ProductName} productPrice={ProductPrice} />
+            <OrderForm productName={ProductName} productPrice={ProductPrice[0]} />
           </div>
         </div>
       </div>
