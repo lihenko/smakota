@@ -2,7 +2,7 @@ import { prisma } from '@/app/lib/prisma';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import UserClientContent from './UserClientContent';
-import type { Metadata } from "next";
+import {metadata } from "next";
 import { getUserId } from '@/hooks/useAuth.server';
 
 export type ParamsPromise = Promise<{ slug: string }>;

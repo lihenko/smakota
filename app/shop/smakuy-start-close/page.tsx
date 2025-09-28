@@ -1,4 +1,4 @@
-import { metadata } from "./metadata";
+import  { metadata } from "./metadata";
 import ProductOptions from "@/app/components/ApparatsOptions";
 import { use } from "react";
 

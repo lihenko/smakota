@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type {Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import Header from './components/Header';
@@ -11,7 +11,7 @@ const geistRoboto = Roboto({
   subsets: ["cyrillic", "latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata ={
   title: 'Смакота – Кращі домашні рецепти',
   description: 'Готуйте смачно з нашими перевіреними рецептами!',
 };

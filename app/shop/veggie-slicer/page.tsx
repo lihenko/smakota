@@ -1,4 +1,4 @@
-import { metadata } from "./metadata";
+import {metadata } from "./metadata";
 import ProductSlider from "./ProductSlider";
 import OrderForm from "@/app/components/OrderForm";
 

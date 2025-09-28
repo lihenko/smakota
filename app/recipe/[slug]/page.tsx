@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type {Metadata } from "next";
 import prisma from "../../lib/prisma";
 import { notFound } from "next/navigation";
 import CommentForm from "../../components/CommentForm";

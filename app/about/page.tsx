@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { metadata } from "./metadata";
+import {metadata } from "./metadata";
 
 export { metadata };
 

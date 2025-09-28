@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { prisma } from '@/app/lib/prisma'; // або свій імпорт prisma
 import React from 'react';
-import { metadata } from "./metadata";
+import {metadata } from "./metadata";
 
 export { metadata };
 

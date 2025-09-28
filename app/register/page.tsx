@@ -1,4 +1,4 @@
-import { metadata } from "./metadata";
+import {metadata } from "./metadata";
 import SignupPage from "./RegisterClient";
 
 export { metadata };
