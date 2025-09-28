@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import type { User } from '../generated/prisma';
+import { User } from '../generated/prisma';
 import { logout } from '@/utils/logout';
 import Link from 'next/link';
 

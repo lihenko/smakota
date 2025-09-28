@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import * as jose from 'jose';
 import prisma from "../lib/prisma";
-import type { User } from '../generated/prisma'; // Імпортуємо тип користувача з Prisma
+import { User } from '../generated/prisma'; // Імпортуємо тип користувача з Prisma
 
 export async function getUser(): Promise<User | null> {
   const cookie = (await cookies()).get('Authorization');

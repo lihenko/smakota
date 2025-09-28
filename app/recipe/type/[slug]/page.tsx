@@ -3,6 +3,7 @@ import prisma from '../../../lib/prisma';
 import RecipeCard from '../../../components/RecipeCard';
 import Pagination from '../../../components/Pagination';
 import { getUserId } from "@/hooks/useAuth.server";
+import { Metadata } from 'next';
 
 
 

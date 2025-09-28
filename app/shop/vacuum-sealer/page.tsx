@@ -1,8 +1,8 @@
-import {metadata } from "./metadata";
+import { metadata } from "./metadata";
 import ProductSlider from "./ProductSlider";
 import OrderForm from "@/app/components/OrderForm";
 
-export type { metadata };
+export { metadata };
 
 export default function ShopPage() {
   const ProductName = "Вакуумний пакувальник для кухні";

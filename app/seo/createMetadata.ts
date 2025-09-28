@@ -1,4 +1,4 @@
-import {metadata } from "next";
+import type { Metadata } from "next";
 
 export function createMetadata(
   title: string,
