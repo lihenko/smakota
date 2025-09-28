@@ -13,7 +13,12 @@ import FavoriteButton from "@/app/components/FavoriteButton";
 import RelatedRecipes from '@/app/components/RelatedRecipes';
 import RecipeShare from "@/app/components/RecipeShare";
 
-export type ParamsPromise = Promise<Record<'slug', string>>;
+interface PageProps {
+  params: {
+    slug: string;
+  };
+  searchParams?: Record<string, string | string[] | undefined>;
+}
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const recipe = await prisma.recipe.findUnique({
@@ -57,8 +62,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function RecipePage(props: { params: ParamsPromise }) {
-  const params = await props.params;
+export default async function RecipePage({ params }: PageProps) {
+ 
   const slug = params.slug;
 
   let userId: number | undefined;
