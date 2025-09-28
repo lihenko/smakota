@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { del } from '@vercel/blob';
 import prisma from '../../lib/prisma';
-import { RecipeIngredient, Instruction } from '../../generated/prisma/client';
+import type { RecipeIngredient, Instruction } from '../../generated/prisma/client';
 
 export async function handleSubmit(formData: FormData) {
   const recipeId = Number(formData.get('id'));
