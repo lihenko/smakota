@@ -15,7 +15,7 @@ import RecipeShare from "@/app/components/RecipeShare";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 
-export async function generateMetadata({ params }: { params: ParamsPromise }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const recipe = await prisma.recipe.findUnique({
     where: { slug: (await params).slug },
     include: {
