@@ -94,7 +94,7 @@ export default function ProductOptions({ volumes, prices, product_name, short_de
           <div className="w-full px-3">
             <HtmlContent html={descriptions} />
             <h2 id="order" className="text-2xl font-bold mb-6">Замовлення:</h2>
-            <p className="mb-3">Щоб замовити вакуумний пакувальник, заповніть форму нижче:</p>
+            <p className="mb-3">Щоб замовити {product_name}, заповніть форму нижче:</p>
             <OrderForm productName={product_name + ' ' + volumes[selectedIndex] + 'л'} productPrice={prices[selectedIndex]} />
           </div>
         </div>
