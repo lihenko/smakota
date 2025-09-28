@@ -1,6 +1,7 @@
 import { metadata } from "./metadata";
 import ProductSlider from "./ProductSlider";
 import OrderForm from "@/app/components/OrderForm";
+import ProductOptions from "@/app/components/ApparatsOptions";
 
 export { metadata };
 
@@ -23,13 +24,7 @@ export default function ShopPage() {
               Овочерізка зі знімним контейнером допоможе швидко та рівно нарізати продукти кільцями, соломкою чи кубиками. Гумові ніжки фіксують її на поверхні, а насадки легко мити під водою чи в посудомийці.
             </div>
             <div className="text-lg mb-4">
-              Об'єм:
-              <ul>
-
-              </ul>
-            </div>
-            <div className="text-lg mb-4">
-              Ціна: <span className="font-bold">{ ProductPrice } грн</span>
+              <ProductOptions volumes={ProductVolume} prices={ProductPrice} />
             </div>
             <div className="text-lg mb-4">
               <a className="btn btn-primary" href="#order">Замовити</a>
