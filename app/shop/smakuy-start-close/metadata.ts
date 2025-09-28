@@ -2,11 +2,11 @@ import { createMetadata } from "@/app/seo/createMetadata";
 
 export const metadata = {
   ...createMetadata(
-    "Ручна овочерізка VEGGIE SLICER – Смакота – Кращі домашні рецепти",
-    "Зручна овочерізка зі знімним контейнером — швидка нарізка кілець, соломки та кубиків. Гумові ніжки для стійкості, легке миття, компактний дизайн.",
-    "shop/49aa9d8e-c889-47fd-9967-fe069d228593.webp",
+    'Самогонний апарат «Старт» на закритому кубі',
+    "Самогонний апарат «Старт» на закритому кубі — компактний та надійний, з нержавіючої сталі, ідеальний для домашнього використання на будь-яких плитах.",
+    "shop/start-15-l-zakrytyj-kub-700x700.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/veggie-slicer',
+    canonical: 'https://www.smakota.club/shop/smakuy-start-close',
   },
 };
