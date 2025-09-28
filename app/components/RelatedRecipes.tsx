@@ -108,14 +108,14 @@ export default async function RelatedRecipes({
               <div className="relative w-full aspect-[3/2]">
                 <img
                   src="/shop/start-15-l-zakrytyj-kub-700x700.jpg"
-                  alt='Самогонний апарат "Старт" на закритому кубі'
+                  alt="Самогонний апарат «Старт» на закритому кубі"
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
 
               <div className="px-4 pt-4 pb-10">
-                <h2 className="text-lg font-semibold">Самогонний апарат "Старт" на закритому кубі</h2>
+                <h2 className="text-lg font-semibold">Самогонний апарат «Старт» на закритому кубі</h2>
               </div>
             </a>
         </div>
