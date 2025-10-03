@@ -86,6 +86,23 @@ export default async function HomePage() {
             <h2 className="text-2xl font-bold mb-8 text-center">Крамниця</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <a
+                  href={`/shop/skovoroda-4-sektsii`}
+                  className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+                >
+                  <div className="relative w-full aspect-[3/2]">
+                    <img
+                      src="/shop/6547489198_skovoroda-s-antiprigarnym.jpg"
+                      alt="Сковорода з антипригарним гранітним покриттям"
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+
+                  <div className="px-4 pt-4 pb-10">
+                    <h2 className="text-lg font-semibold">Сковорода з антипригарним гранітним покриттям</h2>
+                  </div>
+                </a>
+                <a
                   href={`/shop/veggie-slicer`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
