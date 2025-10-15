@@ -34,6 +34,7 @@ const Footer: React.FC = () => {
                 <li><Link href="/users">Наші кулінари</Link></li>
                 <li><Link href="/about">Про нас</Link></li>
                 <li><Link href="/privacy">Політика конфіденційності</Link></li>
+                <li><Link href="/return">Повернення і обмін</Link></li>
               </ul>
             </nav>
           </div>
