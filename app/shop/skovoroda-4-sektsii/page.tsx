@@ -6,9 +6,68 @@ export { metadata };
 
 export default function ShopPage() {
   const ProductName = "Сковорода з антипригарним гранітним покриттям";
+  const ShortDescription = "Порційна сковорідка з 4 відсіками – зручний аксесуар для швидкого приготування сніданку. Антипригарне покриття, стильна ручка з бакеліту та можливість готувати одразу 4 страви роблять її незамінною на кухні. Ідеальна для млинців, омлетів, панкейків та яєчні.";
   const ProductPrice = 245;
+  const ProductImage = 'https://www.smakota.club/shop/6547489198_skovoroda-s-antiprigarnym.jpg';
+  const InStock = true;
+  const productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": ProductName,
+    "image": ProductImage,
+    "description": ShortDescription,
+    "sku": "SKOVOROVA-4-SEKTSII", // унікальний артикул, придумай свій
+    "brand": {
+      "@type": "Brand",
+      "name": "NONAME"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://www.smakota.club/shop/skovoroda-4-sektsii",
+      "priceCurrency": "UAH",
+      "price": ProductPrice, // можна брати мінімальну або середню ціну
+      "availability": InStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": "200.00",
+          "currency": "UAH"
+        },
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "UA"
+        },
+        "shippingLabel": "Нова Пошта",
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": {
+            "@type": "QuantitativeValue",
+            "value": 2,
+            "minValue": 0,
+            "maxValue": 7,
+            "unitCode": "DAY"
+          },
+          "transitTime": {
+            "@type": "QuantitativeValue",
+            "value": 2,
+            "minValue": 2,
+            "maxValue": 3,
+            "unitCode": "DAY"
+          }
+        }
+      }
+    }   
+  };
   return (
     <main className="py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
       <div className="container max-w-5xl mx-auto">
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full lg:w-1/2 px-3">
@@ -19,7 +78,7 @@ export default function ShopPage() {
           <div className="w-full lg:w-1/2 px-3 xl:pl-10">
             <h1 className="text-3xl font-bold mb-6 text-center lg:text-left">{ ProductName }</h1>
             <div className="text-lg mb-4">
-              Порційна сковорідка з 4 відсіками – зручний аксесуар для швидкого приготування сніданку. Антипригарне покриття, стильна ручка з бакеліту та можливість готувати одразу 4 страви роблять її незамінною на кухні. Ідеальна для млинців, омлетів, панкейків та яєчні.
+              {ShortDescription}
             </div>
             <div className="text-lg mb-4">
               Ціна: <span className="font-bold">{ ProductPrice } грн</span>
