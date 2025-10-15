@@ -34,8 +34,38 @@ export default function ShopPage() {
       "availability": InStock
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
-      "itemCondition": "https://schema.org/NewCondition"
-    }
+      "itemCondition": "https://schema.org/NewCondition",
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingRate": {
+          "@type": "MonetaryAmount",
+          "value": "200.00",
+          "currency": "UAH"
+        },
+        "shippingDestination": {
+          "@type": "DefinedRegion",
+          "addressCountry": "UA"
+        },
+        "shippingLabel": "Нова Пошта",
+        "deliveryTime": {
+          "@type": "ShippingDeliveryTime",
+          "handlingTime": {
+            "@type": "QuantitativeValue",
+            "value": 2,
+            "minValue": 0,
+            "maxValue": 2,
+            "unitCode": "DAY"
+          },
+          "transitTime": {
+            "@type": "QuantitativeValue",
+            "value": 2,
+            "minValue": 2,
+            "maxValue": 3,
+            "unitCode": "DAY"
+          }
+        }
+      }
+    }   
   };
 
   return (
