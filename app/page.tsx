@@ -154,6 +154,23 @@ export default async function HomePage() {
                   </div>
                 </a>
                 <a
+                  href={`/shop/smakuy-baby-bum`}
+                  className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+                >
+                  <div className="relative w-full aspect-[3/2]">
+                    <img
+                      src="/shop/02405-700x700.jpg"
+                      alt="Самогонний апарат «Бебі Бум»"
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+
+                  <div className="px-4 pt-4 pb-10">
+                    <h2 className="text-lg font-semibold">Самогонний апарат «Бебі Бум»</h2>
+                  </div>
+                </a>
+                <a
                   href={`/shop/smakuy-start-open`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
