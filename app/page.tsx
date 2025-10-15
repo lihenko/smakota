@@ -205,6 +205,23 @@ export default async function HomePage() {
                   </div>
                 </a>
                 <a
+                  href={`/shop/smakuy-profi-open`}
+                  className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+                >
+                  <div className="relative w-full aspect-[3/2]">
+                    <img
+                      src="/shop/profi15l2-700x700.jpg"
+                      alt="Самогонний апарат «Профі» на відкритому кубі"
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+
+                  <div className="px-4 pt-4 pb-10">
+                    <h2 className="text-lg font-semibold">Самогонний апарат «Профі» на відкритому кубі</h2>
+                  </div>
+                </a>
+                <a
                   href={`/shop/mangal-gektor-9`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
