@@ -1,91 +1,15 @@
-import RecipeCard from "./components/RecipeCard";
-import prisma from "./lib/prisma";
-import RecipeSearchForm from "./components/SearchForm";
 import Link from "next/link";
-import { getUserId } from "@/hooks/useAuth.server";
+import { metadata } from "./metadata";
 
-export const dynamic = 'force-dynamic'; 
+export { metadata };
 
-
-export const metadata = {
-  alternates: {
-    canonical: 'https://www.smakota.club/',
-  },
-};
-
-
-
-export default async function HomePage() {
-  const userId = await getUserId();
-  const numericUserId = userId ? Number(userId) : null;
-  const recipes = await prisma.recipe.findMany({
-    where: {
-      moderated: true,
-      privaterecipe: false,
-    },
-    orderBy: { createdAt: "desc" },
-    take: 12,
-    include: {
-      user: true,
-    },
-  });
-
-  let favorites: Record<number, boolean> = {};
-  if (numericUserId !== null) {
-    const favList = await prisma.favoriteRecipe.findMany({
-      where: { userId: numericUserId },
-      select: { recipeId: true },
-    });
-    favorites = Object.fromEntries(favList.map(f => [f.recipeId, true]));
-  }
-
+export default function ReturnPage() {
   return (
     <main className="py-16">
       <div className="container">
-        <div className="mb-8">
-          <RecipeSearchForm />
-        </div>
-        <h2 className="text-2xl font-bold mb-4">Останні рецепти</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-          {recipes.map((recipe, index) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              userId={numericUserId}
-              isInitiallyFavorite={!!favorites[recipe.id]}
-              isLCP={index === 0} // перше зображення без lazy
-            />
-          ))}
-        </div>
-        <div className="text-center mb-8">
-          <Link href="/recipe" className="btn btn-primary">Більше рецептів</Link>
-        </div>
-        <section
-          className="py-10 px-6 sm:px-12 rounded-2xl shadow-lg my-10">
-          <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div className="text-center lg:text-left">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-2 text-primary">
-                Створи свою кулінарну книгу
-              </h2>
-              <p className="text-lg text-base-content">
-                Зберігай улюблені рецепти, додавай власні, готуй із задоволенням.
-              </p>
-            </div>
-            <div>
-              <Link
-                href="/dashboard/createrecipe"
-                className="mt-4 lg:mt-0 inline-block px-6 py-3 bg-primary text-primary-content hover:brightness-110 font-semibold rounded-xl transition"
-              >
-                Почати зараз
-              </Link>
-            </div>
-          </div>
-        </section>
-        <section>
-          <div className="container">
-            <h2 className="text-2xl font-bold mb-8 text-center">Крамниця</h2>
+            <h1 className="text-3xl font-bold mb-8 text-center">Крамниця</h1>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <a
+              <Link
                   href={`/shop/skovoroda-4-sektsii`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -101,8 +25,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Сковорода з антипригарним гранітним покриттям</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/lapsherizka`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -118,8 +42,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Pasta Set — лапшерізка, машина для приготування пасти та лапші</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/veggie-slicer`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -135,8 +59,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Ручна овочерізка VEGGIE SLICER</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/vacuum-sealer`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -152,8 +76,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Вакуумний пакувальник для кухні</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/smakuy-baby-bum`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -169,8 +93,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Самогонний апарат «Бебі Бум»</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/smakuy-start-open`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -186,8 +110,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Самогонний апарат «Старт» на відкритому кубі</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/smakuy-start-close`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -203,8 +127,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Самогонний апарат «Старт» на закритому кубі</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/smakuy-profi-open`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -220,8 +144,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Самогонний апарат «Профі» на відкритому кубі</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/mangal-gektor-9`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -237,8 +161,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Мангал Гектор на 9 шампурів</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/mangal-standart`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -254,8 +178,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Мангал Стандарт</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/skovoroda-z-borony`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -271,8 +195,8 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Сковорода з диска борони</h2>
                   </div>
-                </a>
-                <a
+                </Link>
+                <Link
                   href={`/shop/koptylnya-mala`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -288,11 +212,9 @@ export default async function HomePage() {
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Коптильня Мала з нержавіючої сталі</h2>
                   </div>
-                </a>
+                </Link>
             </div>
           </div>
-        </section>
-      </div>
     </main>
-  );
-}
+
+);}
