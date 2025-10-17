@@ -112,6 +112,23 @@ export default function ReturnPage() {
                   </div>
                 </Link>
                 <Link
+                  href={`/shop/toster-crownberg-1106`}
+                  className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+                >
+                  <div className="relative w-full aspect-[3/2]">
+                    <img
+                      src="/shop/Copilot_20251017_085058.png"
+                      alt="Тостер Crownberg CB 1106"
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+
+                  <div className="px-4 pt-4 pb-10">
+                    <h2 className="text-lg font-semibold">Тостер Crownberg CB 1106</h2>
+                  </div>
+                </Link>
+                <Link
                   href={`/shop/smakuy-baby-bum`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >

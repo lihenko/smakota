@@ -49,3 +49,8 @@ body {
 .no-arrows[type="number"] {
   -moz-appearance: textfield;
 }
+
+
+.swiper-slide.flex{
+  display: flex;
+}
