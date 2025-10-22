@@ -152,14 +152,14 @@ export default function ReturnPage() {
                   <div className="relative w-full aspect-[3/2]">
                     <img
                       src="/shop/che8gazikonka-1400x1400.webp"
-                      alt='Автоклав "ЧЕ" - Газовий'
+                      alt='Автоклав &#39;ЧЕ&#39; газовий'
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
 
                   <div className="px-4 pt-4 pb-10">
-                    <h2 className="text-lg font-semibold">Автоклав "ЧЕ" - Газовий</h2>
+                    <h2 className="text-lg font-semibold">Автоклав &#39;ЧЕ&#39; газовий</h2>
                   </div>
                 </Link>
                 <Link
