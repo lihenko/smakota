@@ -290,6 +290,14 @@ export default async function HomePage() {
                   </div>
                 </a>
             </div>
+            <div className="text-center">
+              <Link
+                href="/shop"
+                className="mt-4 btn btn-primary"
+              >
+                Більше товарів у крамниці
+              </Link>
+            </div>
           </div>
         </section>
       </div>
