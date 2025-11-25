@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Script from "next/script";
+import ChatbotEmbed from "./components/ChatbotEmbed";
 
 
 const geistRoboto = Roboto({
@@ -39,9 +40,17 @@ export default async function RootLayout({
               gtag('config', 'G-C6H7790DT6');
             `}
           </Script>
+          {/* 🔹 Zapier Chatbot */}
+          <Script
+            async
+            type="module"
+            src="https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js"
+          />
           <Header />
           {children}
           <Footer />
+          {/* Виджет (popup) */}
+          <ChatbotEmbed />
         </body>
       </html>
 
