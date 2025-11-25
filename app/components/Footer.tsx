@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
       {/* Кнопка Scroll to Top */}
       <button
         onClick={scrollToTop}
-        className={`fixed cursor-pointer w-10 h-10 flex justify-center items-center bottom-8 right-8 bg-black text-white rounded-full shadow-lg 
+        className={`fixed cursor-pointer w-10 h-10 flex justify-center items-center bottom-8 left-8 bg-black text-white rounded-full shadow-lg 
           transition-opacity duration-500 ease-in-out 
           ${showButton ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
       >
