@@ -30,7 +30,6 @@ const Footer: React.FC = () => {
           <div className="px-4 w-1/2 mb-3 md:w-1/5">
             <nav>
               <ul>
-                <li><Link href="/">Головна</Link></li>
                 <li><Link href="/users">Наші кулінари</Link></li>
                 <li><Link href="/about">Про нас</Link></li>
                 <li><Link href="/privacy">Політика конфіденційності</Link></li>
