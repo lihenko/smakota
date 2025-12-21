@@ -45,6 +45,7 @@ const Footer: React.FC = () => {
                 <li><Link href="/recipe/type/yushky">Юшки</Link></li>   
                 <li><Link href="/recipe/type/garniry">Гарніри</Link></li>
                 <li><Link href="/recipe/type/salaty">Салати</Link></li>
+                <li><Link href="/recipe/type/zakusky">Закуски</Link></li>
               </ul>
             </nav>
           </div>
@@ -52,10 +53,11 @@ const Footer: React.FC = () => {
           <div className="px-4 w-1/2 mb-3 md:w-1/5">
             <nav>
               <ul>
-                <li><Link href="/recipe/type/zakusky">Закуски</Link></li>
                 <li><Link href="/recipe/type/sousy">Соуси</Link></li>   
                 <li><Link href="/recipe/type/snidanok">Сніданок</Link></li>
                 <li><Link href="/recipe/type/deserty">Десерти</Link></li>
+                <li><Link href="/recipe/type/napoyi">Напої</Link></li>
+                <li><Link href="/recipe/type/vypichka">Випічка</Link></li> 
               </ul>
             </nav>
           </div>
@@ -63,10 +65,9 @@ const Footer: React.FC = () => {
           <div className="px-4 w-1/2 mb-3 md:w-1/5">
             <nav>
               <ul>
-                <li><Link href="/recipe/type/napoyi">Напої</Link></li>
-                <li><Link href="/recipe/type/vypichka">Випічка</Link></li>   
                 <li><Link href="/recipe/type/torty">Торти</Link></li>
                 <li><Link href="/recipe/type/konservatsiya">Консервація</Link></li>
+                <li><Link href="/recipe/type/dietychne-menu">Дієтичні страви</Link></li>
               </ul>
             </nav>
           </div>
