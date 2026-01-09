@@ -7,6 +7,6 @@ export const metadata = {
     "/og-image.png"
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop',
+    canonical: 'https://smakota.club/shop',
   },
 };

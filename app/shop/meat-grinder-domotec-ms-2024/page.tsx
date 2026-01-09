@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Електрична м’ясорубка Domotec MS-2024";
   const ShortDescription = "Domotec MS-2024 — універсальна електрична м’ясорубка з функцією подрібнення, шаткування та соковижималки. Оснащена реверсом, міцним металевим шнеком і декількома насадками — ідеальна для домашнього використання.";
   const ProductPrice = 1950;
-  const ProductImage = 'https://www.smakota.club/shop/23577062294892.webp';
+  const ProductImage = 'https://smakota.club/shop/23577062294892.webp';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/meat-grinder-domotec-ms-2024",
+      "url": "https://smakota.club/shop/meat-grinder-domotec-ms-2024",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

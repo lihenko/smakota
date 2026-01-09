@@ -7,6 +7,6 @@ export const metadata = {
     "shop/che8el(ikonka)-1400x1400.webp",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/autoclav-che-electro',
+    canonical: 'https://smakota.club/shop/autoclav-che-electro',
   },
 };

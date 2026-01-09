@@ -7,6 +7,6 @@ export const metadata = {
     "shop/mangal-gektor-9-1.webp",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/mangal-gektor-9',
+    canonical: 'https://smakota.club/shop/mangal-gektor-9',
   },
 };

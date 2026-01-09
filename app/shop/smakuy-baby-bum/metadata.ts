@@ -7,6 +7,6 @@ export const metadata = {
     "shop/02405-700x700.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/smakuy-baby-bum',
+    canonical: 'https://smakota.club/shop/smakuy-baby-bum',
   },
 };

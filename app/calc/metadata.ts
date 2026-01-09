@@ -7,6 +7,6 @@ export const metadata = {
     "calc-image.png",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/calc',
+    canonical: 'https://smakota.club/calc',
   },
 };

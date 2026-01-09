@@ -7,6 +7,6 @@ export const metadata = {
     "shop/dscn1814-700x700.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/koptylnya-mala',
+    canonical: 'https://smakota.club/shop/koptylnya-mala',
   },
 };

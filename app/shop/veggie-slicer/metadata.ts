@@ -7,6 +7,6 @@ export const metadata = {
     "shop/49aa9d8e-c889-47fd-9967-fe069d228593.webp",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/veggie-slicer',
+    canonical: 'https://smakota.club/shop/veggie-slicer',
   },
 };

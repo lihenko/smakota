@@ -7,6 +7,6 @@ export const metadata = {
     "shop/9c590de21909058d3bf170ad5ce86aa9.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/sokovarka-maestro-8l',
+    canonical: 'https://smakota.club/shop/sokovarka-maestro-8l',
   },
 };

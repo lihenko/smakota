@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Електрогриль Zepline ZP-820";
   const ShortDescription = "Потужний електрогриль Zepline ZP-820 (3500 Вт) із знімними антипригарними пластинами забезпечує швидке й рівномірне обсмаження страв. Легко миється, стійкий до подряпин і має стильний металевий дизайн.";
   const ProductPrice = 1200;
-  const ProductImage = 'https://www.smakota.club/shop/6848136432_elektrogril-zepline-zp-820.jpg';
+  const ProductImage = 'https://smakota.club/shop/6848136432_elektrogril-zepline-zp-820.jpg';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/electrogril-zepline-zp-820",
+      "url": "https://smakota.club/shop/electrogril-zepline-zp-820",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

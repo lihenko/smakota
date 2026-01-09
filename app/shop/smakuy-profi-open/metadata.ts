@@ -7,6 +7,6 @@ export const metadata = {
     "shop/profi15l2-700x700.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/smakuy-profi-open',
+    canonical: 'https://smakota.club/shop/smakuy-profi-open',
   },
 };

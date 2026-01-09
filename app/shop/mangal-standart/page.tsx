@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Мангал Стандарт";
   const ShortDescription = "Мангал Стандарт — міцний та надійний мангал для дому та виїздів на природу. Компактний та зручний у транспортуванні, він дозволяє рівномірно готувати м’ясо, рибу та овочі.";
   const ProductPrice = 2699;
-  const ProductImage = 'https://www.smakota.club/shop/MangalStandart-700x700-social.png';
+  const ProductImage = 'https://smakota.club/shop/MangalStandart-700x700-social.png';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/mangal-standart",
+      "url": "https://smakota.club/shop/mangal-standart",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

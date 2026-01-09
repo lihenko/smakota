@@ -10,17 +10,17 @@ export async function GET() {
 
   // Додайте інші сторінки за потреби
   const urls = [
-    { loc: 'https://www.smakota.club/' },
-    { loc: 'https://www.smakota.club/about' },
-    { loc: 'https://www.smakota.club/shop' },
-    { loc: 'https://www.smakota.club/calc' },
+    { loc: 'https://smakota.club/' },
+    { loc: 'https://smakota.club/about' },
+    { loc: 'https://smakota.club/shop' },
+    { loc: 'https://smakota.club/calc' },
     ...recipes.map(r => ({
-      loc: `https://www.smakota.club/recipe/${r.slug}`,
+      loc: `https://smakota.club/recipe/${r.slug}`,
     })),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `<url><loc>${u.loc}</loc></url>`).join('\n')}
 </urlset>`;
 

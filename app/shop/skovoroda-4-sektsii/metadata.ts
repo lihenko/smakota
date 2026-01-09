@@ -7,6 +7,6 @@ export const metadata = {
     "shop/6547489198_skovoroda-s-antiprigarnym.jpg"
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/skovoroda-4-sektsii',
+    canonical: 'https://smakota.club/shop/skovoroda-4-sektsii',
   },
 };

@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
     openGraph: {
       title,
       description,
-      url: `https://www.smakota.club/recipe/type/${dishType.slug}`,
+      url: `https://smakota.club/recipe/type/${dishType.slug}`,
       siteName: 'Smakota.club',
       locale: 'uk_UA',
       type: 'website',
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
       description,
     },
     alternates: {
-      canonical: `https://www.smakota.club/recipe/type/${dishType.slug}`,
+      canonical: `https://smakota.club/recipe/type/${dishType.slug}`,
     },
   };
 }

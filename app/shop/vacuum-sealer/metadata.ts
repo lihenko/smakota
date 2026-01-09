@@ -7,6 +7,6 @@ export const metadata = {
     "shop/6638216626_vakuumnyj-upakovschik-dlya.jpg"
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/vacuum-sealer',
+    canonical: 'https://smakota.club/shop/vacuum-sealer',
   },
 };

@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     <p><strong>Відділення Нової пошти:</strong> ${npBranch}</p>
     <p><strong>Оплата:</strong> ${paymentText}</p>
     <p><strong>Примітки:</strong> ${notes || '-'}</p>
-    <p><strong>Сторінка замовлення:</strong> <a href="https://www.smakota.club${pageUrl}">https://www.smakota.club${pageUrl}</a></p>
+    <p><strong>Сторінка замовлення:</strong> <a href="https://smakota.club${pageUrl}">https://smakota.club${pageUrl}</a></p>
   `;
 
   try {

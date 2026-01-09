@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Машинка для приготування пасти та лапші";
   const ShortDescription = "Машина для приготування пасти та лапші Pasta Set QF-150 допоможе швидко розкатати тісто та нарізати локшину. Надійна, з нержавіючої сталі, з регулюванням товщини пласта. Ідеальний вибір для домашньої італійської кухні.";
   const ProductPrice = 1200;
-  const ProductImage = 'https://www.smakota.club/shop/63878795499311.webp';
+  const ProductImage = 'https://smakota.club/shop/63878795499311.webp';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/lapsherizka",
+      "url": "https://smakota.club/shop/lapsherizka",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

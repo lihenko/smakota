@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Коптильня Мала з нержавіючої сталі";
   const ShortDescription = "Коптильня Мала з нержавіючої сталі з гідрозатвором та кришкою-будиночком — компактна та зручна для домашнього використання. Завдяки товстій сталі забезпечує рівномірне нагрівання, гідрозатвор усуває дим у приміщенні, а форма кришки дозволяє конденсату не потрапляти на продукти. Ідеальний вибір для приготування смачних копченостей вдома чи на природі.";
   const ProductPrice = 3049;
-  const ProductImage = 'https://www.smakota.club/shop/dscn1814-700x700.jpg';
+  const ProductImage = 'https://smakota.club/shop/dscn1814-700x700.jpg';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/koptylnya-mala",
+      "url": "https://smakota.club/shop/koptylnya-mala",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

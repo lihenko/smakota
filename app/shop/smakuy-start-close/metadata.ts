@@ -7,6 +7,6 @@ export const metadata = {
     "shop/start-15-l-zakrytyj-kub-700x700.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/smakuy-start-close',
+    canonical: 'https://smakota.club/shop/smakuy-start-close',
   },
 };

@@ -7,6 +7,6 @@ export const metadata = {
     "shop/23577062294892.webp"
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/meat-grinder-domotec-ms-2024',
+    canonical: 'https://smakota.club/shop/meat-grinder-domotec-ms-2024',
   },
 };

@@ -7,6 +7,6 @@ export const metadata = {
     "shop/start-15-l-700x700-social.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/smakuy-start-open',
+    canonical: 'https://smakota.club/shop/smakuy-start-open',
   },
 };

@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Сковорода з антипригарним гранітним покриттям";
   const ShortDescription = "Порційна сковорідка з 4 відсіками – зручний аксесуар для швидкого приготування сніданку. Антипригарне покриття, стильна ручка з бакеліту та можливість готувати одразу 4 страви роблять її незамінною на кухні. Ідеальна для млинців, омлетів, панкейків та яєчні.";
   const ProductPrice = 245;
-  const ProductImage = 'https://www.smakota.club/shop/6547489198_skovoroda-s-antiprigarnym.jpg';
+  const ProductImage = 'https://smakota.club/shop/6547489198_skovoroda-s-antiprigarnym.jpg';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/skovoroda-4-sektsii",
+      "url": "https://smakota.club/shop/skovoroda-4-sektsii",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

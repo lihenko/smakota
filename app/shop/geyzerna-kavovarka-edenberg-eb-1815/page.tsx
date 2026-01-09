@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Гейзерна кавоварка Edenberg EB-1815";
   const ShortDescription = "Кавоварка з міцним металевим корпусом забезпечує рівномірний прогрів і насичений смак напою. Завдяки термостійкій ручці, надійному клапану для випуску пари та фіксованій кришці вона безпечна й зручна у використанні. Продумана форма запобігає бризкам, а універсальне дно підходить для всіх типів плит. Об’єм 150 мл робить її ідеальним варіантом для приготування до трьох чашок ароматної кави.";
   const ProductPrice = 429;
-  const ProductImage = 'https://www.smakota.club/shop/9c590de21909058d3bf170ad5ce86aa9.jpg';
+  const ProductImage = 'https://smakota.club/shop/9c590de21909058d3bf170ad5ce86aa9.jpg';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/geyzerna-kavovarka-edenberg-eb-1815",
+      "url": "https://smakota.club/shop/geyzerna-kavovarka-edenberg-eb-1815",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

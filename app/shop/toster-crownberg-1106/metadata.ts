@@ -7,6 +7,6 @@ export const metadata = {
     "shop/Copilot_20251017_085058.png"
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/toster-crownberg-1106',
+    canonical: 'https://smakota.club/shop/toster-crownberg-1106',
   },
 };

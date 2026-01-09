@@ -7,6 +7,6 @@ export const metadata = {
     "shop/MangalStandart-700x700-social.png",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/mangal-standart',
+    canonical: 'https://smakota.club/shop/mangal-standart',
   },
 };

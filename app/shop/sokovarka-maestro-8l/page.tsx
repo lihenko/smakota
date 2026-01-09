@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Соковарка-пароварка MR-1030 Maestro Basic 8л";
   const ShortDescription = "Соковарка з нержавіючої сталі — це практичний помічник для приготування натуральних соків та консервування. Вона має три основні ємності: паровий кошик на 8 л, ємність для збору соку на 2,5 л та нижню каструлю на 4,5 л. Скляна кришка з отвором для пари забезпечує зручний контроль процесу, а силіконова трубка з металевим затискачем дозволяє легко та акуратно зливати готовий сік. Підходить для всіх типів плит, легко миється та виготовлена з довговічної нержавіючої сталі товщиною 0,6 мм. Ідеальна для домашнього використання та заготівель.";
   const ProductPrice = 1499;
-  const ProductImage = 'https://www.smakota.club/shop/9c590de21909058d3bf170ad5ce86aa9.jpg';
+  const ProductImage = 'https://smakota.club/shop/9c590de21909058d3bf170ad5ce86aa9.jpg';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/sokovarka-maestro-8l",
+      "url": "https://smakota.club/shop/sokovarka-maestro-8l",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

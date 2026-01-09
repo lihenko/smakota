@@ -7,6 +7,6 @@ export const metadata = {
     "shop/63878795499311.webp"
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/lapsherizka',
+    canonical: 'https://smakota.club/shop/lapsherizka',
   },
 };

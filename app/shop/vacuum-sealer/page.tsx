@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Вакуумний пакувальник для кухні";
   const ShortDescription = "Вакуумний пакувальник — це незамінний помічник на вашій кухні, який допоможе зберегти свіжість продуктів, продовжити термін їх зберігання та зменшити витрати.";
   const ProductPrice = 250;
-  const ProductImage = 'https://www.smakota.club/shop/6638216626_vakuumnyj-upakovschik-dlya.jpg';
+  const ProductImage = 'https://smakota.club/shop/6638216626_vakuumnyj-upakovschik-dlya.jpg';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/vacuum-sealer",
+      "url": "https://smakota.club/shop/vacuum-sealer",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

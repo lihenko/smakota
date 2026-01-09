@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata = {
   alternates: {
-    canonical: 'https://www.smakota.club/',
+    canonical: 'https://smakota.club/',
   },
 };
 

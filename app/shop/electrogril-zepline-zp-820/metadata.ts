@@ -7,6 +7,6 @@ export const metadata = {
     "shop/6848136432_elektrogril-zepline-zp-820.jpg"
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/electrogril-zepline-zp-820',
+    canonical: 'https://smakota.club/shop/electrogril-zepline-zp-820',
   },
 };

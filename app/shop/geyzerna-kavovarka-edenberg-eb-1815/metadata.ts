@@ -7,6 +7,6 @@ export const metadata = {
     "shop/8c55e6c7-9707-4a5a-90b9-74dffc52b6d0.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/geyzerna-kavovarka-edenberg-eb-1815',
+    canonical: 'https://smakota.club/shop/geyzerna-kavovarka-edenberg-eb-1815',
   },
 };

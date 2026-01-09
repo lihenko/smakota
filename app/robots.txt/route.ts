@@ -5,7 +5,7 @@ export async function GET() {
 User-agent: *
 Allow: /
 
-Sitemap: https://www.smakota.club/sitemap.xml
+Sitemap: https://smakota.club/sitemap.xml
   `.trim();
 
   return new NextResponse(content, {

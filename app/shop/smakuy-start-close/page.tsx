@@ -19,7 +19,7 @@ export default function ShopPage() {
     "@context": "https://schema.org/",
     "@type": "Product",
     "name": ProductName,
-    "image": Gallery.map(img => `https://www.smakota.club/shop/${img}`),
+    "image": Gallery.map(img => `https://smakota.club/shop/${img}`),
     "description": ShortDescription,
     "sku": "START-CLOSED", // унікальний артикул, придумай свій
     "brand": {
@@ -28,7 +28,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/smakuy-start-close",
+      "url": "https://smakota.club/shop/smakuy-start-close",
       "priceCurrency": "UAH",
       "price": ProductPrice[0], // можна брати мінімальну або середню ціну
       "availability": InStock

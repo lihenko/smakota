@@ -7,6 +7,6 @@ export const metadata = {
     "shop/SkovorodazBorony-social.jpg",
   ),
   alternates: {
-    canonical: 'https://www.smakota.club/shop/skovoroda-z-borony',
+    canonical: 'https://smakota.club/shop/skovoroda-z-borony',
   },
 };

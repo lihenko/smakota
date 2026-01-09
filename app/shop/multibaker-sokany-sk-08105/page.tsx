@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Мультипекар 5в1, 600Вт, Sokany SK-08105";
   const ShortDescription = "Мультипекар Sokany SK-08105 — це практичний кухонний помічник 5в1, який дозволяє легко готувати вафлі, пончики, горішки, коржі та печиво. Потужність 600 Вт забезпечує швидкий нагрів, а антипригарні панелі гарантують просте очищення після кожного використання.";
   const ProductPrice = 1400;
-  const ProductImage = 'https://www.smakota.club/shop/6559397016_multipekar-5v1-600vt.jpg';
+  const ProductImage = 'https://smakota.club/shop/6559397016_multipekar-5v1-600vt.jpg';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/multibaker-sokany-sk-08105",
+      "url": "https://smakota.club/shop/multibaker-sokany-sk-08105",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

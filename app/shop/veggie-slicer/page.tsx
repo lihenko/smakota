@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Ручна овочерізка VEGGIE SLICER";
   const ShortDescription = "Овочерізка зі знімним контейнером допоможе швидко та рівно нарізати продукти кільцями, соломкою чи кубиками. Гумові ніжки фіксують її на поверхні, а насадки легко мити під водою чи в посудомийці.";
   const ProductPrice = 360;
-  const ProductImage = 'https://www.smakota.club/shop/49aa9d8e-c889-47fd-9967-fe069d228593.webp';
+  const ProductImage = 'https://smakota.club/shop/49aa9d8e-c889-47fd-9967-fe069d228593.webp';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/veggie-slicer",
+      "url": "https://smakota.club/shop/veggie-slicer",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

@@ -8,7 +8,7 @@ export default function ShopPage() {
   const ProductName = "Тостер Crownberg CB 1106";
   const ShortDescription = "Компактний тостер на 2 скибки з потужністю 750 Вт. Має 7 рівнів підсмажування, кнопку «СТОП», знімний піддон для крихт, автовимкнення та захист від перегрівання. Ідеальний для швидкого сніданку з ароматними хрусткими тостами.";
   const ProductPrice = 540;
-  const ProductImage = 'https://www.smakota.club/shop/Copilot_20251017_085058.png';
+  const ProductImage = 'https://smakota.club/shop/Copilot_20251017_085058.png';
   const InStock = true;
   const productSchema = {
     "@context": "https://schema.org/",
@@ -23,7 +23,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/toster-crownberg-1106",
+      "url": "https://smakota.club/shop/toster-crownberg-1106",
       "priceCurrency": "UAH",
       "price": ProductPrice, // можна брати мінімальну або середню ціну
       "availability": InStock

@@ -18,7 +18,7 @@ export default function ShopPage() {
     "@context": "https://schema.org/",
     "@type": "Product",
     "name": ProductName,
-    "image": Gallery.map(img => `https://www.smakota.club/shop/${img}`),
+    "image": Gallery.map(img => `https://smakota.club/shop/${img}`),
     "description": ShortDescription,
     "sku": "AUTOCLAV-CHE-GAS", // унікальний артикул, придумай свій
     "brand": {
@@ -27,7 +27,7 @@ export default function ShopPage() {
     },
     "offers": {
       "@type": "Offer",
-      "url": "https://www.smakota.club/shop/autoclav-che-gas",
+      "url": "https://smakota.club/shop/autoclav-che-gas",
       "priceCurrency": "UAH",
       "price": ProductPrice[0], // можна брати мінімальну або середню ціну
       "availability": InStock
