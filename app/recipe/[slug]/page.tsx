@@ -12,6 +12,7 @@ import Image from "next/image";
 import FavoriteButton from "@/app/components/FavoriteButton";
 import RelatedRecipes from '@/app/components/RelatedRecipes';
 import RecipeShare from "@/app/components/RecipeShare";
+import AdsBlock from "@/app/components/AdsBlock";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 
@@ -314,6 +315,9 @@ if (userId) {
               </div>
             )}
             <RecipeShare url={`https://smakota.club/recipe/${recipe.slug}`} title={recipe.title} />
+            <section className="mt-16 text-center">
+              <AdsBlock />
+            </section>
           </div>
 
           <div className="w-full px-3 lg:w-1/3">

@@ -40,6 +40,14 @@ export default async function RootLayout({
               gtag('config', 'G-C6H7790DT6');
             `}
           </Script>
+          {/* --- Google AdSense --- */}
+          <Script
+            id="adsense-script"
+            async
+            strategy="afterInteractive"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6450905320202041"
+            crossOrigin="anonymous"
+          />
           {/* 🔹 Zapier Chatbot */}
           <Script
             async
