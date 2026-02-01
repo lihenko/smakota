@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
   const title = `${user.name} – Кулінар на Смакота`;
   const description = `Профіль кулінара ${user.name} на Смакота. Створено страв: ${user._count.recipes}, залишено відгуків: ${user._count.comments}. Долучайтеся до спільноти домашніх кухарів!`;
   const image = user.avatar?.avatarUrl || DEFAULT_AVATAR;
-  const canonicalUrl = `https://smakota.ua/users/${user.slug}`;
+  const canonicalUrl = `https://smakota.club/users/${user.slug}`;
 
   return {
     title,
