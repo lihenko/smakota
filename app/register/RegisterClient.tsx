@@ -54,7 +54,7 @@ export default function SignupPage() {
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:w-1/3 mx-auto mt-20 mb-20">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:w-1/3 mx-auto mt-20 mb-6">
         <input 
           className='border border-gray-300 p-2 rounded'
           name="name" 
@@ -84,7 +84,7 @@ export default function SignupPage() {
         />
         <button type="submit" className="btn btn-primary">Зареєструватися</button>
       </form>
-      <div className="text-center">
+      <div className="text-center mb-20">
         Вже є акаунт? <Link href={'/login'}>Увійти</Link>.
       </div>
     </div>
