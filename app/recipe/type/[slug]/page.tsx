@@ -137,7 +137,7 @@ export default async function DishTypeSlugPage({ params, searchParams }: Props) 
               ))}
             </div>
             {totalPages > 1 && (
-              <Pagination currentPage={page} totalPages={totalPages} />
+              <Pagination currentPage={page} totalPages={totalPages} basePath={`/recipe/type/${slug}`} />
             )}
           </>
         )}
