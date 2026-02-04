@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
@@ -83,6 +84,9 @@ export default function SignupPage() {
         />
         <button type="submit" className="btn btn-primary">Зареєструватися</button>
       </form>
+      <div className="text-center">
+        Вже є акаунт? <Link href={'/login'}>Увійти</Link>.
+      </div>
     </div>
     
   );
