@@ -86,6 +86,23 @@ export default async function HomePage() {
             <h2 className="text-2xl font-bold mb-8 text-center">Крамниця</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <a
+              href={`/shop/kitchen-set-19-violete`}
+              className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+            >
+              <div className="relative w-full aspect-[3/2]">
+                <img
+                  src="/shop/7018286797_nabor-silikonovyh-kuhonnyh.jpg"
+                  alt="Набір силіконового кухонного приладдя 19 предметів"
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              </div>
+
+              <div className="px-4 pt-4 pb-10">
+                <h2 className="text-lg font-semibold">Набір силіконового кухонного приладдя 19 предметів</h2>
+              </div>
+            </a>
+              <a
                   href={`/shop/skovoroda-4-sektsii`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
@@ -270,23 +287,6 @@ export default async function HomePage() {
 
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Сковорода з диска борони</h2>
-                  </div>
-                </a>
-                <a
-                  href={`/shop/koptylnya-mala`}
-                  className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
-                >
-                  <div className="relative w-full aspect-[3/2]">
-                    <img
-                      src="/shop/dscn1814-700x700.jpg"
-                      alt="Коптильня Мала з нержавіючої сталі"
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
-
-                  <div className="px-4 pt-4 pb-10">
-                    <h2 className="text-lg font-semibold">Коптильня Мала з нержавіючої сталі</h2>
                   </div>
                 </a>
             </div>

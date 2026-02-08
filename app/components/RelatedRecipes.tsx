@@ -103,20 +103,20 @@ export default async function RelatedRecipes({
               </div>
             </a>
             <a
-              href={`/shop/smakuy-start-close`}
+              href={`/shop/kitchen-set-19-violete`}
               className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
             >
               <div className="relative w-full aspect-[3/2]">
                 <img
-                  src="/shop/start-15-l-zakrytyj-kub-700x700.jpg"
-                  alt="Самогонний апарат «Старт» на закритому кубі"
+                  src="/shop/7018286797_nabor-silikonovyh-kuhonnyh.jpg"
+                  alt="Набір силіконового кухонного приладдя 19 предметів"
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
 
               <div className="px-4 pt-4 pb-10">
-                <h2 className="text-lg font-semibold">Самогонний апарат «Старт» на закритому кубі</h2>
+                <h2 className="text-lg font-semibold">Набір силіконового кухонного приладдя 19 предметів</h2>
               </div>
             </a>
             <a

@@ -10,6 +10,23 @@ export default function ReturnPage() {
             <h1 className="text-3xl font-bold mb-8 text-center">Крамниця</h1>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <Link
+                  href={`/shop/kitchen-set-19-violete`}
+                  className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+                >
+                  <div className="relative w-full aspect-[3/2]">
+                    <img
+                      src="/shop/7018286797_nabor-silikonovyh-kuhonnyh.jpg"
+                      alt="Набір силіконового кухонного приладдя 19 предметів Фіолетовий Kitchen Set"
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+
+                  <div className="px-4 pt-4 pb-10">
+                    <h2 className="text-lg font-semibold">Набір силіконового кухонного приладдя 19 предметів Фіолетовий Kitchen Set</h2>
+                  </div>
+                </Link>
+              <Link
                   href={`/shop/skovoroda-4-sektsii`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
