@@ -76,7 +76,7 @@ export default async function RelatedRecipes({
                 <img
                   src="/shop/49aa9d8e-c889-47fd-9967-fe069d228593.webp"
                   alt="Ручна овочерізка VEGGIE SLICER"
-                  className="object-cover"
+                  className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
@@ -93,7 +93,7 @@ export default async function RelatedRecipes({
                 <img
                   src="/shop/6638216620_vakuumnyj-upakovschik-dlya.jpg"
                   alt="Вакуумний пакувальник для кухні"
-                  className="object-cover"
+                  className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
@@ -110,7 +110,7 @@ export default async function RelatedRecipes({
                 <img
                   src="/shop/7018286797_nabor-silikonovyh-kuhonnyh.jpg"
                   alt="Набір силіконового кухонного приладдя 19 предметів"
-                  className="object-cover"
+                  className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
@@ -120,20 +120,20 @@ export default async function RelatedRecipes({
               </div>
             </a>
             <a
-              href={`/shop/koptylnya-mala`}
+              href={`/shop/nabir-kastrul-hk-325`}
               className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
             >
               <div className="relative w-full aspect-[3/2]">
                 <img
-                  src="/shop/dscn1814-700x700.jpg"
-                  alt="Коптильня Мала з нержавіючої сталі"
-                  className="object-cover"
+                  src="/shop/5084705179_nabor-kotlov-higher.jpg"
+                  alt="Набір каструль HK-325"
+                  className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
 
               <div className="px-4 pt-4 pb-10">
-                <h2 className="text-lg font-semibold">Коптильня Мала з нержавіючої сталі</h2>
+                <h2 className="text-lg font-semibold">Набір каструль HK-325</h2>
               </div>
             </a>
         </div>

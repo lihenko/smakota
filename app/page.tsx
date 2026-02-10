@@ -86,6 +86,23 @@ export default async function HomePage() {
             <h2 className="text-2xl font-bold mb-8 text-center">Крамниця</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <a
+              href={`/shop/nabir-kastrul-hk-325`}
+              className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
+            >
+              <div className="relative w-full aspect-[3/2]">
+                <img
+                  src="/shop/5084705179_nabor-kotlov-higher.jpg"
+                  alt="Набір каструль HK-325"
+                  className="w-full h-full object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              </div>
+
+              <div className="px-4 pt-4 pb-10">
+                <h2 className="text-lg font-semibold">Набір каструль HK-325</h2>
+              </div>
+            </a>
+              <a
               href={`/shop/kitchen-set-19-violete`}
               className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
             >
@@ -93,7 +110,7 @@ export default async function HomePage() {
                 <img
                   src="/shop/7018286797_nabor-silikonovyh-kuhonnyh.jpg"
                   alt="Набір силіконового кухонного приладдя 19 предметів"
-                  className="object-cover"
+                  className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
@@ -110,7 +127,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/6547489198_skovoroda-s-antiprigarnym.jpg"
                       alt="Сковорода з антипригарним гранітним покриттям"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -127,7 +144,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/63878795499311.webp"
                       alt="Pasta Set — лапшерізка, машина для приготування пасти та лапші"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -144,7 +161,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/49aa9d8e-c889-47fd-9967-fe069d228593.webp"
                       alt="Ручна овочерізка VEGGIE SLICER"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -161,7 +178,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/6638216620_vakuumnyj-upakovschik-dlya.jpg"
                       alt="Вакуумний пакувальник для кухні"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -178,7 +195,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/02405-700x700.jpg"
                       alt="Самогонний апарат «Бебі Бум»"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -195,7 +212,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/start-15-l-700x700.jpg"
                       alt="Самогонний апарат «Старт» на відкритому кубі"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -212,30 +229,13 @@ export default async function HomePage() {
                     <img
                       src="/shop/start-15-l-zakrytyj-kub-700x700.jpg"
                       alt="Самогонний апарат «Старт» на закритому кубі"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
 
                   <div className="px-4 pt-4 pb-10">
                     <h2 className="text-lg font-semibold">Самогонний апарат «Старт» на закритому кубі</h2>
-                  </div>
-                </a>
-                <a
-                  href={`/shop/smakuy-profi-open`}
-                  className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
-                >
-                  <div className="relative w-full aspect-[3/2]">
-                    <img
-                      src="/shop/profi15l2-700x700.jpg"
-                      alt="Самогонний апарат «Профі» на відкритому кубі"
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
-
-                  <div className="px-4 pt-4 pb-10">
-                    <h2 className="text-lg font-semibold">Самогонний апарат «Профі» на відкритому кубі</h2>
                   </div>
                 </a>
                 <a
@@ -246,7 +246,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/mangal-gektor-9-1.webp"
                       alt="Мангал Гектор на 9 шампурів"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -263,7 +263,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/MangalStandart-700x700.png"
                       alt="Мангал Стандарт"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
@@ -280,7 +280,7 @@ export default async function HomePage() {
                     <img
                       src="/shop/SkovorodazBorony-700x700.jpg"
                       alt="Сковорода з диска борони"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
