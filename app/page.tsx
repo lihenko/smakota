@@ -89,7 +89,7 @@ export default async function HomePage() {
               href={`/shop/nabir-kastrul-hk-325`}
               className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
             >
-              <div className="relative w-full aspect-[3/2]">
+              <div className="relative w-full aspect-square">
                 <img
                   src="/shop/5084705179_nabor-kotlov-higher.jpg"
                   alt="Набір каструль HK-325"
@@ -106,7 +106,7 @@ export default async function HomePage() {
               href={`/shop/kitchen-set-19-violete`}
               className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
             >
-              <div className="relative w-full aspect-[3/2]">
+              <div className="relative w-full aspect-square">
                 <img
                   src="/shop/7018286797_nabor-silikonovyh-kuhonnyh.jpg"
                   alt="Набір силіконового кухонного приладдя 19 предметів"
@@ -123,7 +123,7 @@ export default async function HomePage() {
                   href={`/shop/skovoroda-4-sektsii`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/6547489198_skovoroda-s-antiprigarnym.jpg"
                       alt="Сковорода з антипригарним гранітним покриттям"
@@ -140,7 +140,7 @@ export default async function HomePage() {
                   href={`/shop/lapsherizka`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/63878795499311.webp"
                       alt="Pasta Set — лапшерізка, машина для приготування пасти та лапші"
@@ -157,7 +157,7 @@ export default async function HomePage() {
                   href={`/shop/veggie-slicer`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/49aa9d8e-c889-47fd-9967-fe069d228593.webp"
                       alt="Ручна овочерізка VEGGIE SLICER"
@@ -174,7 +174,7 @@ export default async function HomePage() {
                   href={`/shop/vacuum-sealer`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/6638216620_vakuumnyj-upakovschik-dlya.jpg"
                       alt="Вакуумний пакувальник для кухні"
@@ -191,7 +191,7 @@ export default async function HomePage() {
                   href={`/shop/smakuy-baby-bum`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/02405-700x700.jpg"
                       alt="Самогонний апарат «Бебі Бум»"
@@ -208,7 +208,7 @@ export default async function HomePage() {
                   href={`/shop/smakuy-start-open`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/start-15-l-700x700.jpg"
                       alt="Самогонний апарат «Старт» на відкритому кубі"
@@ -225,7 +225,7 @@ export default async function HomePage() {
                   href={`/shop/smakuy-start-close`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/start-15-l-zakrytyj-kub-700x700.jpg"
                       alt="Самогонний апарат «Старт» на закритому кубі"
@@ -242,7 +242,7 @@ export default async function HomePage() {
                   href={`/shop/mangal-gektor-9`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/mangal-gektor-9-1.webp"
                       alt="Мангал Гектор на 9 шампурів"
@@ -259,7 +259,7 @@ export default async function HomePage() {
                   href={`/shop/mangal-standart`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/MangalStandart-700x700.png"
                       alt="Мангал Стандарт"
@@ -276,7 +276,7 @@ export default async function HomePage() {
                   href={`/shop/skovoroda-z-borony`}
                   className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
                 >
-                  <div className="relative w-full aspect-[3/2]">
+                  <div className="relative w-full aspect-square">
                     <img
                       src="/shop/SkovorodazBorony-700x700.jpg"
                       alt="Сковорода з диска борони"
