@@ -3,6 +3,7 @@ import prisma from "./lib/prisma";
 import RecipeSearchForm from "./components/SearchForm";
 import Link from "next/link";
 import { getUserId } from "@/hooks/useAuth.server";
+import AIRecipeGenerator from './components/AIRecipeGenerator';
 
 export const dynamic = 'force-dynamic'; 
 
@@ -44,6 +45,9 @@ export default async function HomePage() {
       <div className="container">
         <div className="mb-8">
           <RecipeSearchForm />
+        </div>
+        <div className="mb-8">
+        <AIRecipeGenerator />
         </div>
         <h2 className="text-2xl font-bold mb-4">Останні рецепти</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">

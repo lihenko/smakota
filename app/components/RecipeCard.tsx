@@ -30,11 +30,13 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite, isLCP 
   const imageSrc = recipe.imageUrl || "/recipes/placeholder.webp";
 
   return (
-    <a
-      href={`/recipe/${recipe.slug}`}
+    <div
       className="block bg-white rounded-xl shadow hover:shadow-md transition overflow-hidden relative"
     >
       <div className="relative w-full aspect-[3/2]">
+        <Link
+         href={`/recipe/${recipe.slug}`}
+        >
         <Image
           src={imageSrc}
           alt={recipe.title}
@@ -47,6 +49,7 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite, isLCP 
           loading={isLCP ? undefined : "lazy"}
           decoding={isLCP ? undefined : "async"}
         />
+        </Link>
         <FavoriteButton
           recipeId={recipe.id}
           userId={userId}
@@ -82,6 +85,6 @@ export default function RecipeCard({ recipe, userId, isInitiallyFavorite, isLCP 
           )}
         </div>
       </div>
-    </a>
+    </div>
   );
 }
