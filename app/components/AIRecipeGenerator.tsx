@@ -133,7 +133,7 @@ export default function AIRecipeGenerator() {
         </div>
 
         <p className="text-xs text-gray-500 mt-1">
-          Натисни "Додати" або Enter
+          {'Натисни "Додати" або Enter'}
         </p>
       </div>
 
