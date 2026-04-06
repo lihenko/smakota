@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Script from "next/script";
-import ChatbotEmbed from "./components/ChatbotEmbed";
+
 
 
 const geistRoboto = Roboto({
@@ -57,8 +57,6 @@ export default async function RootLayout({
           <Header />
           {children}
           <Footer />
-          {/* Виджет (popup) */}
-          <ChatbotEmbed />
         </body>
       </html>
 
