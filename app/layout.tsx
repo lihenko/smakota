@@ -48,12 +48,6 @@ export default async function RootLayout({
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6450905320202041"
             crossOrigin="anonymous"
           />
-          {/* 🔹 Zapier Chatbot */}
-          <Script
-            async
-            type="module"
-            src="https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js"
-          />
           <Header />
           {children}
           <Footer />
