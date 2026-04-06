@@ -11,22 +11,54 @@ interface DashboardProps {
   currentUser: (User & { avatar?: { avatarUrl: string } }) | null;
 }
 
-export default function Dashboard({ currentUser }: DashboardProps) {
+export default function Dashboard({ currentUser: initialUser }: DashboardProps) {
   const router = useRouter();
 
-  // Redirect and logout if user is not authenticated
+  // 🔥 NEW: стани
+  const [currentUser, setCurrentUser] = useState<typeof initialUser>(initialUser);
+  const [loading, setLoading] = useState(!initialUser);
+
+  // 🔥 NEW: підтягуємо користувача якщо його нема
   useEffect(() => {
-    if (!currentUser) {
-      logout(); // clear cookie or token
+    if (initialUser) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchUser = async () => {
+      try {
+        const res = await fetch('/api/me', {
+          credentials: 'include',
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setCurrentUser(data.user);
+        } else {
+          setCurrentUser(null);
+        }
+      } catch {
+        setCurrentUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [initialUser]);
+
+  // 🔥 FIX: більше НЕ видаляємо cookie тут
+  useEffect(() => {
+    if (!loading && !currentUser) {
       router.push('/');
     }
-  }, [currentUser, router]);
+  }, [loading, currentUser, router]);
 
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(currentUser?.avatar?.avatarUrl || null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(initialUser?.avatar?.avatarUrl || null);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [newName, setNewName] = useState(currentUser?.name || '');
+  const [newName, setNewName] = useState(initialUser?.name || '');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -34,6 +66,14 @@ export default function Dashboard({ currentUser }: DashboardProps) {
 
   const DEFAULT_AVATAR = '/avatars/default-avatar.webp';
   const displayedAvatarUrl = avatarUrl || DEFAULT_AVATAR;
+
+  // 🔥 синхронізація якщо user підвантажився
+  useEffect(() => {
+    if (currentUser) {
+      setNewName(currentUser.name || '');
+      setAvatarUrl(currentUser.avatar?.avatarUrl || null);
+    }
+  }, [currentUser]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -51,7 +91,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
       } else {
         uploadAvatar(file);
       }
-      URL.revokeObjectURL(img.src); // чистимо Blob URL
+      URL.revokeObjectURL(img.src);
     };
     img.onerror = () => {
       alert('Не вдалося завантажити зображення');
@@ -66,7 +106,11 @@ export default function Dashboard({ currentUser }: DashboardProps) {
     formData.append('avatar', file);
 
     try {
-      const res = await fetch('/api/upload-avatar', { method: 'POST', body: formData });
+      const res = await fetch('/api/upload-avatar', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include', // 🔥 важливо
+      });
       const data = await res.json();
       if (res.ok) setAvatarUrl(data.avatarUrl);
       else alert('Не вдалося завантажити аватар');
@@ -90,6 +134,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
       const res = await fetch('/api/delete-avatar', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // 🔥 важливо
         body: JSON.stringify({ avatarUrl: displayedAvatarUrl, userId: currentUser?.id }),
       });
       if (res.ok) setAvatarUrl(null);
@@ -108,6 +153,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
       const res = await fetch('/api/update-name', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // 🔥 важливо
         body: JSON.stringify({ newName }),
       });
 
@@ -130,6 +176,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
       const res = await fetch('/api/change-password', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // 🔥 важливо
         body: JSON.stringify({ currentPassword, newPassword }),
       });
       const data = await res.json();
@@ -146,6 +193,15 @@ export default function Dashboard({ currentUser }: DashboardProps) {
     }
   };
 
+  // 🔥 loading state UI (важливо)
+  if (loading) {
+    return <div className="py-16 container">Завантаження...</div>;
+  }
+
+  if (!currentUser) {
+    return null;
+  }
+
   return (
     <div className="py-16 container">
       <div className="mb-6">
@@ -154,7 +210,12 @@ export default function Dashboard({ currentUser }: DashboardProps) {
             Імʼя: {newName}
           </p>
           <p>Email: {currentUser?.email}</p>
-          <p>Моя сторінка: <Link href={`/users/${currentUser?.slug}`} className='underline hover:text-accent'>Дивитись</Link></p>
+          <p>
+            Моя сторінка:{' '}
+            <Link href={`/users/${currentUser?.slug}`} className="underline hover:text-accent">
+              Дивитись
+            </Link>
+          </p>
           <button className="btn btn-neutral mt-2" onClick={() => setIsEditingName(true)}>
             Змінити імʼя
           </button>
@@ -164,11 +225,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
         </div>
       </div>
 
-      {/* Аватар */}
-      <div
-        onClick={() => !isLoading && fileInputRef.current?.click()}
-        className="cursor-pointer inline-block opacity-100"
-      >
+      <div onClick={() => !isLoading && fileInputRef.current?.click()} className="cursor-pointer inline-block opacity-100">
         <h3>Ваш аватар:</h3>
         <Image
           src={displayedAvatarUrl}
@@ -176,7 +233,7 @@ export default function Dashboard({ currentUser }: DashboardProps) {
           width={100}
           height={100}
           className="rounded-full object-cover mb-1"
-          unoptimized={displayedAvatarUrl.startsWith('blob:')} // щоб дозволити відображення Blob URL без оптимізації Next.js
+          unoptimized={displayedAvatarUrl.startsWith('blob:')}
           priority
         />
         <p className="text-sm text-center">Змінити аватар</p>
@@ -190,7 +247,6 @@ export default function Dashboard({ currentUser }: DashboardProps) {
 
       <input type="file" ref={fileInputRef} onChange={handleFileChange} hidden />
 
-      {/* Модалки */}
       {isEditingName && (
         <dialog className="modal modal-open" onClick={() => setIsEditingName(false)}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>
@@ -220,7 +276,6 @@ export default function Dashboard({ currentUser }: DashboardProps) {
             <h3 className="font-bold text-lg">Змінити пароль</h3>
             <input
               type="password"
-              name="currentPassword"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Поточний пароль"
@@ -228,7 +283,6 @@ export default function Dashboard({ currentUser }: DashboardProps) {
             />
             <input
               type="password"
-              name="newPassword"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Новий пароль"
@@ -236,7 +290,6 @@ export default function Dashboard({ currentUser }: DashboardProps) {
             />
             <input
               type="password"
-              name="confirmNewPassword"
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
               placeholder="Підтвердіть новий пароль"

@@ -6,6 +6,7 @@ import { logout } from '@/utils/logout';
 import Image from 'next/image';
 import { useRef, useEffect, useState } from 'react';
 
+
 const Header: React.FC = () => {
   const isLoggedIn = useAuthSync();
   const [menuOpen, setMenuOpen] = useState(false);

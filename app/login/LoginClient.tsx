@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Script from 'next/script';
 import { addPendingFavoriteAfterLogin } from "@/utils/favoriteFromLocalStorage";
+import GoogleButton from "@/app/components/auth/GoogleButton";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,10 +13,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    // Краще просто спробувати GET-запит на щось захищене або залишити middleware для редіректу
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +23,7 @@ export default function LoginPage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
-      credentials: 'include', // ВАЖЛИВО: щоби кука з сервера приймалась
+      credentials: 'include',
     });
 
     setLoading(false);
@@ -36,10 +34,8 @@ export default function LoginPage() {
       return;
     }
 
-    // Додаємо рецепт до обраного, якщо він був у localStorage
     await addPendingFavoriteAfterLogin();
 
-    // Повідомити інші вкладки, якщо потрібно
     const channel = new BroadcastChannel('auth');
     channel.postMessage('auth-changed');
     channel.close();
@@ -49,40 +45,51 @@ export default function LoginPage() {
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:w-1/3 mx-auto mt-20 mb-20">
+      {/* Правильне підключення Google SDK */}
+      <Script
+        src="https://accounts.google.com/gsi/client"
+        strategy="beforeInteractive"
+      />
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:w-1/3 mx-auto mt-20 mb-3">
         <h1 className="text-2xl font-bold text-center">Вхід</h1>
+
         <input
           type="email"
-          name="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className='border border-gray-300 p-2 rounded'
+          className="border border-gray-300 p-2 rounded"
         />
+
         <input
           type="password"
-          name="password"
           placeholder="Пароль"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className='border border-gray-300 p-2 rounded'
+          className="border border-gray-300 p-2 rounded"
         />
+
         <button type="submit" className="btn btn-primary" disabled={loading}>
           {loading ? 'Зачекайте...' : 'Увійти'}
         </button>
 
+      </form>
+      <div className='md:w-1/3 mx-auto mb-20'>
+        <GoogleButton />
+
         {error && <p className="text-red-500">{error}</p>}
 
-        <div className="text-center mb-2">
-          Забули пароль? <Link href="/forgot-password/">Відновити</Link>
+        <div className="text-center mt-8">
+          Забули пароль? <Link href="/forgot-password/" className='underline'>Відновити</Link>
         </div>
+
         <div className="text-center">
-          Немає акаунту? <Link href="/register/">Зареєструватися</Link>
-        </div> 
-      </form>
+          Немає акаунту? <Link href="/register/" className='underline'>Зареєструватися</Link>
+        </div>
+      </div>
     </div>
-    
   );
 }
