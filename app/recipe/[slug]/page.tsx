@@ -16,6 +16,8 @@ import AdsBlock from "@/app/components/AdsBlock";
 
 export type ParamsPromise = Promise<Record<'slug', string>>;
 
+
+
 export async function generateMetadata({ params }: { params: ParamsPromise }): Promise<Metadata> {
   const recipe = await prisma.recipe.findUnique({
     where: { slug: (await params).slug },
@@ -35,6 +37,8 @@ export async function generateMetadata({ params }: { params: ParamsPromise }): P
       description: "Цей рецепт не існує або був видалений.",
     };
   }
+
+  
 
   const hasVideo = !!recipe.videoUrl || !!recipe.tiktokUrl;
   const title = `${recipe.title} – Смакота – Кращі домашні рецепти`;
@@ -137,6 +141,14 @@ export default async function RecipePage(props: { params: ParamsPromise }) {
   const createdDate = new Date(recipe.createdAt);
   const formattedDate = `${createdDate.getDate().toString().padStart(2, "0")}.${(createdDate.getMonth()+1).toString().padStart(2, "0")}.${createdDate.getFullYear()}`;
 
+  const keywords = [
+    recipe.dishType.name,           
+    ...recipe.ingredients
+      .map(i => i.ingredient.name)  
+      .slice(0, 5),
+    'рецепт',
+  ].filter(Boolean).join(', ');
+    
   const ratings = comments
   .map(c => c.rating)
   .filter((r): r is number => typeof r === 'number');
@@ -165,42 +177,52 @@ function generateDescription(recipe: { title: any; ingredients: any[]; videoUrl?
 }
 
 
-  const recipeSchema = {
-    "@context": "https://schema.org",
-    "@type": "Recipe",
-    "name": recipe.title,
-    "author": {
-      "@type": "Person",
-      "name": recipe.user.name,
-    },
-    "datePublished": recipe.createdAt.toISOString(),
-    "description": generateDescription(recipe),
-    "image": recipe.imageUrl || "/recipes/placeholder.webp",
-    "recipeIngredient": recipe.ingredients.map((item) => {
-      const amount = item.toTaste ? 'за смаком' : `${item.amount ?? ''} ${item.unit?.name ?? ''}`;
-      return `${item.ingredient.name} ${amount}`.trim();
-    }),
-    "recipeInstructions": recipe.instructions.map(step => ({
-      "@type": "HowToStep",
-      "text": step.step,
-    })),
-    ...(recipe.videoUrl && {
-      "video": {
-        "@type": "VideoObject",
-        "name": recipe.title,
-        "contentUrl": recipe.videoUrl,
-        "thumbnailUrl": recipe.imageUrl || "/recipes/placeholder.webp",
-        "uploadDate": recipe.createdAt.toISOString(),
-      }
-    }),
-    ...(averageRating && reviewCount > 0 && {
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": averageRating,
-        "reviewCount": reviewCount.toString(),
-      }
-    })
-  };
+ const recipeSchema = {
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "name": recipe.title,
+  "author": {
+    "@type": "Person",
+    "name": recipe.user.name,
+  },
+  "datePublished": recipe.createdAt.toISOString(),
+  "description": generateDescription(recipe),
+  "image": recipe.imageUrl ? [recipe.imageUrl] : [],  // масив, не рядок
+
+  "recipeCategory": recipe.dishType.name,
+
+  "keywords": keywords,
+
+  "recipeIngredient": recipe.ingredients.map((item) => {
+    const amount = item.toTaste ? 'за смаком' : `${item.amount ?? ''} ${item.unit?.name ?? ''}`.trim();
+    return `${item.ingredient.name} ${amount}`.trim();
+  }),
+  "recipeInstructions": recipe.instructions.map((step, index) => ({
+    "@type": "HowToStep",
+    "position": index + 1,
+    "text": step.step,
+  })),
+
+  ...(recipe.videoUrl && {
+    "video": {
+      "@type": "VideoObject",
+      "name": recipe.title,
+      "description": generateDescription(recipe),
+      "contentUrl": recipe.videoUrl,
+      "thumbnailUrl": recipe.imageUrl ?? "",
+      "uploadDate": recipe.createdAt.toISOString(),
+    }
+  }),
+
+  // ✅ ratingCount замість reviewCount
+  ...(averageRating && reviewCount > 0 && {
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": averageRating,
+      "ratingCount": reviewCount.toString(),  // було reviewCount — неправильно
+    }
+  }),
+};
 
   let isInitiallyFavorite = false;
 if (userId) {
